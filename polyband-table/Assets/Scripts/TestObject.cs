@@ -8,15 +8,15 @@ public class TestObject : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("start");
+        Debug.Log("start"+ "http://192.168.240.50:5000");
         socket = IO.Socket("http://localhost:5000");
 
         socket.On(QSocket.EVENT_CONNECT, () => {
             Debug.Log("Connected");
-            socket.Emit("chat", "test");
+            socket.Emit("add-message", "test");
         });
 
-        socket.On("chat", data => {
+        socket.On("add-message", data => {
             Debug.Log("data : " + data);
         });
     }
