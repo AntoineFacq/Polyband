@@ -296,7 +296,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 347, y: 187}
+  m_AnchoredPosition: {x: 461, y: 187}
   m_SizeDelta: {x: 2072.25, y: 828}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &142449912
@@ -1020,6 +1020,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 994df1291b8da4d498d042f8da0eee8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  clip: {fileID: 0}
+  volume: 0.5
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
