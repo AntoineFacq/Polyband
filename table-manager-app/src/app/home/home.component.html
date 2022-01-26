@@ -1,21 +1,25 @@
+<div class="dashboard-card" style="margin-left: 2em">
+  <h1>Volume :  {{volumeValue}}</h1>
+  <mat-slider
+    (input)="volumeChanged($event)"
+    [value]="volumeValue"
+    thumbLabel
+    step="1"
+    min="0"
+    max="100"
+    aria-label="units"></mat-slider>
+</div>
+
+<div class="example-box" cdkDrag *ngIf="this.showHelpAsked" [@slideInOut]>
+  <mat-progress-bar mode="determinate" [value]="helpValue"></mat-progress-bar>
+  <h2>Table 1 a besoin d'aide</h2>
+</div>
+
+<div class="dashboard-card" style="margin-left: 2em">
+  <h1>Simulation appel à l'aide</h1>
+  <button mat-raised-button color="primary" (click)="simulate911()">Appel à l'aide</button>
+</div>
+
 <div style="width: 100%; display: flex; justify-content: center;">
   <img src="assets/table.png" style="width: 50%; ">
 </div>
-
-<div class="dashboard-card">
-  <h1>Volume :  {{volumeValue}}</h1>
-</div>
-<mat-slider
-  (input)="volumeChanged($event)"
-  [value]="volumeValue"
-  thumbLabel
-  step="1"
-  min="0"
-  max="100"
-  aria-label="units"></mat-slider>
-
-<div *ngFor="let m of messages">
-  {{m.value}}<br>
-</div>
-
-<input [(ngModel)]="message"  /><button (click)="sendMessage()">Send</button>

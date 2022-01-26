@@ -3,6 +3,11 @@ import {Observable, Subject} from "rxjs";
 import io from "socket.io-client";
 import {environment} from "../../environments/environment";
 
+export class SocketMessage {
+  type: string;
+  text: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,17 +41,19 @@ export class ManageTableService {
     this.socket.emit('add-message', message);
   }
 
-  getMessages() {
-    let observable = new Observable(observer => {
+  callHelp() {
+    this.socket.emit('911 called', "SOS");
+  }
+
+  getMessages(): Observable<SocketMessage> {
+    return new Observable<SocketMessage>(observer => {
       this.socket = io(environment.ws_url);
       this.socket.on('message', (data) => {
         observer.next(data);
-        console.log(data)
       });
       return () => {
         this.socket.disconnect();
       };
     })
-    return observable;
   }
 }
