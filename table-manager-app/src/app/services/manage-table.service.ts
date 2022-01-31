@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject} from "rxjs";
-import io from "socket.io-client";
-import {environment} from "../../environments/environment";
+import {Observable, Subject} from 'rxjs';
+import io from 'socket.io-client';
+import {environment} from '../../environments/environment';
 
 export class SocketMessage {
   type: string;
@@ -18,17 +18,17 @@ export class ManageTableService {
   connect(): Subject<MessageEvent> {
     this.socket = io(environment.ws_url);
 
-    let observable = new Observable(observer => {
+    const observable = new Observable(observer => {
       this.socket.on('message', (data) => {
-        console.log("Received message from Websocket Server")
+        console.log('Received message from Websocket Server');
         observer.next(data);
-      })
+      });
       return () => {
         this.socket.disconnect();
-      }
+      };
     });
 
-    let observer = {
+    const observer = {
       next: (data: Object) => {
         this.socket.emit('message', JSON.stringify(data));
       },
@@ -42,7 +42,7 @@ export class ManageTableService {
   }
 
   callHelp() {
-    this.socket.emit('911 called', "SOS");
+    this.socket.emit('911 called', 'SOS');
   }
 
   getMessages(): Observable<SocketMessage> {
@@ -54,6 +54,6 @@ export class ManageTableService {
       return () => {
         this.socket.disconnect();
       };
-    })
+    });
   }
 }

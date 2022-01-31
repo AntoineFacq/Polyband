@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "table-manager-app"
+  "defaultProject": "table-manager-app",
+  "cli": {
+    "analytics": false
+  }
 }
