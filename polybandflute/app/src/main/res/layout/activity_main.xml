@@ -6,20 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/button_id"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="HELP"
+        android:layout_height="wrap_content"
+        android:text="Ask for Help"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/flute"
+        android:layout_width="1000dp"
+        android:layout_height="668dp"
+        android:layout_marginBottom="2dp"
+        android:contentDescription="flute bckg"
+        android:rotation="180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/flute_2" />
+
+    <ImageButton
+        android:id="@+id/note1"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="note"
+        android:onClick="play_s1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.571"
+        app:srcCompat="@drawable/round_button"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
