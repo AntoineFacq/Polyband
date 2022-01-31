@@ -6,23 +6,35 @@ public class TestObject : MonoBehaviour
 {
     private QSocket socket;
 
-    public AudioSource audioSource;
-    public AudioClip clip;
-    public float volume = 0.5f;
+    public PianoMain piano;
+
 
     void Start()
     {
-        Debug.Log("start "+ "http://192.168.240.173:5000");
-        socket = IO.Socket("http://192.168.240.173:5000");
+        piano = (PianoMain) GameObject.Find("piano").GetComponent<PianoMain>();
+        // piano = (PianoMain) GameObject.FindObjectOfType(typeof(PianoMain));
+
+        piano.Volume = 222222;
+        Debug.Log("start "+ "http://localhost:5000");
+        socket = IO.Socket("http://localhost:5000");
 
         socket.On(QSocket.EVENT_CONNECT, () => {
             Debug.Log("Connected");
-            socket.Emit("add-message", "test");
         });
 
-        socket.On("add-message", data => {
-            Debug.Log("data : " + data);
+        //socket.On("add-message", data => {
+        //    Debug.Log("data : " + data);
+        // });
+
+
+        socket.On("volume", volume => {
+            Debug.Log("v : " + volume);
+            Debug.Log(float.Parse(volume.ToString()));
+            piano.Volume = float.Parse(volume.ToString());
+            Debug.Log(piano.Volume);
+
         });
+
 
 
     }
