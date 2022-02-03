@@ -10,25 +10,27 @@ public class ButtonScript : MonoBehaviour
     private bool displayPiano;
     public Button batterieButton;
     public Button pianoButton;
-    
+
     void Start()
     {
-        batterie = GameObject.Find("Batterie");
-        piano = GameObject.Find("piano");
+        batterie = batterieButton.transform.parent.Find("Batterie").gameObject;
+        piano = pianoButton.transform.parent.Find("Piano").gameObject;
         displayBatterie = false;
         displayPiano = false;
         Button btn1 = batterieButton.GetComponent<Button>();
-		btn1.onClick.AddListener(batterieButtonClicked);
+        btn1.onClick.AddListener(batterieButtonClicked);
         Button btn2 = pianoButton.GetComponent<Button>();
-		btn2.onClick.AddListener(pianoButtonClicked);
+        btn2.onClick.AddListener(pianoButtonClicked);
     }
 
-    
-    void batterieButtonClicked() {
+
+    void batterieButtonClicked()
+    {
         batterie.SetActive(displayBatterie);
         displayBatterie = !displayBatterie;
     }
-    void pianoButtonClicked() {
+    void pianoButtonClicked()
+    {
         piano.SetActive(displayPiano);
         displayPiano = !displayPiano;
     }
