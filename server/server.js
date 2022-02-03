@@ -34,6 +34,11 @@ io.on('connection', (socket) => {
         console.log(message);
     });
 
+    socket.on('Note played', (message) => {
+        console.log("The flute played the note number " + message);
+        io.emit('Flute played !', message);
+    });
+
 });
 
 
