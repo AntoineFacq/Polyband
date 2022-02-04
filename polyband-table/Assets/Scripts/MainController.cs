@@ -6,7 +6,6 @@ public class MainController : MonoBehaviour
 {
     private QSocket socket;
 
-
     public float MasterVolume = 1F;
 
 
@@ -19,11 +18,20 @@ public class MainController : MonoBehaviour
 
         socket.On(QSocket.EVENT_CONNECT, () => {
             Debug.Log("Connected to server");
+            socket.Emit("connected-device", "table");
         });
 
         socket.On("volume", volume => {
             this.MasterVolume = float.Parse(volume.ToString());
             Debug.Log("Main volume changed to:"+this.MasterVolume);
+        });
+
+        socket.On("play-pause", state => {
+            Debug.Log("Tabled asked to :" + (state.ToString() == "true" ? "play" : "pause"));
+        });
+
+        socket.On("select-track", track => {
+            Debug.Log("Switch track to :" + track);
         });
 
         //socket.On("add-message", data => {

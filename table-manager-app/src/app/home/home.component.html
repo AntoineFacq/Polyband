@@ -16,6 +16,18 @@
 </div>
 
 <div class="dashboard-card" style="margin-left: 2em">
+  <h1>Musique</h1>
+  <mat-form-field appearance="fill" >
+    <mat-label>Titre</mat-label>
+    <mat-select (selectionChange)="this.chooseTrack($event)" [(ngModel)]="selectedTrack">
+      <mat-option *ngFor="let track of tracks" [value]="track.value">
+        {{track.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="dashboard-card" style="margin-left: 2em">
   <h1>Simulation appel à l'aide</h1>
   <button mat-raised-button color="primary" (click)="simulate911()">Appel à l'aide</button>
 </div>
