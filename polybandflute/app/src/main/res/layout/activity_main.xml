@@ -16,16 +16,18 @@
 
     <ImageView
         android:id="@+id/flute"
-        android:layout_width="1000dp"
-        android:layout_height="668dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="2dp"
         android:contentDescription="flute bckg"
         android:rotation="180"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.508"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/flute" />
 
     <ImageButton
@@ -37,12 +39,12 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.37"
+        app:layout_constraintVertical_bias="0.369"
         app:srcCompat="@drawable/round_button"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <ImageButton
         android:id="@+id/note5"
@@ -56,14 +58,14 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.322"
+        app:layout_constraintVertical_bias="0.309"
         app:srcCompat="@drawable/round_button"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <ImageButton
         android:id="@+id/note3"
         android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_height="32dp"
         android:contentDescription="note3"
         android:onClick="play_s3"
         android:visibility="visible"
@@ -72,9 +74,9 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.433"
+        app:layout_constraintVertical_bias="0.426"
         app:srcCompat="@drawable/round_button"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <ImageButton
         android:id="@+id/note1"
@@ -106,6 +108,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.489"
         app:srcCompat="@drawable/round_button"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
