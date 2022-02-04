@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://172.31.240.1:5000");
+            mSocket = IO.socket("http://172.17.224.1:5000");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -40,24 +40,61 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        final Button button = findViewById(R.id.button_id);
+        /*final Button button = findViewById(R.id.button_id);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("Button clicked.");
                 String message = "I need help !";
                 mSocket.emit("911 called", message);
             }
-        });
+        });*/
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.water);
+        mediaPlayer = MediaPlayer.create(this, R.raw.mtg_flute_d4);
 
     }
 
     public void play_s1(View v){
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.reset();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.water);
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_d4);
+            mSocket.emit("Note played", 1);
          }
+        mediaPlayer.start();
+    }
+
+    public void play_s2(View v){
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.reset();
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_d5);
+            mSocket.emit("Note played", 2);
+        }
+        mediaPlayer.start();
+    }
+
+    public void play_s3(View v){
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.reset();
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_csharp4);
+            mSocket.emit("Note played", 3);
+        }
+        mediaPlayer.start();
+    }
+
+    public void play_s4(View v){
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.reset();
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_e4);
+            mSocket.emit("Note played", 4);
+        }
+        mediaPlayer.start();
+    }
+
+    public void play_s5(View v){
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.reset();
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_f4);
+            mSocket.emit("Note played", 5);
+        }
         mediaPlayer.start();
     }
 

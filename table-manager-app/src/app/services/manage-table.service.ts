@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import io from 'socket.io-client';
-import {environment} from '../../environments/environment';
+import {Observable, Subject} from "rxjs";
+import io from "socket.io-client";
+import {environment} from "../../environments/environment";
+import {Track} from "../home/home.component";
 
 export class SocketMessage {
   type: string;
@@ -37,12 +38,17 @@ export class ManageTableService {
     return Subject.create(observer, observable);
   }
 
-  sendMessage(message){
-    this.socket.emit('add-message', message);
+  sendMessage(value: string, message: string){
+    this.socket.emit(value, message);
   }
 
   callHelp() {
     this.socket.emit('911 called', 'SOS');
+  }
+
+  selectTrack(track: Track) {
+    console.log("track selected")
+    this.socket.emit('select-track', track.value)
   }
 
   getMessages(): Observable<SocketMessage> {

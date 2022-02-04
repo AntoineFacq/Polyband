@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ask for Help"
+        android:visibility="invisible"
         tools:ignore="MissingConstraints" />
 
     <ImageView
@@ -24,21 +25,86 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.466"
+        app:layout_constraintVertical_bias="0.508"
         app:srcCompat="@drawable/flute" />
+
+    <ImageButton
+        android:id="@+id/note4"
+        android:layout_width="35dp"
+        android:layout_height="33dp"
+        android:contentDescription="note4"
+        android:onClick="play_s4"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.37"
+        app:srcCompat="@drawable/round_button"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/note5"
+        android:layout_width="35dp"
+        android:layout_height="33dp"
+        android:contentDescription="note5"
+        android:onClick="play_s5"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.322"
+        app:srcCompat="@drawable/round_button"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/note3"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:contentDescription="note3"
+        android:onClick="play_s3"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.433"
+        app:srcCompat="@drawable/round_button"
+        tools:ignore="MissingConstraints" />
 
     <ImageButton
         android:id="@+id/note1"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:contentDescription="note"
+        android:contentDescription="note1"
         android:onClick="play_s1"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.571"
+        app:layout_constraintVertical_bias="0.554"
+        app:srcCompat="@drawable/round_button"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/note2"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:contentDescription="note2"
+        android:onClick="play_s2"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.489"
         app:srcCompat="@drawable/round_button"
         tools:ignore="MissingConstraints" />
 
