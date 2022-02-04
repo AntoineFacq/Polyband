@@ -3,6 +3,8 @@ import {ManageTableService} from "../services/manage-table.service";
 import {MatSliderChange} from "@angular/material/slider";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {MatSelectChange} from "@angular/material/select";
+import {Observable} from "rxjs";
+import { interval } from 'rxjs';
 
 export interface Track {
   value: string;
@@ -42,18 +44,24 @@ export class HomeComponent implements OnInit {
   ];
   selectedTrack: Track = this.tracks[0]
 
+  interval:any;
+  sub: any;
+
   constructor(private manageTableService: ManageTableService) { }
 
   ngOnInit(): void {
     this.connection = this.manageTableService.getMessages().subscribe(message => {
       if(message.type == "911 Call") {
+        clearInterval(this.interval);
         console.log("911 called !")
         this.helpValue = 100;
         this.showHelpAsked = true;
-        setInterval(() => {
+        this.interval = setInterval(() => {
           this.helpValue --;
-          if(this.helpValue == 0) this.showHelpAsked = false;
-        }, 100);
+          if(this.helpValue == 0) {
+            this.showHelpAsked = false;
+          }
+        }, 125);
       }
     })
     this.manageTableService.connect();
