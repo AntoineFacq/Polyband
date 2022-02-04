@@ -1,7 +1,8 @@
 ﻿// unity c# code
-using Assets.Scripts;
+// using Assets.Scripts;
 using Socket.Quobject.SocketIoClientDotNet.Client;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainController : MonoBehaviour
 {
@@ -12,10 +13,13 @@ public class MainController : MonoBehaviour
     private string varr = "";
 
     public AudioClip music;
+    public Button helpButton;
 
     void Start()
     {
-        var ip = "http://localhost:5000";
+        var ip = "http://192.168.184.50:5000";
+        Button btn = helpButton.GetComponent<Button>();
+        btn.onClick.AddListener(helpButtonClicked);
 
         Debug.Log("Starting connection to "+ip+"...");
         socket = IO.Socket(ip);
@@ -43,9 +47,10 @@ public class MainController : MonoBehaviour
         //    Debug.Log("data : " + data);
         // });
 
-
-
-
+    }
+    void helpButtonClicked()
+    {
+        socket.Emit("911", "help");
     }
 
     private void Update()
