@@ -21,7 +21,11 @@ import okhttp3.WebSocket;
 
 public class MainActivity extends AppCompatActivity {
 
-    MediaPlayer mediaPlayer;
+    MediaPlayer mp1;
+    MediaPlayer mp2;
+    MediaPlayer mp3;
+    MediaPlayer mp4;
+    MediaPlayer mp5;
 
     private Socket mSocket;
     {
@@ -49,53 +53,57 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.mtg_flute_d4);
+        mp1 = MediaPlayer.create(this, R.raw.mtg_flute_d4);
+        mp2 = MediaPlayer.create(this, R.raw.mtg_flute_d5);
+        mp3 = MediaPlayer.create(this, R.raw.mtg_flute_csharp4);
+        mp4 = MediaPlayer.create(this, R.raw.mtg_flute_e4);
+        mp5 = MediaPlayer.create(this, R.raw.mtg_flute_f4);
 
     }
 
     public void play_s1(View v){
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.reset();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_d4);
+        if (mp1.isPlaying()) {
+            mp1.reset();
+            mp1 = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_d4);
             mSocket.emit("Note played", 1);
          }
-        mediaPlayer.start();
+        mp1.start();
     }
 
     public void play_s2(View v){
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.reset();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_d5);
+        if (mp2.isPlaying()) {
+            mp2.reset();
+            mp2 = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_d5);
             mSocket.emit("Note played", 2);
         }
-        mediaPlayer.start();
+        mp2.start();
     }
 
     public void play_s3(View v){
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.reset();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_csharp4);
+        if (mp3.isPlaying()) {
+            mp3.reset();
+            mp3 = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_csharp4);
             mSocket.emit("Note played", 3);
         }
-        mediaPlayer.start();
+        mp3.start();
     }
 
     public void play_s4(View v){
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.reset();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_e4);
+        if (mp3.isPlaying()) {
+            mp3.reset();
+            mp3 = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_e4);
             mSocket.emit("Note played", 4);
         }
-        mediaPlayer.start();
+        mp3.start();
     }
 
     public void play_s5(View v){
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.reset();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_f4);
+        if (mp4.isPlaying()) {
+            mp4.reset();
+            mp4 = MediaPlayer.create(getApplicationContext(), R.raw.mtg_flute_f4);
             mSocket.emit("Note played", 5);
         }
-        mediaPlayer.start();
+        mp4.start();
     }
 
     @Override
