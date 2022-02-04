@@ -19,6 +19,7 @@ io.on('connection', (socket) => {
         switch (message.name) {
             case "volume":
                 io.emit('volume', message.value / 100);
+                console.log(message.value);
                 break;
             case "select-track":
                 io.emit('select-track', message.value);
@@ -32,6 +33,11 @@ io.on('connection', (socket) => {
         console.log("911 !");
         io.emit('message', {type: '911 Call', text: "A student called 911 !"});
         console.log(message);
+    });
+
+    socket.on('Note played', (message) => {
+        console.log("The flute played the note number " + message);
+        io.emit('Flute played !', message);
     });
 
     socket.on('connected-device', (message) => {
