@@ -58,7 +58,7 @@ public class MainController : MonoBehaviour
     }
     void helpButtonClicked()
     {
-        socket.Emit("911", "help");
+        socket.Emit("911 called", "SOS");
     }
 
     private void Update()
