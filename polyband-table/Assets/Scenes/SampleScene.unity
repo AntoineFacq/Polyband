@@ -2522,6 +2522,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MasterVolume: 1
+  masterVolumeSave: 1
+  trackSelected: -1
+  musics:
+  - {fileID: 8300000, guid: 23f941bdfe99a9042a374e0df3cc26ad, type: 3}
+  - {fileID: 8300000, guid: 7d2a448fcb30e60498b0f231bbd557ca, type: 3}
+  - {fileID: 8300000, guid: c9cdf2bbad675b244ad0c256f29e7dd8, type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
