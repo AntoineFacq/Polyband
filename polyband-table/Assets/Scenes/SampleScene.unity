@@ -3699,7 +3699,7 @@ GameObject:
   - component: {fileID: 868212551}
   - component: {fileID: 868212550}
   m_Layer: 5
-  m_Name: PianoContainer (1)
+  m_Name: PianoClosed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7813,7 +7813,7 @@ GameObject:
   - component: {fileID: 1782911804}
   - component: {fileID: 1782911803}
   m_Layer: 5
-  m_Name: DrumContainer (1)
+  m_Name: DrumClosed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
