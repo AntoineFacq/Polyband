@@ -1,4 +1,5 @@
 ﻿// unity c# code
+using Assets.Scripts;
 using Socket.Quobject.SocketIoClientDotNet.Client;
 using UnityEngine;
 
@@ -7,7 +8,10 @@ public class MainController : MonoBehaviour
     private QSocket socket;
 
     public float MasterVolume = 1F;
+    public string trackSelected = "";
+    private string varr = "";
 
+    public AudioClip music;
 
     void Start()
     {
@@ -31,6 +35,7 @@ public class MainController : MonoBehaviour
         });
 
         socket.On("select-track", track => {
+            this.trackSelected = track.ToString();
             Debug.Log("Switch track to :" + track);
         });
 
@@ -39,6 +44,17 @@ public class MainController : MonoBehaviour
         // });
 
 
+
+
+    }
+
+    private void Update()
+    {
+        if (this.trackSelected != varr)
+        {
+            AudioSource.PlayClipAtPoint(music, Camera.main.transform.position, this.MasterVolume);
+            this.trackSelected = varr;
+        }
     }
 
     private void OnDestroy()
