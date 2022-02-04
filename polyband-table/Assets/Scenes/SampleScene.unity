@@ -2531,11 +2531,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 23f941bdfe99a9042a374e0df3cc26ad, type: 3}
   - {fileID: 8300000, guid: 7d2a448fcb30e60498b0f231bbd557ca, type: 3}
   - {fileID: 8300000, guid: c9cdf2bbad675b244ad0c256f29e7dd8, type: 3}
-<<<<<<< HEAD
-  trackAudioSource: {fileID: 0}
-=======
   trackAudioSource: {fileID: 519420033}
->>>>>>> 6ca4d68b385ef82cddb415e88745db091e84d803
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
