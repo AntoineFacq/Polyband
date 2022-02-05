@@ -3,6 +3,7 @@ let http = require("http").Server(app);
 let io = require("socket.io")(http, {cors: {origin: '*'}});
 
 let tableConnected = false;
+let fluteConnected = false;
 
 io.on('connection', (socket) => {
     console.log('user connected');
@@ -43,6 +44,9 @@ io.on('connection', (socket) => {
     socket.on('connected-device', (message) => {
         if(message === "table") {
             tableConnected = true;
+        }
+        else if (message === "flute") {
+            fluteConnected = true;
         }
         console.log("New device connected : ", message);
     });
