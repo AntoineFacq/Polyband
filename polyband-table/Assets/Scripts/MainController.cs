@@ -1,29 +1,25 @@
 ﻿// unity c# code
-// using Assets.Scripts;
+using System.Collections;
+using System.Collections.Generic;
 using Socket.Quobject.SocketIoClientDotNet.Client;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MainController : MonoBehaviour
 {
     private QSocket socket;
 
     public float MasterVolume = 1F;
-    public float masterVolumeSave = 1F;
-    public int trackSelected = -1;
-    private int trackSelectedSave = -1;
-    public Button helpButton;
-    public AudioClip[] musics;
-    public AudioSource trackAudioSource;
+
+    public AudioClip Music;
+
 
     void Start()
     {
         var ip = "http://192.168.184.50:5000";
-        Button btn = helpButton.GetComponent<Button>();
-        btn.onClick.AddListener(helpButtonClicked);
 
         Debug.Log("Starting connection to "+ip+"...");
         socket = IO.Socket(ip);
+
 
         socket.On(QSocket.EVENT_CONNECT, () => {
             Debug.Log("Connected to server");
@@ -40,44 +36,24 @@ public class MainController : MonoBehaviour
         });
 
         socket.On("select-track", track => {
-            switch(track)
-            {
-                case "track-01":
-                    this.trackSelected = 0;
-                    break;
-                case "track-02":
-                    this.trackSelected = 1;
-                    break;
-                default:
-                    this.trackSelected = 2;
-                    break;
-            }
-            Debug.Log("Switch track to :" + track);
+            Debug.Log("Try start music");
+            playMusic();
+            Debug.Log("MUSIC STARTED");
         });
 
-    }
-    void helpButtonClicked()
-    {
-        socket.Emit("911 called", "SOS");
+        //socket.On("add-message", data => {
+        //    Debug.Log("data : " + data);
+        // });
+
+
+
+
     }
 
-    private void Update()
+
+    public void playMusic()
     {
-        if (this.trackSelected != trackSelectedSave)
-        {
-            if(this.trackAudioSource.clip != null)
-            {
-                this.trackAudioSource.Stop();
-            }
-            this.trackAudioSource.clip = musics[this.trackSelected];
-            this.trackAudioSource.Play();
-            this.trackSelected = trackSelectedSave;
-        }
-        if (this.MasterVolume != masterVolumeSave)
-        {
-            AudioListener.volume = this.MasterVolume;
-            this.MasterVolume = masterVolumeSave;
-        }
+        AudioSource.PlayClipAtPoint(Music, Camera.main.transform.position, 100);
     }
 
     private void OnDestroy()
