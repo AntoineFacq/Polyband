@@ -5,11 +5,19 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import {MatSelectChange} from "@angular/material/select";
 import {Observable} from "rxjs";
 import { interval } from 'rxjs';
+import {MatTabChangeEvent} from "@angular/material/tabs";
 
 export interface Track {
   value: string;
   name: string;
 }
+
+export class Table {
+  id: string;
+  number: number;
+}
+
+
 
 @Component({
   selector: 'app-home',
@@ -29,6 +37,8 @@ export interface Track {
 })
 export class HomeComponent implements OnInit {
 
+  selectedTable: Table;
+
   message: string = "";
   connection;
 
@@ -37,10 +47,12 @@ export class HomeComponent implements OnInit {
   volumeValue: number = 50;
   helpValue: number = 100;
 
+  tables: Table[] = [];
+
   tracks: Track[] = [
-    {value: 'track-01', name: 'Track 01'},
-    {value: 'track-02', name: 'Track 02'},
-    {value: 'track-03', name: 'Track 03'},
+    {value: 'track-01', name: 'Weekend'},
+    {value: 'track-02', name: 'Picnic on the Seine'},
+    {value: 'track-03', name: 'Inspiring'},
   ];
   selectedTrack: Track = this.tracks[0]
 
@@ -52,6 +64,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.connection = this.manageTableService.getMessages().subscribe(message => {
       if(message.type == "911 Call") {
+        this.playAudio();
         clearInterval(this.interval);
         console.log("911 called !")
         this.helpValue = 100;
@@ -63,8 +76,19 @@ export class HomeComponent implements OnInit {
           }
         }, 125);
       }
+      if(message.type == "new-table") {
+        let table = {...new Table(), id: message.text, number: this.tables.length + 1}
+        this.selectedTable = table
+        this.tables.push(table);
+      }
     })
-    this.manageTableService.connect();
+  }
+
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "../../assets/audio/notif_2.mp3";
+    audio.load();
+    audio.play();
   }
 
   sendMessage() {
@@ -83,7 +107,11 @@ export class HomeComponent implements OnInit {
   }
 
   chooseTrack(event: MatSelectChange) {
-    let obj = {name: "select-track", value: event.value}
-    this.manageTableService.sendMessage("add-message", JSON.stringify(obj));
+    this.manageTableService.selectTrack(this.selectedTable.id, event.value);
+  }
+
+
+  selectTable(t: MatTabChangeEvent) {
+    this.selectedTable = this.tables[t.index];
   }
 }

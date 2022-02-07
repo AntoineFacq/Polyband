@@ -50,4 +50,13 @@
   align-self: center;
 }
 
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
 
+.green {
+  background-color: green;
+}

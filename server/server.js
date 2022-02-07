@@ -1,4 +1,5 @@
 const {Table, Tablet, Device, Phone, Instrument} = require("./device");
+
 let app = require("express")();
 let http = require("http").Server(app);
 let io = require("socket.io")(http, {cors: {origin: '*'}});
@@ -39,8 +40,8 @@ io.on('connection', (socket) => {
         switch (type) {
             case DeviceType.TABLET:
                 tablet = new Tablet(io, socket);
-                for (let d of devices) {
-                    if (d instanceof Table) {
+                for (let d of Object.keys(devices)) {
+                    if (devices[d].type === "table") {
                         socket.emit("new-table", d)
                     } else {
                         socket.emit("new-phone", d)
@@ -50,9 +51,9 @@ io.on('connection', (socket) => {
             case DeviceType.TABLE:
                 devices[socket.id] = new Table(io, socket)
                 if (tablet) {
-                    tablet.socket.emit("new-table", devices[socket.id])
+                    tablet.socket.emit("new-table", devices[socket.id].id)
                 }
-                devices[socket.id].join("tableRoom" + socket.id)
+                //devices[socket.id].join("tableRoom" + socket.id)
                 break;
             case DeviceType.PHONE:
                 devices[socket.id] = new Phone(io, socket)
@@ -116,10 +117,9 @@ io.on('connection', (socket) => {
     /**************** EVENTS ************************/
 
 
-    socket.on('select-track', ({tableId, trackId}) => {
+    socket.on('select-track', (tableId, trackId) => {
         devices[tableId].socket.emit('select-track', trackId);
     });
-
 
     /**
      * Called by the tablet to set the master [volume] on a certain [tableId]

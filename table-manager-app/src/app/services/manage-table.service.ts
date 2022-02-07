@@ -18,6 +18,7 @@ export class ManageTableService {
 
   connect(): Subject<MessageEvent> {
     this.socket = io(environment.ws_url);
+    this.socket.emit('connected-device', 'tablet');
 
     const observable = new Observable(observer => {
       this.socket.on('message', (data) => {
@@ -46,16 +47,32 @@ export class ManageTableService {
     this.socket.emit('911 called', 'SOS');
   }
 
-  selectTrack(track: Track) {
+  selectTrack(tableId: string, track: string) {
     console.log("track selected")
-    this.socket.emit('select-track', track.value)
+    this.socket.emit('select-track', tableId, track)
+  }
+
+  getDevices(): Observable<SocketMessage> {
+    return new Observable<SocketMessage>(observer => {
+      this.socket = io(environment.ws_url);
+      this.socket.on('message', (data) => {
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
   }
 
   getMessages(): Observable<SocketMessage> {
     return new Observable<SocketMessage>(observer => {
       this.socket = io(environment.ws_url);
+      this.socket.emit('connected-device', 'tablet');
       this.socket.on('message', (data) => {
         observer.next(data);
+      });
+      this.socket.on('new-table', (data) => {
+        observer.next({type: 'new-table', text: data});
       });
       return () => {
         this.socket.disconnect();

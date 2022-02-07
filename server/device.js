@@ -66,6 +66,9 @@ class Phone extends Device{
 class Tablet {
     type = "tablet"
     constructor(io, socket) {
-
+        this.io = io;
+        this.socket = socket;
     }
 }
+
+module.exports = { Device, Table, Instrument, Phone, Tablet }
