@@ -1,4 +1,4 @@
-export class Device{
+class Device{
     type;
 
     volume
@@ -21,8 +21,12 @@ export class Device{
 
 }
 
-export class Table extends Device{
+class Table extends Device{
     type = "table"
+
+    trackId = 0;
+
+    play = false;
 
     instruments = []
 
@@ -40,7 +44,7 @@ export class Table extends Device{
 }
 
 
-export class Instrument{
+class Instrument{
     volume = 50
     id;
 
@@ -50,7 +54,7 @@ export class Instrument{
 
 }
 
-export class Phone extends Device{
+class Phone extends Device{
     type = "phone"
 
     tableId = undefined
@@ -59,7 +63,7 @@ export class Phone extends Device{
     }
 }
 
-export class Tablet {
+class Tablet {
     type = "tablet"
     constructor(io, socket) {
 
