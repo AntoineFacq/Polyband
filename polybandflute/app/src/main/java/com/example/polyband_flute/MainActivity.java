@@ -4,16 +4,19 @@ package com.example.polyband_flute;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.net.URISyntaxException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer mp3;
     MediaPlayer mp4;
     MediaPlayer mp5;
+    boolean askedHelp = false;
 
     private Socket mSocket;
     {
         try {
             mSocket = IO.socket("http://192.168.184.50:5000");
-            mSocket.connect();
-            mSocket.emit("connected-device", "flute");
+
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -37,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mSocket.on("confirm-911-call", onConfirm911);
+        mSocket.connect();
+        mSocket.emit("connected-device", "phone");
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,8 +54,19 @@ public class MainActivity extends AppCompatActivity {
         mp3 = MediaPlayer.create(this, R.raw.f_e);
         mp4 = MediaPlayer.create(this, R.raw.f_f);
         mp5 = MediaPlayer.create(this, R.raw.f_g);
-
     }
+
+    private Emitter.Listener onConfirm911 = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            if (askedHelp) {
+                Context context = getApplicationContext();
+                Toast toast = Toast.makeText(context, "Teacher is coming to help.", Toast.LENGTH_SHORT);
+                toast.show();
+                askedHelp = false;
+            }
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Help asked.");
             String message = "Flute needs help.";
             mSocket.emit("911 called", message);
+            askedHelp = true;
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -74,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
          }
         mp1.start();
         System.out.println("Flute played note 1.");
-        mSocket.emit("Note played", 1);
+        mSocket.emit("phone-note-played", "C note");
     }
 
     public void play_s2(View v){
@@ -84,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mp2.start();
         System.out.println("Flute played note 2.");
-        mSocket.emit("Note played", 2);
+        mSocket.emit("phone-note-played", "D note");
     }
 
     public void play_s3(View v){
@@ -94,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mp3.start();
         System.out.println("Flute played note 3.");
-        mSocket.emit("Note played", 3);
+        mSocket.emit("phone-note-played", "E note");
     }
 
     public void play_s4(View v){
@@ -104,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mp3.start();
         System.out.println("Flute played note 4.");
-        mSocket.emit("Note played", 4);
+        mSocket.emit("phone-note-played", "F note");
     }
 
     public void play_s5(View v){
@@ -114,13 +133,12 @@ public class MainActivity extends AppCompatActivity {
         }
         mp4.start();
         System.out.println("Flute played note 5.");
-        mSocket.emit("Note played", 5);
+        mSocket.emit("phone-note-played", "G note");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         mSocket.disconnect();
     }
 }
