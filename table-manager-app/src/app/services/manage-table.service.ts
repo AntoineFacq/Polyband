@@ -6,6 +6,7 @@ import {environment} from "../../environments/environment";
 export class SocketMessage {
   type: string;
   text: string;
+  tableId?: string;
 }
 
 @Injectable({
@@ -25,8 +26,8 @@ export class ManageTableService {
       this.socket.on('new-table', (data) => {
         observer.next({type: 'new-table', text: data});
       });
-      this.socket.on('new-phone', (data) => {
-        observer.next({type: 'new-phone', text: data});
+      this.socket.on('new-phone', (id, tableId) => {
+        observer.next({type: 'new-phone', text: id, tableId: tableId});
       });
       this.socket.on('phone-leaved', (data) => {
         observer.next({type: 'phone-leaved', text: data});
@@ -51,8 +52,13 @@ export class ManageTableService {
   }
 
   assignPhoneToTable(phoneId: string, tableId: string) {
-    console.log("Assign phone " + phoneId + " to table " + tableId);
-    this.socket.emit('tablet-adds-instrument', tableId, 'phone', phoneId)
+    if(tableId != undefined) {
+      console.log("Assign phone " + phoneId + " to table " + tableId);
+      this.socket.emit('tablet-adds-instrument', tableId, 'phone', phoneId);
+    } else {
+      this.socket.emit('tablet-unasign-instrument', phoneId);
+    }
+
   }
 
 }

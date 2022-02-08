@@ -77,6 +77,7 @@ export class HomeComponent implements OnInit {
       }
       else if(message.type == "new-phone") {
         let phone = {...new Phone(), id: message.text, number: this.phones.length + 1}
+        if(message.tableId && message.tableId != "") phone = {... phone, table: this.tables.find(t => t.id === message.tableId)};
         this.phones.push(phone);
       }
       else if(message.type == "phone-leaved") {
@@ -125,8 +126,12 @@ export class HomeComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<Phone[]>) {
-    if(event.previousContainer.id != event.container.id) {
-      let phoneId = event.previousContainer.data[event.previousIndex].id;
+    let phoneId = event.previousContainer.data[event.previousIndex].id;
+    if((event.container.id).toString().slice(-1) === '0') {
+      this.manageTableService.assignPhoneToTable(phoneId, undefined);
+      this.phones.find(p => p.id === phoneId).table = undefined;
+    }
+    else if(event.previousContainer.id != event.container.id) {
       let table = this.tables.find(t => t.number.toString() === (event.container.id).toString().slice(-1))
       this.manageTableService.assignPhoneToTable(phoneId, table.id)
       this.phones.find(p => p.id === phoneId).table = table;
