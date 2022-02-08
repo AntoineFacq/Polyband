@@ -40,7 +40,7 @@ public class MainController : MonoBehaviour
             socket.Emit("connected-device", "table");
         });
 
-        socket.On("volume", volume => {
+        socket.On("set-master-volume", volume => {
             this.MasterVolume = float.Parse(volume.ToString());
             Debug.Log("Main volume changed to:"+this.MasterVolume);
         });
@@ -122,6 +122,7 @@ public class MainController : MonoBehaviour
 
     private void OnDestroy()
     {
+        socket.Emit("disconnect", "table");
         socket.Disconnect();
     }
 }
