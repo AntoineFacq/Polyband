@@ -3,36 +3,15 @@ import {ManageTableService} from "../services/manage-table.service";
 import {MatSliderChange} from "@angular/material/slider";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {MatSelectChange} from "@angular/material/select";
-import {Observable} from "rxjs";
-import { interval } from 'rxjs';
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {Phone, Table} from "../../models/Device";
+import {CdkDragDrop} from "@angular/cdk/drag-drop";
 
-export interface Track {
+
+export class Track {
   value: string;
   name: string;
 }
-
-export enum DeviceType {
-  TABLE = "Table",
-  PHONE = "Phone"
-}
-
-
-export class Device {
-  id: string;
-  number: number;
-}
-
-export class Table extends Device {
-  type = DeviceType.TABLE
-}
-
-export class Phone extends Device {
-  type = DeviceType.PHONE
-}
-
-
-
 
 @Component({
   selector: 'app-home',
@@ -73,7 +52,6 @@ export class HomeComponent implements OnInit {
   selectedTrack: Track = this.tracks[0]
 
   interval:any;
-  sub: any;
 
   constructor(private manageTableService: ManageTableService) { }
 
@@ -98,9 +76,14 @@ export class HomeComponent implements OnInit {
         this.tables.push(table);
       }
       else if(message.type == "new-phone") {
-        console.log("new phoone")
         let phone = {...new Phone(), id: message.text, number: this.phones.length + 1}
         this.phones.push(phone);
+      }
+      else if(message.type == "phone-leaved") {
+        this.phones.splice(this.phones.map(p => p.id).indexOf(message.text), 1);
+      }
+      else if(message.type == "table-leaved") {
+        this.tables.splice(this.tables.map(p => p.id).indexOf(message.text), 1);
       }
     })
   }
@@ -112,19 +95,9 @@ export class HomeComponent implements OnInit {
     audio.play();
   }
 
-  sendMessage() {
-    this.manageTableService.sendMessage("add-message", this.message);
-    this.message = '';
-  }
-
   volumeChanged($event: MatSliderChange) {
     this.volumeValue = $event.value;
-    let obj = {name: "volume", value: $event.value}
-    this.manageTableService.sendMessage("add-message", JSON.stringify(obj));
-  }
-
-  simulate911() {
-    this.manageTableService.callHelp()
+    this.manageTableService.setMasterVolume(this.selectedTable.id, this.volumeValue);
   }
 
   chooseTrack(event: MatSelectChange) {
@@ -133,10 +106,30 @@ export class HomeComponent implements OnInit {
 
 
   selectTable(t: MatTabChangeEvent) {
-    this.selectedTable = this.tables[t.index];
+    if(t.index < this.tables.length) {
+      this.selectedTable = this.tables[t.index];
+    }
   }
 
   assignPhoneToTable($event: MatSelectChange) {
     this.manageTableService.assignPhoneToTable($event.value, this.selectedTable.id);
+    this.phones.find(p => p.id === $event.value).table = this.selectedTable;
+  }
+
+  getNotAssignedPhones(): Phone[] {
+    return this.phones.filter(p => !p.table);
+  }
+
+  getPhonesAssociatedToTable(table: Table): Phone[] {
+    return this.phones.filter(p => p.table && p.table.id === table.id);
+  }
+
+  drop(event: CdkDragDrop<Phone[]>) {
+    if(event.previousContainer.id != event.container.id) {
+      let phoneId = event.previousContainer.data[event.previousIndex].id;
+      let table = this.tables.find(t => t.number.toString() === (event.container.id).toString().slice(-1))
+      this.manageTableService.assignPhoneToTable(phoneId, table.id)
+      this.phones.find(p => p.id === phoneId).table = table;
+    }
   }
 }

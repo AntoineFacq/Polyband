@@ -1,74 +1,110 @@
-<ng-container *ngIf="this.selectedTable" >
+<ng-container >
   <mat-tab-group mat-align-tabs="start" animationDuration="0ms" (selectedTabChange)="selectTable($event)">
-    <mat-tab *ngFor="let t of tables" [label]="'Table ' + t.number"></mat-tab>
+    <mat-tab *ngFor="let t of tables" [label]="'Table ' + t.number">
+      <div class="dashboard-card mt-3" style="margin-left: 2em">
+        <h3>Informations</h3>
+        <span class="dot green"></span> <span class="ms-2">Table active : #{{t.number}} - ({{t.id}})</span>
+        <h4 class="mt-2">Appareils associés</h4>
+        <div *ngFor="let p of getPhonesAssociatedToTable(this.selectedTable)" class="ms-3">
+          <span class="dot green"></span> <span class="ms-2">Phone {{p.number}} - ({{p.id}})</span>
+        </div>
+      </div>
+
+      <div class="dashboard-card mt-3" style="display: flex; margin-left: 2em; width: 60%">
+        <ng-container>
+          <span *ngIf="volumeValue>=50" class="material-icons-round">volume_up</span>
+          <span *ngIf="volumeValue<50 && volumeValue != 0" class="material-icons-round">volume_down</span>
+          <span *ngIf="volumeValue==0" class="material-icons-round">volume_mute</span>
+        </ng-container>
+
+        <mat-slider
+          (input)="volumeChanged($event)"
+          [value]="volumeValue"
+          class="w-100"
+          thumbLabel
+          step="1"
+          min="0"
+          max="100"
+          aria-label="units"></mat-slider>
+      </div>
+
+      <div class="help-box" cdkDrag *ngIf="this.showHelpAsked" [@slideInOut]>
+        <mat-progress-bar mode="determinate" [value]="helpValue"></mat-progress-bar>
+        <h2>Table 1 a besoin d'aide</h2>
+      </div>
+
+      <div class="dashboard-card mt-3" style="margin-left: 2em">
+        <h1>Musique</h1>
+        <mat-form-field appearance="fill" >
+          <mat-label>Titre</mat-label>
+          <mat-select (selectionChange)="this.chooseTrack($event)" [(ngModel)]="selectedTrack">
+            <mat-option *ngFor="let track of tracks" [value]="track.value">
+              {{track.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      <div class="dashboard-card mt-3" style="margin-left: 2em">
+        <h1>Assign phone to table</h1>
+        <mat-form-field appearance="fill" >
+          <mat-label>Phone</mat-label>
+          <mat-select (selectionChange)="this.assignPhoneToTable($event)">
+            <mat-option *ngFor="let phone of phones" [value]="phone.id">
+              Phone {{phone.number}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="ms-4">
+          <h3>Tables</h3>
+          <div *ngFor="let t of this.tables" class="ms-3">
+            <span class="dot green"></span> <span class="ms-2">Table {{t.number}} - ({{t.id}})</span>
+          </div>
+          <h3 class="mt-3">Phones</h3>
+          <div *ngFor="let p of this.phones" class="ms-3">
+            <span class="dot green"></span> <span class="ms-2">Phone {{p.number}} - ({{p.id}})</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 100%; display: flex; justify-content: center; margin-top: 100px">
+        <img src="assets/table.png" style="width: 50%; ">
+      </div>
+    </mat-tab>
+    <mat-tab label="Configuration">
+
+
+      <div cdkDropListGroup>
+        <div class="example-container" >
+          <h2>Not associated</h2>
+
+          <div
+            cdkDropList
+            [cdkDropListData]="getNotAssignedPhones()"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let p of getNotAssignedPhones()" cdkDrag>Flûte {{p.number}}</div>
+          </div>
+        </div>
+
+        <div class="example-container" *ngFor="let t of tables">
+          <h2>Table {{t.number}}</h2>
+
+          <div
+            cdkDropList
+            [cdkDropListData]="getPhonesAssociatedToTable(t)"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let p of getPhonesAssociatedToTable(t)" cdkDrag>Flûte {{p.number}}</div>
+          </div>
+        </div>
+      </div>
+
+    </mat-tab>
   </mat-tab-group>
 
-  <div class="dashboard-card mt-3" style="margin-left: 2em">
-    <h4>Id de table</h4>
-    <p>{{this.selectedTable.id}}</p>
-  </div>
 
-  <div class="dashboard-card mt-3" style="display: flex; margin-left: 2em; width: 60%">
-    <ng-container>
-      <span *ngIf="volumeValue>=50" class="material-icons-round">volume_up</span>
-      <span *ngIf="volumeValue<50 && volumeValue != 0" class="material-icons-round">volume_down</span>
-      <span *ngIf="volumeValue==0" class="material-icons-round">volume_mute</span>
-    </ng-container>
-
-    <mat-slider
-      (input)="volumeChanged($event)"
-      [value]="volumeValue"
-      class="w-100"
-      thumbLabel
-      step="1"
-      min="0"
-      max="100"
-      aria-label="units"></mat-slider>
-  </div>
-
-  <div class="example-box" cdkDrag *ngIf="this.showHelpAsked" [@slideInOut]>
-    <mat-progress-bar mode="determinate" [value]="helpValue"></mat-progress-bar>
-    <h2>Table 1 a besoin d'aide</h2>
-  </div>
-
-  <div class="dashboard-card mt-3" style="margin-left: 2em">
-    <h1>Musique</h1>
-    <mat-form-field appearance="fill" >
-      <mat-label>Titre</mat-label>
-      <mat-select (selectionChange)="this.chooseTrack($event)" [(ngModel)]="selectedTrack">
-        <mat-option *ngFor="let track of tracks" [value]="track.value">
-          {{track.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-
-  <div class="dashboard-card mt-3" style="margin-left: 2em">
-    <h1>Assign phone to table</h1>
-    <mat-form-field appearance="fill" >
-      <mat-label>Phone</mat-label>
-      <mat-select (selectionChange)="this.assignPhoneToTable($event)">
-        <mat-option *ngFor="let phone of phones" [value]="phone.id">
-          Phone {{phone.number}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="ms-4">
-      <h3>Tables</h3>
-      <div *ngFor="let t of this.tables" class="ms-3">
-        <span class="dot green"></span> <span class="ms-2">Table {{t.number}} - ({{t.id}})</span>
-      </div>
-      <h3 class="mt-3">Phones</h3>
-      <div *ngFor="let p of this.phones" class="ms-3">
-        <span class="dot green"></span> <span class="ms-2">Phone {{p.number}} - ({{p.id}})</span>
-      </div>
-    </div>
-  </div>
-
-  <div style="width: 100%; display: flex; justify-content: center; margin-top: 100px">
-    <img src="assets/table.png" style="width: 50%; ">
-  </div>
 
 </ng-container>
 

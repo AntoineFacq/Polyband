@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import io from "socket.io-client";
 import {environment} from "../../environments/environment";
-import {Track} from "../home/home.component";
 
 export class SocketMessage {
   type: string;
@@ -15,59 +14,6 @@ export class SocketMessage {
 export class ManageTableService {
 
   private socket;
-
-  connect(): Subject<MessageEvent> {
-    this.socket = io(environment.ws_url);
-    this.socket.emit('connected-device', 'tablet');
-
-    const observable = new Observable(observer => {
-      this.socket.on('message', (data) => {
-        console.log('Received message from Websocket Server');
-        observer.next(data);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    });
-
-    const observer = {
-      next: (data: Object) => {
-        this.socket.emit('message', JSON.stringify(data));
-      },
-    };
-
-    return Subject.create(observer, observable);
-  }
-
-  sendMessage(value: string, message: string){
-    this.socket.emit(value, message);
-  }
-
-  callHelp() {
-    this.socket.emit('911 called', 'SOS');
-  }
-
-  selectTrack(tableId: string, track: string) {
-    console.log("track selected")
-    this.socket.emit('select-track', tableId, track)
-  }
-
-  assignPhoneToTable(phoneId: string, tableId: string) {
-    console.log("Assign phone " + phoneId + " to table " + tableId);
-    this.socket.emit('tablet-adds-instrument', tableId, 'phone', phoneId)
-  }
-
-  getDevices(): Observable<SocketMessage> {
-    return new Observable<SocketMessage>(observer => {
-      this.socket = io(environment.ws_url);
-      this.socket.on('message', (data) => {
-        observer.next(data);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    });
-  }
 
   getMessages(): Observable<SocketMessage> {
     return new Observable<SocketMessage>(observer => {
@@ -82,9 +28,31 @@ export class ManageTableService {
       this.socket.on('new-phone', (data) => {
         observer.next({type: 'new-phone', text: data});
       });
+      this.socket.on('phone-leaved', (data) => {
+        observer.next({type: 'phone-leaved', text: data});
+      });
+      this.socket.on('table-leaved', (data) => {
+        observer.next({type: 'table-leaved', text: data});
+      });
       return () => {
         this.socket.disconnect();
       };
     });
   }
+
+  selectTrack(tableId: string, track: string) {
+    console.log("track selected")
+    this.socket.emit('select-track', tableId, track)
+  }
+
+  setMasterVolume(tableId: string, volume: number) {
+    console.log("set master volume to " + volume)
+    this.socket.emit('set-master-volume', tableId, volume)
+  }
+
+  assignPhoneToTable(phoneId: string, tableId: string) {
+    console.log("Assign phone " + phoneId + " to table " + tableId);
+    this.socket.emit('tablet-adds-instrument', tableId, 'phone', phoneId)
+  }
+
 }
