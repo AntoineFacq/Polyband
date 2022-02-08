@@ -53,12 +53,12 @@ io.on('connection', (socket) => {
                 if (tablet) {
                     tablet.socket.emit("new-table", devices[socket.id].id)
                 }
-                //devices[socket.id].join("tableRoom" + socket.id)
+                devices[socket.id].socket.join("tableRoom" + socket.id)
                 break;
             case DeviceType.PHONE:
                 devices[socket.id] = new Phone(io, socket)
                 if (tablet) {
-                    tablet.socket.emit("new-phone", devices[socket.id])
+                    tablet.socket.emit("new-phone", devices[socket.id].id)
                 }
                 break;
 
@@ -97,8 +97,9 @@ io.on('connection', (socket) => {
      * instumentId: (socket id of the phone instrument OR undefined if table)
      */
 
-    socket.on('tablet-adds-instrument', ({tableId, type, instrumentId}) => {
+    socket.on('tablet-adds-instrument', (tableId, type, instrumentId) => {
         if (instrumentId !== undefined) {
+            console.log("Instrument (" + type + ") with id " + instrumentId + " added to table " + tableId);
             devices[instrumentId].tableId = tableId;
             devices[instrumentId].instrumentType = type;
 
@@ -141,12 +142,17 @@ io.on('connection', (socket) => {
      * When the student calls help
      */
     socket.on('911 called', (message) => {
-        tablet.socket.emit('message', {
-            tableId: socket.id, // Indicate which table it is coming from
-            type: '911 Call',
-            text: "A student called 911 !"
-        });
-        console.log(message);
+        if(tablet) {
+            tablet.socket.emit('message', {
+                tableId: socket.id, // Indicate which table it is coming from
+                type: '911 Call',
+                text: "A student called 911 !"
+            });
+            console.log(message);
+        } else {
+            console.log("Tablet not associated yet !")
+        }
+
     });
 
     /**
@@ -164,8 +170,13 @@ io.on('connection', (socket) => {
     socket.on('phone-note-played', (noteId) => {
         console.log('"' + noteId + '" played by ' + devices[socket.id].instrumentType + '!');
 
-        let tableId = devices[socket.id].tableId; // Table to whom the phone is connected
-        devices[tableId].socket.emit('play-note-on-table', devices[socket.id].instrumentType + ":" + noteId)
+        let tableId = devices[socket.id].tableId; // T
+        if(tableId) {
+            devices[tableId].socket.emit('play-note-on-table', devices[socket.id].instrumentType + ":" + noteId)
+        }// able to whom the phone is connected
+        else {
+            console.log("Phone not associated with a tabled yet !")
+        }
 
     });
 

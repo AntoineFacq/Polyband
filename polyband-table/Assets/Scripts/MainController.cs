@@ -16,9 +16,19 @@ public class MainController : MonoBehaviour
     public AudioClip[] musics;
     public AudioSource trackAudioSource;
 
+    public bool fluteNoteState = true;
+    private bool fluteNoteStateSave = true;
+    public AudioSource fluteAudioSource;
+    public AudioClip fluteSoundC;
+    public AudioClip fluteSoundD;
+    public AudioClip fluteSoundE;
+    public AudioClip fluteSoundF;
+    public AudioClip fluteSoundG;
+    private string notePlayed;
+
     void Start()
     {
-        var ip = "http://192.168.184.50:5000";
+        var ip = "http://192.168.1.58:5000";
         Button btn = helpButton.GetComponent<Button>();
         btn.onClick.AddListener(helpButtonClicked);
 
@@ -33,6 +43,12 @@ public class MainController : MonoBehaviour
         socket.On("volume", volume => {
             this.MasterVolume = float.Parse(volume.ToString());
             Debug.Log("Main volume changed to:"+this.MasterVolume);
+        });
+
+        socket.On("play-note-on-table", note => {
+            Debug.Log("Play note on table : " + note);
+            this.fluteNoteState = !this.fluteNoteState;
+            this.notePlayed = note.ToString().Split(':')[1][0].ToString();
         });
 
         socket.On("play-pause", state => {
@@ -77,6 +93,30 @@ public class MainController : MonoBehaviour
         {
             AudioListener.volume = this.MasterVolume;
             this.MasterVolume = masterVolumeSave;
+        }
+        if(this.fluteNoteState != this.fluteNoteStateSave)
+        {
+            AudioClip notePlayed = this.fluteSoundC;
+            switch(this.notePlayed)
+            {
+                case "C":
+                    notePlayed = this.fluteSoundC;
+                    break;
+                case "D":
+                    notePlayed = this.fluteSoundD;
+                    break;
+                case "E":
+                    notePlayed = this.fluteSoundE;
+                    break;
+                case "F":
+                    notePlayed = this.fluteSoundF;
+                    break;
+                case "G":
+                    notePlayed = this.fluteSoundG;
+                    break;
+            }
+            AudioSource.PlayClipAtPoint(notePlayed, Camera.main.transform.position, this.MasterVolume);
+            this.fluteNoteStateSave = this.fluteNoteState;
         }
     }
 
