@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.184.50:5000");
+            mSocket = IO.socket("http://192.168.1.58:5000");
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -138,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        mSocket.emit("disconnect", "phone");
         mSocket.disconnect();
+        super.onDestroy();
     }
 }
