@@ -28,7 +28,7 @@ public class MainController : MonoBehaviour
 
     void Start()
     {
-        var ip = "http://192.168.1.58:5000";
+        var ip = "http://localhost:5000";
         Button btn = helpButton.GetComponent<Button>();
         btn.onClick.AddListener(helpButtonClicked);
 
