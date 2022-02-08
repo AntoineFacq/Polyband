@@ -12,10 +12,25 @@ export interface Track {
   name: string;
 }
 
-export class Table {
+export enum DeviceType {
+  TABLE = "Table",
+  PHONE = "Phone"
+}
+
+
+export class Device {
   id: string;
   number: number;
 }
+
+export class Table extends Device {
+  type = DeviceType.TABLE
+}
+
+export class Phone extends Device {
+  type = DeviceType.PHONE
+}
+
 
 
 
@@ -48,6 +63,7 @@ export class HomeComponent implements OnInit {
   helpValue: number = 100;
 
   tables: Table[] = [];
+  phones: Phone[] = [];
 
   tracks: Track[] = [
     {value: 'track-01', name: 'Weekend'},
@@ -76,10 +92,15 @@ export class HomeComponent implements OnInit {
           }
         }, 125);
       }
-      if(message.type == "new-table") {
+      else if(message.type == "new-table") {
         let table = {...new Table(), id: message.text, number: this.tables.length + 1}
         this.selectedTable = table
         this.tables.push(table);
+      }
+      else if(message.type == "new-phone") {
+        console.log("new phoone")
+        let phone = {...new Phone(), id: message.text, number: this.phones.length + 1}
+        this.phones.push(phone);
       }
     })
   }
@@ -113,5 +134,9 @@ export class HomeComponent implements OnInit {
 
   selectTable(t: MatTabChangeEvent) {
     this.selectedTable = this.tables[t.index];
+  }
+
+  assignPhoneToTable($event: MatSelectChange) {
+    this.manageTableService.assignPhoneToTable($event.value, this.selectedTable.id);
   }
 }

@@ -43,10 +43,26 @@
     </mat-form-field>
   </div>
 
+
   <div class="dashboard-card mt-3" style="margin-left: 2em">
-    <h1>Devices</h1>
-    <div *ngFor="let t of this.tables">
-      <span class="dot green"></span> <span class="ms-2">Table {{t.number}} - ({{t.id}})</span>
+    <h1>Assign phone to table</h1>
+    <mat-form-field appearance="fill" >
+      <mat-label>Phone</mat-label>
+      <mat-select (selectionChange)="this.assignPhoneToTable($event)">
+        <mat-option *ngFor="let phone of phones" [value]="phone.id">
+          Phone {{phone.number}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="ms-4">
+      <h3>Tables</h3>
+      <div *ngFor="let t of this.tables" class="ms-3">
+        <span class="dot green"></span> <span class="ms-2">Table {{t.number}} - ({{t.id}})</span>
+      </div>
+      <h3 class="mt-3">Phones</h3>
+      <div *ngFor="let p of this.phones" class="ms-3">
+        <span class="dot green"></span> <span class="ms-2">Phone {{p.number}} - ({{p.id}})</span>
+      </div>
     </div>
   </div>
 

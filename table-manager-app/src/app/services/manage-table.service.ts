@@ -52,6 +52,11 @@ export class ManageTableService {
     this.socket.emit('select-track', tableId, track)
   }
 
+  assignPhoneToTable(phoneId: string, tableId: string) {
+    console.log("Assign phone " + phoneId + " to table " + tableId);
+    this.socket.emit('tablet-adds-instrument', tableId, 'phone', phoneId)
+  }
+
   getDevices(): Observable<SocketMessage> {
     return new Observable<SocketMessage>(observer => {
       this.socket = io(environment.ws_url);
@@ -73,6 +78,9 @@ export class ManageTableService {
       });
       this.socket.on('new-table', (data) => {
         observer.next({type: 'new-table', text: data});
+      });
+      this.socket.on('new-phone', (data) => {
+        observer.next({type: 'new-phone', text: data});
       });
       return () => {
         this.socket.disconnect();
