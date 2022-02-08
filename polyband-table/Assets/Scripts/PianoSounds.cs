@@ -5,12 +5,15 @@ using UnityEngine;
 public class PianoSounds : MonoBehaviour
 {
     [SerializeField]
+    public bool octave = false;
     public AudioClip sound;
     public MainController mainController;
+    public AudioSource speaker;
 
     void Start()
     {
         mainController = Camera.main.GetComponent<MainController>();
+        speaker = transform.parent.transform.parent.GetComponent<AudioSource>();
     }
 
     public void PointerDown()
@@ -20,7 +23,9 @@ public class PianoSounds : MonoBehaviour
 
     public void play(AudioClip a)
     {
-        AudioSource.PlayClipAtPoint(a, Camera.main.transform.position, mainController.MasterVolume);
+        speaker.clip = a;
+        speaker.pitch = octave ? 2 : 1;
+        speaker.Play();
     }
 
 }

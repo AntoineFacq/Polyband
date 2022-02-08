@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/.tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/polyband-table/.vs" />
+      <excludeFolder url="file://$MODULE_DIR$/polyband-table/Library" />
+      <excludeFolder url="file://$MODULE_DIR$/polyband-table/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/polyband-table/ProjectSettings" />
+      <excludeFolder url="file://$MODULE_DIR$/polyband-table/Temp" />
+      <excludeFolder url="file://$MODULE_DIR$/polybandflute/.idea/libraries" />
+      <excludeFolder url="file://$MODULE_DIR$/polybandflute/.idea/modules" />
+      <excludeFolder url="file://$MODULE_DIR$/polybandflute/app/build" />
+      <excludeFolder url="file://$MODULE_DIR$/polybandflute/.gradle" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
