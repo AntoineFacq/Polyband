@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
      * type: A "table" ? A "tablet" ? A "phone" => see DeviceType
      */
     socket.on('connected-device', (type) => {
-        console.log("New type connected with socket ", socket.id);
+        console.log("New " + type + " connected with socket ", socket.id);
         switch (type) {
             case DeviceType.TABLET:
                 tablet = new Tablet(io, socket);
@@ -69,14 +69,30 @@ io.on('connection', (socket) => {
 
     /**
      * Must be sent by all of the devices when they disconnect from the server
-     * type: A "table" ? A "tablet" ? A "phone" => see DeviceType
+     * type = 'transport' in queries type: A "table" ? A "tablet" ? A "phone" => see DeviceType
      */
     socket.on('disconnect', function (type) {
-        switch (type) {
+        if(socket.id in devices) {
+            if(devices[socket.id].type === "phone") {
+                if(tablet) tablet.socket.emit("phone-leaved", socket.id);
+                console.log("Phone " + socket.id + " leaved.");
+            } else {
+                if (tablet) tablet.socket.emit("table-leaved", socket.id);
+                console.log("Table " + socket.id + " leaved.");
+            }
+            delete devices[socket.id];
+        }
+        if(tablet && tablet.socket.id === socket.id) {
+            tablet = undefined;
+            console.log("Tablet " + socket.id + " leaved.");
+        }
+        /*switch (type) {
             case DeviceType.TABLET:
                 tablet = undefined;
                 break;
             case DeviceType.TABLE:
+                console.log("table with " + socket.id + " deconnected !!!");
+                break;
             case DeviceType.PHONE:
                 devices.splice(socket.id, 1)
                 tablet.socket.emit("disconnected-device", socket.id)
@@ -87,7 +103,7 @@ io.on('connection', (socket) => {
                 break;
 
         }
-        console.log(type+" with socket "+socket.id+' disconnected');
+        console.log(type+" with socket "+socket.id+' disconnected');*/
     });
 
 
@@ -125,7 +141,8 @@ io.on('connection', (socket) => {
     /**
      * Called by the tablet to set the master [volume] on a certain [tableId]
      */
-    socket.on('set-master-volume', ({tableId, volume}) => {
+    socket.on('set-master-volume', (tableId, volume) => {
+        console.log("Set master volume of table " + tableId + " to " + volume);
         devices[tableId].socket.emit('set-master-volume', volume / 100);
     });
 
