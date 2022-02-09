@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class ButtonScript : MonoBehaviour
     private bool displayPiano;
     public Button batterieButton;
     public Button pianoButton;
+    public Button reloadButton;
+
 
     void Start()
     {
@@ -21,6 +24,8 @@ public class ButtonScript : MonoBehaviour
         btn1.onClick.AddListener(batterieButtonClicked);
         Button btn2 = pianoButton.GetComponent<Button>();
         btn2.onClick.AddListener(pianoButtonClicked);
+        Button btn3 = reloadButton.GetComponent<Button>();
+        btn3.onClick.AddListener(reloadButtonClicked);
     }
 
 
@@ -33,5 +38,10 @@ public class ButtonScript : MonoBehaviour
     {
         piano.SetActive(displayPiano);
         displayPiano = !displayPiano;
+    }
+
+    void reloadButtonClicked()
+    {
+      Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
 }
