@@ -64,4 +64,12 @@ export class ManageTableService {
   playPauseTrack(id: string) {
     this.socket.emit('tablet-play-pause', id)
   }
+
+  startStopRecording(id: string) {
+    this.socket.emit('start-stop-recording', id)
+  }
+
+  playPauseRecording(id: string) {
+    this.socket.emit('play-pause-recording', id)
+  }
 }

@@ -2861,9 +2861,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7d2a448fcb30e60498b0f231bbd557ca, type: 3}
   - {fileID: 8300000, guid: c9cdf2bbad675b244ad0c256f29e7dd8, type: 3}
   trackAudioSource: {fileID: 519420033}
-  recordAudioSource: {fileID: 0}
+  recordAudioSource: {fileID: 519420035}
   isRecording: 0
+  isRecordingSave: 0
   isPlayingRecording: 0
+  isPlayingRecordingSave: 0
   fluteNoteState: 1
   fluteAudioSource: {fileID: 519420034}
   fluteSoundC: {fileID: 8300000, guid: ff8e933b90f6a4d44a80351c3dcd00da, type: 3}

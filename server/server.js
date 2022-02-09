@@ -155,6 +155,26 @@ io.on('connection', (socket) => {
         console.log("Playing: " + devices[tableId].play);
     });
 
+
+    /**
+     * Toggle the recording on/off on a [tableId]
+     */
+    socket.on('start-stop-recording', (tableId) => {
+        devices[tableId].socket.emit('toggle-record');
+    });
+
+
+    /**
+     * Toggle the playing of the recording on/off on a [tableId]
+     */
+    socket.on('play-pause-recording', (tableId) => {
+        devices[tableId].socket.emit('toggle-recording-playback');
+    });
+
+
+
+
+
     /**
      * When the student calls help
      */
