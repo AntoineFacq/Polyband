@@ -106,6 +106,8 @@ export class HomeComponent implements OnInit {
   }
 
 
+
+
   selectTable(t: MatTabChangeEvent) {
     if(t.index < this.tables.length) {
       this.selectedTable = this.tables[t.index];
@@ -136,5 +138,9 @@ export class HomeComponent implements OnInit {
       this.manageTableService.assignPhoneToTable(phoneId, table.id)
       this.phones.find(p => p.id === phoneId).table = table;
     }
+  }
+
+  playPauseTrack() {
+    this.manageTableService.playPauseTrack(this.selectedTable.id);
   }
 }

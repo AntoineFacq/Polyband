@@ -61,4 +61,7 @@ export class ManageTableService {
 
   }
 
+  playPauseTrack(id: string) {
+    this.socket.emit('tablet-play-pause', id)
+  }
 }
