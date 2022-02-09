@@ -39,18 +39,18 @@
             </mat-form-field>
             <div style="text-align: center">
               <button mat-fab color="primary" (click)="this.playPauseTrack()" aria-label="Example icon button with a delete icon">
-                <mat-icon>play_arrow</mat-icon>
+                <mat-icon>{{selectedTable.play ? "pause" : "play_arrow"}}</mat-icon>
               </button>
             </div>
           </div>
           <div class="dashboard-card mt-3">
             <h3>Enregistrement</h3>
             <div style="text-align: center">
-              <button class="me-3" mat-fab color="warn" (click)="this.startStopRecording()" aria-label="Example icon button with a delete icon">
-                <mat-icon>mic</mat-icon>
+              <button [class.large]="selectedTable.recording" *ngIf="!selectedTable.playingRecording" class="me-3" mat-fab color="warn" (click)="this.startStopRecording()" aria-label="Example icon button with a delete icon">
+                <mat-icon>{{selectedTable.recording ? "mic_off" : "mic"}}</mat-icon>
               </button>
-              <button mat-fab color="primary" (click)="this.playPauseRecording()" aria-label="Example icon button with a delete icon">
-                <mat-icon>play_arrow</mat-icon>
+              <button *ngIf="!selectedTable.recording" [class.large]="selectedTable.playingRecording" mat-fab color="primary" (click)="this.playPauseRecording()" aria-label="Example icon button with a delete icon">
+                <mat-icon>{{selectedTable.playingRecording ? "pause" : "play_arrow"}}</mat-icon>
               </button>
             </div>
           </div>

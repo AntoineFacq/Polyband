@@ -4,7 +4,10 @@ export class Device {
 }
 
 export class Table extends Device {
-  type = DeviceType.TABLE
+  type = DeviceType.TABLE;
+  play = false;
+  recording = false;
+  playingRecording = false;
 }
 
 export class Phone extends Device {

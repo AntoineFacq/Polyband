@@ -141,14 +141,17 @@ export class HomeComponent implements OnInit {
   }
 
   playPauseTrack() {
+    this.selectedTable.play = !this.selectedTable.play;
     this.manageTableService.playPauseTrack(this.selectedTable.id);
   }
 
   startStopRecording() {
+    this.selectedTable.recording = !this.selectedTable.recording;
     this.manageTableService.startStopRecording(this.selectedTable.id);
   }
 
   playPauseRecording() {
+    this.selectedTable.playingRecording = !this.selectedTable.playingRecording;
     this.manageTableService.playPauseRecording(this.selectedTable.id);
   }
 }

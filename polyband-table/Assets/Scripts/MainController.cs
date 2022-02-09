@@ -122,24 +122,29 @@ public class MainController : MonoBehaviour
     {
         if (isRecording != isRecordingSave)
         {
-            if (!isRecording)
+            if (isRecording)
             {
+                Debug.Log("Start Record...");
                 recordAudioSource.clip = Microphone.Start(null, false, 1800, maxFreq);
             }
             else
             {
+                Debug.Log("Stop Record");
                 Microphone.End(null);
             }
             isRecordingSave = isRecording;
         }
         if (isPlayingRecording != isPlayingRecordingSave)
         {
-            if (!Microphone.IsRecording(null) && !isPlayingRecording)
+
+            if (!Microphone.IsRecording(null) && isPlayingRecording)
             {
+                Debug.Log("Start playing Record");
                 recordAudioSource.Play();
             }
             else
             {
+                Debug.Log("Stop playing Record");
                 recordAudioSource.Stop();
             }
             isPlayingRecordingSave = isPlayingRecording;
@@ -147,7 +152,7 @@ public class MainController : MonoBehaviour
 
         if (isPlayingMusic != isPlayingMusicSave)
         {
-            if (isPlayingMusic)
+            if (!isPlayingMusic)
             {
                 trackAudioSource.Pause();
             }
