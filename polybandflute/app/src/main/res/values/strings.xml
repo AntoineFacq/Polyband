@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">polyband-flute</string>
+    <string name="blow">Blow</string>
 </resources>
