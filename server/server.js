@@ -126,7 +126,7 @@ io.on('connection', (socket) => {
 
             devices[socket.id].instruments[TABLE_INSTRUMENT_ID] = new Instrument(type)
 
-            devices[tableId].socket.emit("instrument-added", type + ":" + TABLE_INSTRUMENT_ID);
+            devices[tableId].socket.emit("instrument-added", type/* + ":" + TABLE_INSTRUMENT_ID*/);
         }
     });
 

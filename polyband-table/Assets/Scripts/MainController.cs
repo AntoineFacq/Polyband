@@ -1,6 +1,7 @@
 ﻿// unity c# code
 // using Assets.Scripts;
 using Socket.Quobject.SocketIoClientDotNet.Client;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,9 +38,17 @@ public class MainController : MonoBehaviour
     private string notePlayed;
 
 
+    public GameObject pianoObject;
+    public GameObject batterieObject;
+
+
+
 
     void Start()
     {
+
+        spawnInstrument("piano");
+        spawnInstrument("batterie");
 
         if (Microphone.devices.Length <= 0)
         {
@@ -87,6 +96,11 @@ public class MainController : MonoBehaviour
             isRecording = !isRecording;  
         });
 
+
+        socket.On("instrument-added", (type) => {
+            
+        });
+
         socket.On("toggle-recording-playback", () =>
         {
             isPlayingRecording = !isPlayingRecording;
@@ -113,6 +127,29 @@ public class MainController : MonoBehaviour
             Debug.Log("Switch track to :" + track);
         });
 
+    }
+
+    void spawnInstrument(String type)
+    {
+        Transform canvas = GameObject.Find("Canvas").transform;
+
+        Debug.Log("Instru added");
+        GameObject go;
+        switch (type)
+        {
+            case "piano":
+                go = GameObject.Instantiate(pianoObject, canvas);
+                go.transform.Find("Piano").gameObject.SetActive(false);
+                break;
+            default:
+            case "batterie":
+                go = GameObject.Instantiate(batterieObject, canvas);
+                go.transform.Find("Batterie").gameObject.SetActive(false);
+
+                break;
+
+        }
+        go.transform.position = new Vector3(UnityEngine.Random.Range(-5f, 5f), UnityEngine.Random.Range(-5f, 5f), UnityEngine.Random.Range(-5f, 5f));
     }
 
     void helpButtonClicked()

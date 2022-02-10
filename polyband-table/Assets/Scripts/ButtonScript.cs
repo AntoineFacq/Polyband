@@ -18,8 +18,8 @@ public class ButtonScript : MonoBehaviour
     {
         batterie = batterieButton.transform.parent.Find("Batterie").gameObject;
         piano = pianoButton.transform.parent.Find("Piano").gameObject;
-        displayBatterie = false;
-        displayPiano = false;
+        displayBatterie = batterie.activeSelf;
+        displayPiano = batterie.activeSelf;
         Button btn1 = batterieButton.GetComponent<Button>();
         btn1.onClick.AddListener(batterieButtonClicked);
         Button btn2 = pianoButton.GetComponent<Button>();
