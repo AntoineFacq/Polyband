@@ -2,6 +2,7 @@
 // using Assets.Scripts;
 using Socket.Quobject.SocketIoClientDotNet.Client;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,11 +14,15 @@ public class MainController : MonoBehaviour
     public float masterVolumeSave = 1F;
     public int trackSelected = -1;
     private int trackSelectedSave = -1;
-    private bool isPlayingMusic = false;
+    private bool isPlayingMusic = true;
     private bool isPlayingMusicSave = false;
     private string newInstru = null;
     private string newInstruSave = null;
     public Button helpButton;
+
+    public Image imageProfComing;
+    public GameObject imageHelpAsked;
+
     public AudioClip[] musics;
     public AudioSource trackAudioSource;
 
@@ -26,6 +31,10 @@ public class MainController : MonoBehaviour
     public bool isRecordingSave = false;
     public bool isPlayingRecording = false;
     public bool isPlayingRecordingSave = false;
+
+    public bool isProfessorComing = false;
+    public bool isProfessorComingSave = false;
+
     private int minFreq;
     private int maxFreq;
 
@@ -54,24 +63,29 @@ public class MainController : MonoBehaviour
 
         if (Microphone.devices.Length <= 0)
         {
-            //Throw a warning message at the console if there isn't  
+            //Throw a warning message at the console if there isn't
             Debug.LogWarning("Microphone not connected!");
         }
         else
         {
             Microphone.GetDeviceCaps(null, out minFreq, out maxFreq);
 
-            //According to the documentation, if minFreq and maxFreq are zero, the microphone supports any frequency...  
+            //According to the documentation, if minFreq and maxFreq are zero, the microphone supports any frequency...
             if (minFreq == 0 && maxFreq == 0)
             {
-                //...meaning 44100 Hz can be used as the recording sampling rate  
+                //...meaning 44100 Hz can be used as the recording sampling rate
                 maxFreq = 44100;
             }
         }
 
         // var ip = "http://localhost:5000";
-        var ip = "http://192.168.43.230:5000";
-        
+        var ip = "http://192.168.1.58:5000";
+
+        this.imageProfComing = GameObject.Find("ProfComingImage").GetComponent<Image>();
+        this.imageHelpAsked = GameObject.Find("HelpAskedImage");
+        this.imageProfComing.enabled = false;
+        this.imageHelpAsked.SetActive(false);
+
         Button btn = helpButton.GetComponent<Button>();
         btn.onClick.AddListener(helpButtonClicked);
 
@@ -95,7 +109,7 @@ public class MainController : MonoBehaviour
         });
 
         socket.On("toggle-record", () => {
-            isRecording = !isRecording;  
+            isRecording = !isRecording;
         });
 
 
@@ -114,7 +128,8 @@ public class MainController : MonoBehaviour
         });
 
         socket.On("select-track", track => {
-            switch(track)
+            isPlayingMusic = true;
+            switch (track)
             {
                 case "track-01":
                     this.trackSelected = 0;
@@ -127,6 +142,11 @@ public class MainController : MonoBehaviour
                     break;
             }
             Debug.Log("Switch track to :" + track);
+        });
+
+        socket.On("teacher-arrives", () =>
+        {
+            isProfessorComing = !isProfessorComing;
         });
 
     }
@@ -156,7 +176,15 @@ public class MainController : MonoBehaviour
 
     void helpButtonClicked()
     {
-        socket.Emit("911 called", "SOS");
+        socket.Emit("table-ask-help");
+        imageHelpAsked.SetActive(true);
+        StartCoroutine(ExecuteAfterTime(10));
+    }
+
+    IEnumerator ExecuteAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        imageHelpAsked.SetActive(false);
     }
 
     private void Update()
@@ -249,7 +277,20 @@ public class MainController : MonoBehaviour
             AudioSource.PlayClipAtPoint(notePlayed, Camera.main.transform.position, this.MasterVolume);
             this.fluteNoteStateSave = this.fluteNoteState;
         }
+        if(isProfessorComing != isProfessorComingSave)
+        {
+            this.imageHelpAsked.SetActive(false);
+            this.imageProfComing.enabled = true;
+            StartCoroutine(ExecuteAfterTime2(10));
+            isProfessorComingSave = isProfessorComing;
+        }
     }
+    IEnumerator ExecuteAfterTime2(float time)
+    {
+        yield return new WaitForSeconds(time);
+        this.imageProfComing.enabled = false;
+    }
+
 
     private void OnDestroy()
     {
