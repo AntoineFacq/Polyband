@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ManageTableService} from "../services/manage-table.service";
 import {MatSliderChange} from "@angular/material/slider";
 import {animate, style, transition, trigger} from "@angular/animations";
@@ -20,11 +20,11 @@ export class Track {
   animations: [
     trigger('slideInOut', [
       transition(':enter', [
-        style({transform: 'translateY(-100%)'}),
+        style({transform: 'translateX(100%)'}),
         animate('200ms ease-in', style({transform: 'translateY(0%)'}))
       ]),
       transition(':leave', [
-        animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
+        animate('200ms ease-in', style({transform: 'translateY(100%)'}))
       ])
     ])
   ]
@@ -33,83 +33,87 @@ export class HomeComponent implements OnInit {
 
   selectedTable: Table;
 
-  message: string = "";
-  connection;
-
-  showHelpAsked: boolean = false;
-
-  volumeValue: number = 50;
-  helpValue: number = 100;
+  helpValue: number = 0;
 
   tables: Table[] = [];
   phones: Phone[] = [];
+
+  tableAskingHelp: Table = undefined;
 
   tracks: Track[] = [
     {value: 'track-01', name: 'Weekend'},
     {value: 'track-02', name: 'Picnic on the Seine'},
     {value: 'track-03', name: 'Inspiring'},
   ];
-  selectedTrack: Track = this.tracks[0]
 
-  interval:any;
+  interval: any;
 
-  constructor(private manageTableService: ManageTableService) { }
+  constructor(private manageTableService: ManageTableService) {
+  }
 
   ngOnInit(): void {
-    this.connection = this.manageTableService.getMessages().subscribe(message => {
-      if(message.type == "911 Call") {
+    this.manageTableService.getMessages().subscribe(message => {
+      if (message.type == "table-ask-help") {
         this.playAudio();
         clearInterval(this.interval);
-        console.log("911 called !")
         this.helpValue = 100;
-        this.showHelpAsked = true;
+        this.tableAskingHelp = this.tables.find(t => t.id === message.tableId);
         this.interval = setInterval(() => {
-          this.helpValue --;
-          if(this.helpValue == 0) {
-            this.showHelpAsked = false;
+          this.helpValue--;
+          if (this.helpValue == 0) {
+            this.tableAskingHelp = undefined;
           }
         }, 125);
-      }
-      else if(message.type == "new-table") {
+      } else if (message.type == "new-table") {
         let table = {...new Table(), id: message.text, number: this.tables.length + 1}
-        this.selectedTable = table
+        if (!this.selectedTable) this.selectedTable = table
         this.tables.push(table);
-      }
-      else if(message.type == "new-phone") {
+      } else if (message.type == "new-phone") {
         let phone = {...new Phone(), id: message.text, number: this.phones.length + 1}
-        if(message.tableId && message.tableId != "") phone = {... phone, table: this.tables.find(t => t.id === message.tableId)};
+        if (message.tableId && message.tableId != "") phone = {
+          ...phone,
+          table: this.tables.find(t => t.id === message.tableId)
+        };
         this.phones.push(phone);
-      }
-      else if(message.type == "phone-leaved") {
+      } else if (message.type == "phone-leaved") {
         this.phones.splice(this.phones.map(p => p.id).indexOf(message.text), 1);
-      }
-      else if(message.type == "table-leaved") {
+      } else if (message.type == "table-leaved") {
         this.tables.splice(this.tables.map(p => p.id).indexOf(message.text), 1);
+        if (this.tables.length == 0) this.selectedTable = undefined
+        else {
+          this.selectedTable = this.tables[0];
+        }
       }
     })
   }
 
-  playAudio(){
+  playAudio() {
     let audio = new Audio();
-    audio.src = "../../assets/audio/notif_2.mp3";
+    audio.src = "../../assets/audio/notif.mp3";
     audio.load();
     audio.play();
   }
 
+  mute() {
+    this.selectedTable.volume = 0;
+    this.manageTableService.setMasterVolume(this.selectedTable.id, 0);
+  }
+
   volumeChanged($event: MatSliderChange) {
-    this.volumeValue = $event.value;
-    this.manageTableService.setMasterVolume(this.selectedTable.id, this.volumeValue);
+    this.selectedTable.volume = $event.value;
+    this.manageTableService.setMasterVolume(this.selectedTable.id, this.selectedTable.volume);
   }
 
   chooseTrack(event: MatSelectChange) {
+    this.selectedTable.selectedTrack = this.tracks.find(t => t.value === event.value);
+    console.log(this.selectedTable.selectedTrack)
+    this.selectedTable.play = true;
     this.manageTableService.selectTrack(this.selectedTable.id, event.value);
   }
 
 
-
-
   selectTable(t: MatTabChangeEvent) {
-    if(t.index < this.tables.length) {
+    if (t.index < this.tables.length) {
       this.selectedTable = this.tables[t.index];
     }
   }
@@ -129,11 +133,10 @@ export class HomeComponent implements OnInit {
 
   drop(event: CdkDragDrop<Phone[]>) {
     let phoneId = event.previousContainer.data[event.previousIndex].id;
-    if((event.container.id).toString().slice(-1) === '0') {
+    if ((event.container.id).toString().slice(-1) === '0') {
       this.manageTableService.assignPhoneToTable(phoneId, undefined);
       this.phones.find(p => p.id === phoneId).table = undefined;
-    }
-    else if(event.previousContainer.id != event.container.id) {
+    } else if (event.previousContainer.id != event.container.id) {
       let table = this.tables.find(t => t.number.toString() === (event.container.id).toString().slice(-1))
       this.manageTableService.assignPhoneToTable(phoneId, table.id)
       this.phones.find(p => p.id === phoneId).table = table;
@@ -157,5 +160,11 @@ export class HomeComponent implements OnInit {
 
   addInstrument(type: string) {
     this.manageTableService.addInstrument(type, this.selectedTable.id);
+  }
+
+  giveHelpFeedback() {
+    this.manageTableService.giveHelpFeedback(this.tableAskingHelp.id);
+    this.tableAskingHelp = undefined;
+    this.helpValue = 0;
   }
 }

@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import io from "socket.io-client";
 import {environment} from "../../environments/environment";
 
 export class SocketMessage {
   type: string;
-  text: string;
+  text?: string;
   tableId?: string;
 }
 
@@ -35,6 +35,9 @@ export class ManageTableService {
       this.socket.on('table-leaved', (data) => {
         observer.next({type: 'table-leaved', text: data});
       });
+      this.socket.on('table-ask-help', (data) => {
+        observer.next({type: 'table-ask-help', tableId: data});
+      });
       return () => {
         this.socket.disconnect();
       };
@@ -42,18 +45,15 @@ export class ManageTableService {
   }
 
   selectTrack(tableId: string, track: string) {
-    console.log("track selected")
     this.socket.emit('select-track', tableId, track)
   }
 
   setMasterVolume(tableId: string, volume: number) {
-    console.log("set master volume to " + volume)
     this.socket.emit('set-master-volume', tableId, volume)
   }
 
   assignPhoneToTable(phoneId: string, tableId: string) {
-    if(tableId != undefined) {
-      console.log("Assign phone " + phoneId + " to table " + tableId);
+    if (tableId != undefined) {
       this.socket.emit('tablet-adds-instrument', tableId, 'phone', phoneId);
     } else {
       this.socket.emit('tablet-unasign-instrument', phoneId);
@@ -75,5 +75,9 @@ export class ManageTableService {
 
   addInstrument(type: string, id: string) {
     this.socket.emit('tablet-adds-instrument', id, type)
+  }
+
+  giveHelpFeedback(tableId: string) {
+    this.socket.emit('teacher-arrives', tableId)
   }
 }

@@ -1,3 +1,5 @@
+import {Track} from "./Track";
+
 export class Device {
   id: string;
   number: number;
@@ -5,9 +7,11 @@ export class Device {
 
 export class Table extends Device {
   type = DeviceType.TABLE;
-  play = false;
+  play = true;
   recording = false;
   playingRecording = false;
+  volume = 100;
+  selectedTrack: Track = new Track();
 }
 
 export class Phone extends Device {
