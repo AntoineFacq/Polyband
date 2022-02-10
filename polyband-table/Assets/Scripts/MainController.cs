@@ -15,6 +15,8 @@ public class MainController : MonoBehaviour
     private int trackSelectedSave = -1;
     private bool isPlayingMusic = false;
     private bool isPlayingMusicSave = false;
+    private string newInstru = null;
+    private string newInstruSave = null;
     public Button helpButton;
     public AudioClip[] musics;
     public AudioSource trackAudioSource;
@@ -97,8 +99,8 @@ public class MainController : MonoBehaviour
         });
 
 
-        socket.On("instrument-added", (type) => {
-            
+        socket.On("instrument-added", type => {
+            newInstru = type.ToString();
         });
 
         socket.On("toggle-recording-playback", () =>
@@ -159,6 +161,13 @@ public class MainController : MonoBehaviour
 
     private void Update()
     {
+
+        if (newInstru != newInstruSave)
+        {
+            this.spawnInstrument(newInstru);
+            newInstru = null;
+            newInstruSave = null;
+        }
         if (isRecording != isRecordingSave)
         {
             if (isRecording)

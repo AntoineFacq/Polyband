@@ -154,4 +154,8 @@ export class HomeComponent implements OnInit {
     this.selectedTable.playingRecording = !this.selectedTable.playingRecording;
     this.manageTableService.playPauseRecording(this.selectedTable.id);
   }
+
+  addInstrument(type: string) {
+    this.manageTableService.addInstrument(type, this.selectedTable.id);
+  }
 }

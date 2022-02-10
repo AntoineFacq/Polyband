@@ -54,6 +54,17 @@
               </button>
             </div>
           </div>
+          <div class="dashboard-card mt-3">
+            <h3>Ajouter un instrument</h3>
+            <div style="text-align: center">
+              <button class="me-3" mat-fab color="primary" (click)="this.addInstrument('piano')">
+                <mat-icon>piano</mat-icon>
+              </button>
+              <button class="me-3" mat-fab color="accent" (click)="this.addInstrument('batterie')">
+                <mat-icon>album</mat-icon>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div style="width: 50%; display: flex; justify-content: center; margin-top: 100px">

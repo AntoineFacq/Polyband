@@ -72,4 +72,8 @@ export class ManageTableService {
   playPauseRecording(id: string) {
     this.socket.emit('play-pause-recording', id)
   }
+
+  addInstrument(type: string, id: string) {
+    this.socket.emit('tablet-adds-instrument', id, type)
+  }
 }

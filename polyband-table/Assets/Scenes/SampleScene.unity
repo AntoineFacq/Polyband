@@ -1609,6 +1609,8 @@ MonoBehaviour:
   fluteSoundE: {fileID: 8300000, guid: 543e293ee0407964d9a541d53635aade, type: 3}
   fluteSoundF: {fileID: 8300000, guid: 2111534381ff7254882f048bd7d000f1, type: 3}
   fluteSoundG: {fileID: 8300000, guid: 97b85293b5d10554d934b8c90a378059, type: 3}
+  pianoObject: {fileID: 1683066698}
+  batterieObject: {fileID: 1080021694}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
