@@ -69,8 +69,8 @@ public class MainController : MonoBehaviour
             }
         }
 
-        var ip = "http://localhost:5000";
-        // var ip = "http://192.168.43.230:5000";
+        // var ip = "http://localhost:5000";
+        var ip = "http://192.168.43.230:5000";
         
         Button btn = helpButton.GetComponent<Button>();
         btn.onClick.AddListener(helpButtonClicked);
