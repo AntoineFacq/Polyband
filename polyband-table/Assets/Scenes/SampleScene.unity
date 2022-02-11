@@ -508,7 +508,7 @@ MonoBehaviour:
   piano: {fileID: 0}
   batterieButton: {fileID: 142449914}
   pianoButton: {fileID: 888721810}
-  reloadButton: {fileID: 0}
+  reloadButton: {fileID: 2082331852}
 --- !u!1 &174438049
 GameObject:
   m_ObjectHideFlags: 0
@@ -3280,8 +3280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ddb75f6c9854242b4ed40094559676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batterie: {fileID: 0}
-  piano: {fileID: 0}
+  batterie: {fileID: 1080021694}
+  piano: {fileID: 1683066698}
   batterieButton: {fileID: 142449914}
   pianoButton: {fileID: 888721810}
   reloadButton: {fileID: 2082331852}
@@ -4698,7 +4698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 238, y: -34}
+  m_AnchoredPosition: {x: 981.00006, y: -376.3999}
   m_SizeDelta: {x: 134, y: 110.77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1356636869
@@ -4979,7 +4979,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -799, y: 254}
+  m_AnchoredPosition: {x: -55.99994, y: -88.3999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1601039327
@@ -5196,7 +5196,6 @@ GameObject:
   - component: {fileID: 1683066701}
   - component: {fileID: 1683066700}
   - component: {fileID: 1683066703}
-  - component: {fileID: 1683066704}
   m_Layer: 5
   m_Name: PianoContainer
   m_TagString: Untagged
@@ -5212,7 +5211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683066698}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 323, y: 136, z: -0}
+  m_LocalPosition: {x: 323, y: 136, z: 0}
   m_LocalScale: {x: 0.74, y: 0.74, z: 1}
   m_Children:
   - {fileID: 1704876676}
@@ -5315,32 +5314,6 @@ MonoBehaviour:
   onSelectedFingerUp:
     m_PersistentCalls:
       m_Calls: []
---- !u!61 &1683066704
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683066698}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 186.8, y: 95.73}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 900.2, y: 303.1}
-  m_EdgeRadius: 0
 --- !u!1 &1690225229
 GameObject:
   m_ObjectHideFlags: 0
@@ -5566,7 +5539,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 29.811584
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -5631,7 +5604,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 1.1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -6764,7 +6737,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 347.99994, y: -33.600098}
+  m_AnchoredPosition: {x: 1091, y: -376}
   m_SizeDelta: {x: 134, y: 110.77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2082331852
@@ -7046,7 +7019,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -800, y: 378}
+  m_AnchoredPosition: {x: -56.99994, y: 35.600098}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2105438642
