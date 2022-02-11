@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer couac;
     boolean askedHelp = false;
 
-    private static final int POLL_INTERVAL = 800;
+    private static final int POLL_INTERVAL = 600;
     private final Handler mHandler = new Handler();
 
     SoundMeter soundMeter;
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean check_blow(){
-        if(allow_blow && present_amp > 8.00){
+        if(allow_blow && present_amp > 8.50){
             return true;
         } else return !allow_blow;
 
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 mp1 = MediaPlayer.create(getApplicationContext(), R.raw.f_c);
             }
             mp1.start();
+            Log.i("Note", "Flute played note 1.");
             System.out.println("Flute played note 1.");
             mSocket.emit("phone-note-played", "C note");
         }else{
@@ -137,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
                 mp2 = MediaPlayer.create(getApplicationContext(), R.raw.f_d);
             }
             mp2.start();
-            System.out.println("Flute played note 2.");
+            Log.i("Note", "Flute played note 2.");
+            //System.out.println("Flute played note 2.");
             mSocket.emit("phone-note-played", "D note");
         }else{
             if (couac.isPlaying()) {
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 mp3 = MediaPlayer.create(getApplicationContext(), R.raw.f_e);
             }
             mp3.start();
+            Log.i("Note", "Flute played note 3.");
             System.out.println("Flute played note 3.");
             mSocket.emit("phone-note-played", "E note");
         }else {
@@ -178,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 mp3 = MediaPlayer.create(getApplicationContext(), R.raw.f_f);
             }
             mp3.start();
+            Log.i("Note", "Flute played note 4.");
             System.out.println("Flute played note 4.");
             mSocket.emit("phone-note-played", "F note");
         }else {
@@ -199,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 mp4 = MediaPlayer.create(getApplicationContext(), R.raw.f_g);
             }
             mp4.start();
+            Log.i("Note", "Flute played note 5.");
             System.out.println("Flute played note 5.");
             mSocket.emit("phone-note-played", "G note");
         }else {

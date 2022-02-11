@@ -18,7 +18,7 @@ import java.io.IOException;
 public class SoundMeter extends AppCompatActivity {
 
     // This file is used to record voice
-    private static final int POLL_INTERVAL = 800;
+    private static final int POLL_INTERVAL = 600;
     static final private double EMA_FILTER = 0.6;
     private final Handler mHandler = new Handler();
     private MediaRecorder mRecorder = null;
