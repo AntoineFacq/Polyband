@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
                     if (devices[d].type === "table") {
                         socket.emit("new-table", d)
                     } else {
-                        socket.emit("new-phone", d)
+                        socket.emit("new-phone", d, devices[d].tableId)
                     }
                 }
                 break;
@@ -130,12 +130,22 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('tablet-unasign-instrument', (instrumentId) => {
+        if (devices[instrumentId]) {
+            console.log("Instrument with id " + instrumentId + " unasigned.");
+            devices[instrumentId].tableId = undefined;
+        }
+    });
+
 
     /**************** EVENTS ************************/
 
 
     socket.on('select-track', (tableId, trackId) => {
-        devices[tableId].socket.emit('select-track', trackId);
+        if(devices[tableId]) {
+            devices[tableId].play = true;
+            devices[tableId].socket.emit('select-track', trackId);
+        }
     });
 
     /**
@@ -143,16 +153,20 @@ io.on('connection', (socket) => {
      */
     socket.on('set-master-volume', (tableId, volume) => {
         console.log("Set master volume of table " + tableId + " to " + volume);
-        devices[tableId].socket.emit('set-master-volume', volume / 100);
+        if(devices[tableId]) {
+            devices[tableId].socket.emit('set-master-volume', volume / 100);
+        }
     });
 
     /**
      * Toggle the music on/off on a [tableId]
      */
     socket.on('tablet-play-pause', (tableId) => {
-        devices[tableId].play = !devices[tableId].play;
-        devices[tableId].socket.emit('table-start-stop-music', devices[tableId].play);
-        console.log("Playing: " + devices[tableId].play);
+        if(devices[tableId]) {
+            devices[tableId].play = !devices[tableId].play;
+            devices[tableId].socket.emit('table-start-stop-music', devices[tableId].play);
+            console.log("Playing: " + devices[tableId].play);
+        }
     });
 
 
@@ -160,7 +174,9 @@ io.on('connection', (socket) => {
      * Toggle the recording on/off on a [tableId]
      */
     socket.on('start-stop-recording', (tableId) => {
-        devices[tableId].socket.emit('toggle-record');
+        if(devices[tableId]) {
+            devices[tableId].socket.emit('toggle-record');
+        }
     });
 
 
@@ -168,7 +184,9 @@ io.on('connection', (socket) => {
      * Toggle the playing of the recording on/off on a [tableId]
      */
     socket.on('play-pause-recording', (tableId) => {
-        devices[tableId].socket.emit('toggle-recording-playback');
+        if(devices[tableId]) {
+            devices[tableId].socket.emit('toggle-recording-playback');
+        }
     });
 
 
@@ -178,18 +196,12 @@ io.on('connection', (socket) => {
     /**
      * When the student calls help
      */
-    socket.on('911 called', (message) => {
+    socket.on('table-ask-help', () => {
         if(tablet) {
-            tablet.socket.emit('message', {
-                tableId: socket.id, // Indicate which table it is coming from
-                type: '911 Call',
-                text: "A student called 911 !"
-            });
-            console.log(message);
+            tablet.socket.emit('table-ask-help', socket.id);
         } else {
             console.log("Tablet not associated yet !")
         }
-
     });
 
     /**
@@ -197,8 +209,10 @@ io.on('connection', (socket) => {
      *
      * Received from the tablet, then transmitted to the table by the server
      */
-    socket.on('confirm-911-call', (tableId) => {
-        devices[tableId].socket.emit('teacher-arrives');
+    socket.on('teacher-arrives', (tableId) => {
+        if(devices[tableId]) {
+            devices[tableId].socket.emit('teacher-arrives');
+        }
     });
 
     /**

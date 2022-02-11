@@ -5,51 +5,36 @@
       <div class="m-4 d-flex justify-content-between">
 
         <div class="d-flex flex-column">
-          <div class="dashboard-card align-self-start">
-            <div class="d-flex">
-              <ng-container>
-                <span *ngIf="volumeValue>=50" class="material-icons-round">volume_up</span>
-                <span *ngIf="volumeValue<50 && volumeValue != 0" class="material-icons-round">volume_down</span>
-                <span *ngIf="volumeValue==0" class="material-icons-round">volume_mute</span>
-              </ng-container>
-
-              <mat-slider
-                (input)="volumeChanged($event)"
-                [value]="volumeValue"
-                class="w-100"
-                thumbLabel
-                step="1"
-                min="0"
-                max="100"
-                aria-label="units"></mat-slider>
-            </div>
-
-
-          </div>
 
           <div class="dashboard-card mt-3">
             <h3>Accompagnement musical</h3>
             <mat-form-field appearance="fill">
               <mat-label>Titre</mat-label>
-              <mat-select (selectionChange)="this.chooseTrack($event)" [(ngModel)]="selectedTrack">
+              <mat-select (selectionChange)="this.chooseTrack($event)"
+                          [(ngModel)]="this.selectedTable.selectedTrack.value">
                 <mat-option *ngFor="let track of tracks" [value]="track.value">
                   {{track.name}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div style="text-align: center">
-              <button mat-fab color="primary" (click)="this.playPauseTrack()" aria-label="Example icon button with a delete icon">
+            <div style="text-align: center" *ngIf="this.selectedTable.selectedTrack.value">
+              <button mat-fab color="primary" (click)="this.playPauseTrack()"
+                      aria-label="Example icon button with a delete icon">
                 <mat-icon>{{selectedTable.play ? "pause" : "play_arrow"}}</mat-icon>
               </button>
             </div>
           </div>
-          <div class="dashboard-card mt-3">
+          <div class="dashboard-card mt-3 d-none">
             <h3>Enregistrement</h3>
             <div style="text-align: center">
-              <button [class.large]="selectedTable.recording" *ngIf="!selectedTable.playingRecording" class="me-3" mat-fab color="warn" (click)="this.startStopRecording()" aria-label="Example icon button with a delete icon">
+              <button [class.large-btn]="selectedTable.recording" *ngIf="!selectedTable.playingRecording" class="me-3"
+                      mat-fab color="warn" (click)="this.startStopRecording()"
+                      aria-label="Example icon button with a delete icon">
                 <mat-icon>{{selectedTable.recording ? "mic_off" : "mic"}}</mat-icon>
               </button>
-              <button *ngIf="!selectedTable.recording" [class.large]="selectedTable.playingRecording" mat-fab color="primary" (click)="this.playPauseRecording()" aria-label="Example icon button with a delete icon">
+              <button *ngIf="!selectedTable.recording" [class.large-btn]="selectedTable.playingRecording" mat-fab
+                      color="primary" (click)="this.playPauseRecording()"
+                      aria-label="Example icon button with a delete icon">
                 <mat-icon>{{selectedTable.playingRecording ? "pause" : "play_arrow"}}</mat-icon>
               </button>
             </div>
@@ -67,15 +52,38 @@
           </div>
         </div>
 
-        <div style="width: 50%; display: flex; justify-content: center; margin-top: 100px">
-          <img src="assets/table.png" style="width: 50%; ">
+        <div class="d-flex flex-column align-items-center mt-3">
+          <img src="assets/table.png" style="width: 60%; ">
+          <div class="dashboard-card w-50 mt-4">
+            <div class="d-flex">
+              <ng-container>
+                <span (click)="mute()" *ngIf="this.selectedTable.volume>=50" class="material-icons-round"
+                      style="cursor: pointer">volume_up</span>
+                <span (click)="mute()" *ngIf="this.selectedTable.volume<50 && this.selectedTable.volume != 0"
+                      class="material-icons-round"
+                      style="cursor: pointer">volume_down</span>
+                <span *ngIf="this.selectedTable.volume==0" class="material-icons-round" style="cursor: pointer">volume_off</span>
+              </ng-container>
+
+              <mat-slider
+                (input)="volumeChanged($event)"
+                [value]="this.selectedTable.volume"
+                class="w-100"
+                thumbLabel
+                step="1"
+                min="0"
+                max="100"
+                aria-label="units"></mat-slider>
+            </div>
+          </div>
         </div>
 
 
-        <div class="dashboard-card ms-4 align-self-start">
+        <div class="dashboard-card align-self-start">
           <h3>Informations</h3>
           <span class="dot green"></span> <span class="ms-2">Table active : #{{t.number}} - ({{t.id}})</span>
-          <h4 class="mt-2">Appareils associés</h4>
+          <h4 class="mt-2"
+              [innerHTML]="this.phones.length > 0 ? 'Appareils associés' : '<i>Aucun appareil associé</i>'"></h4>
           <div *ngFor="let p of getPhonesAssociatedToTable(this.selectedTable)" class="ms-3">
             <span class="dot green"></span> <span class="ms-2">Phone {{p.number}} - ({{p.id}})</span>
           </div>
@@ -96,17 +104,20 @@
       </div>
 
 
-      <div class="help-box" cdkDrag *ngIf="this.showHelpAsked" [@slideInOut]>
+      <div class="help-box" cdkDrag *ngIf="this.tableAskingHelp" [@slideInOut]>
         <mat-progress-bar mode="determinate" [value]="helpValue"></mat-progress-bar>
-        <h2>Table 1 a besoin d'aide</h2>
+        <h2>Table {{tableAskingHelp.number}} a besoin d'aide</h2>
+        <div class="d-flex justify-content-end ">
+          <button mat-raised-button color="primary" (click)="giveHelpFeedback()">J'arrive</button>
+        </div>
       </div>
 
 
     </mat-tab>
-    <mat-tab label="Configuration">
+    <mat-tab label="Configuration des flûtes">
       <div class="m-4">
 
-        <h2 *ngIf="this.phones.length == 0">Aucuné flute détectée.</h2>
+        <h2 *ngIf="this.phones.length == 0">Aucune flute détectée.</h2>
         <div *ngIf="this.phones.length > 0">
           <div cdkDropListGroup>
 

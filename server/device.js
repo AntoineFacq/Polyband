@@ -26,7 +26,7 @@ class Table extends Device{
 
     trackId = 0;
 
-    play = false;
+    play = true;
 
     instruments = []
 
