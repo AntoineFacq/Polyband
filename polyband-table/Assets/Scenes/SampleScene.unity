@@ -3644,7 +3644,7 @@ MonoBehaviour:
     RequiredMouseButtons: 0
     RequiredSelectable: {fileID: 0}
   _camera: {fileID: 0}
-  relative: 0
+  relative: 1
   sensitivity: 1
   damping: -1
   remainingScale: {x: 0, y: 0, z: 0}
@@ -5285,7 +5285,7 @@ MonoBehaviour:
     RequiredMouseButtons: 0
     RequiredSelectable: {fileID: 0}
   _camera: {fileID: 0}
-  relative: 0
+  relative: 1
   sensitivity: 1
   damping: -1
   remainingScale: {x: 0, y: 0, z: 0}
