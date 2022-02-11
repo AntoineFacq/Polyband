@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSocket.on("confirm-911-call", onConfirm911);
+        mSocket.on("teacher-arrives", onConfirm911);
         mSocket.connect();
         mSocket.emit("connected-device", "phone");
 
@@ -95,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.asking_help) {
             System.out.println("Help asked.");
-            String message = "Flute needs help.";
-            mSocket.emit("911 called", message);
+            mSocket.emit("table-ask-help");
             askedHelp = true;
             return true;
         }
