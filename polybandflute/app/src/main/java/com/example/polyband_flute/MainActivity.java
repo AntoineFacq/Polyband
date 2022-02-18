@@ -228,6 +228,54 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void play_s6(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.f_b);
+        if(check_blow()) {
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_b);
+            }
+            mp.start();
+            Log.i("Note", "Flute played note 6.");
+            System.out.println("Flute played note 6.");
+            mSocket.emit("phone-note-played", "B note");
+        }else {
+            if (couac.isPlaying()) {
+                couac.reset();
+                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
+            }
+            couac.start();
+            System.out.println("Flute played note couac.");
+            mSocket.emit("phone-note-played", "Couac note");
+        }
+
+    }
+
+    public void play_s7(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.f_a);
+        if(check_blow()) {
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_a);
+            }
+            mp.start();
+            Log.i("Note", "Flute played note 6.");
+            System.out.println("Flute played note 6.");
+            mSocket.emit("phone-note-played", "A note");
+        }else {
+            if (couac.isPlaying()) {
+                couac.reset();
+                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
+            }
+            couac.start();
+            System.out.println("Flute played note couac.");
+            mSocket.emit("phone-note-played", "Couac note");
+        }
+
+    }
+
     public void start_blow(View v){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {

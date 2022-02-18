@@ -64,6 +64,35 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
+        android:id="@+id/note6"
+        android:layout_width="67dp"
+        android:layout_height="61dp"
+        android:background="@android:color/transparent"
+        android:onClick="play_s6"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/flute"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flute"
+        app:layout_constraintVertical_bias="0.203"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/note7"
+        android:layout_width="67dp"
+        android:layout_height="61dp"
+        android:background="@android:color/transparent"
+        android:onClick="play_s7"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/flute"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flute"
+        app:layout_constraintVertical_bias="0.328"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
         android:id="@+id/note2"
         android:layout_width="73dp"
         android:layout_height="71dp"
