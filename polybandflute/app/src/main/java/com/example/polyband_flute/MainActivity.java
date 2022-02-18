@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer mp3;
     MediaPlayer mp4;
     MediaPlayer mp5;*/
-    MediaPlayer couac;
     boolean askedHelp = false;
 
     private static final int POLL_INTERVAL = 600;
@@ -68,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
         mp3 = MediaPlayer.create(this, R.raw.f_e);
         mp4 = MediaPlayer.create(this, R.raw.f_f);
         mp5 = MediaPlayer.create(this, R.raw.f_g);*/
-        mp = MediaPlayer.create(this, R.raw.couac);
-        couac = MediaPlayer.create(this, R.raw.couac);
+        mp = MediaPlayer.create(this, R.raw.f_g);
 
         soundMeter = new SoundMeter();
     }
@@ -122,14 +120,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Note", "Flute played note 1.");
             System.out.println("Flute played note 1.");
             mSocket.emit("phone-note-played", "C note");
-        }else{
-            if (couac.isPlaying()) {
-                couac.reset();
-                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
-            }
-            couac.start();
-            System.out.println("Flute played note couac.");
-            mSocket.emit("phone-note-played", "Couac note");
         }
     }
 
@@ -145,14 +135,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Note", "Flute played note 2.");
             //System.out.println("Flute played note 2.");
             mSocket.emit("phone-note-played", "D note");
-        }else{
-            if (couac.isPlaying()) {
-                couac.reset();
-                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
-            }
-            couac.start();
-            System.out.println("Flute played note couac.");
-            mSocket.emit("phone-note-played", "Couac note");
         }
     }
 
@@ -168,14 +150,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Note", "Flute played note 3.");
             System.out.println("Flute played note 3.");
             mSocket.emit("phone-note-played", "E note");
-        }else {
-            if (couac.isPlaying()) {
-                couac.reset();
-                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
-            }
-            couac.start();
-            System.out.println("Flute played note couac.");
-            mSocket.emit("phone-note-played", "Couac note");
         }
 
     }
@@ -192,14 +166,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Note", "Flute played note 4.");
             System.out.println("Flute played note 4.");
             mSocket.emit("phone-note-played", "F note");
-        }else {
-            if (couac.isPlaying()) {
-                couac.reset();
-                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
-            }
-            couac.start();
-            System.out.println("Flute played note couac.");
-            mSocket.emit("phone-note-played", "Couac note");
         }
 
     }
@@ -216,14 +182,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Note", "Flute played note 5.");
             System.out.println("Flute played note 5.");
             mSocket.emit("phone-note-played", "G note");
-        }else {
-            if (couac.isPlaying()) {
-                couac.reset();
-                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
-            }
-            couac.start();
-            System.out.println("Flute played note couac.");
-            mSocket.emit("phone-note-played", "Couac note");
         }
 
     }
@@ -240,14 +198,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Note", "Flute played note 6.");
             System.out.println("Flute played note 6.");
             mSocket.emit("phone-note-played", "B note");
-        }else {
-            if (couac.isPlaying()) {
-                couac.reset();
-                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
-            }
-            couac.start();
-            System.out.println("Flute played note couac.");
-            mSocket.emit("phone-note-played", "Couac note");
         }
 
     }
@@ -264,14 +214,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Note", "Flute played note 6.");
             System.out.println("Flute played note 6.");
             mSocket.emit("phone-note-played", "A note");
-        }else {
-            if (couac.isPlaying()) {
-                couac.reset();
-                couac = MediaPlayer.create(getApplicationContext(), R.raw.couac);
-            }
-            couac.start();
-            System.out.println("Flute played note couac.");
-            mSocket.emit("phone-note-played", "Couac note");
         }
 
     }
@@ -285,7 +227,6 @@ public class MainActivity extends AppCompatActivity {
             if (allow_blow){
                 mHandler.removeCallbacks(mRunnable);
                 soundMeter.stop();
-                couac.release();
                 allow_blow = false;
                 present_amp = 0.0;
             } else {
@@ -310,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         mp = null;
-        couac = null;
         mSocket.emit("disconnect", "phone");
         mSocket.disconnect();
         super.onDestroy();
