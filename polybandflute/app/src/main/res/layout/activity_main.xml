@@ -8,10 +8,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="?attr/colorPrimary"
+        android:background="@android:color/holo_purple"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         app:titleTextColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
