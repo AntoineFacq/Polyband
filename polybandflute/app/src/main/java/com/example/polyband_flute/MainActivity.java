@@ -211,8 +211,8 @@ public class MainActivity extends AppCompatActivity {
                 mp = MediaPlayer.create(getApplicationContext(), R.raw.f_a);
             }
             mp.start();
-            Log.i("Note", "Flute played note 6.");
-            System.out.println("Flute played note 6.");
+            Log.i("Note", "Flute played note 7.");
+            System.out.println("Flute played note 7.");
             mSocket.emit("phone-note-played", "A note");
         }
 
