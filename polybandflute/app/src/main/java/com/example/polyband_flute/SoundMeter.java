@@ -47,8 +47,6 @@ public class SoundMeter extends AppCompatActivity {
                 try {
                     mRecorder.prepare();
                 } catch (IllegalStateException | IOException e) {
-                    // TODO Auto-generated catch block
-
                     e.printStackTrace();
                 }
 

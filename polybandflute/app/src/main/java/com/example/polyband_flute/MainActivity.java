@@ -27,11 +27,11 @@ import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
 
-    MediaPlayer mp1;
-    MediaPlayer mp2;
+    MediaPlayer mp;
+    /**MediaPlayer mp2;
     MediaPlayer mp3;
     MediaPlayer mp4;
-    MediaPlayer mp5;
+    MediaPlayer mp5;*/
     MediaPlayer couac;
     boolean askedHelp = false;
 
@@ -63,11 +63,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mp1 = MediaPlayer.create(this, R.raw.f_c);
+       /** mp1 = MediaPlayer.create(this, R.raw.f_c);
         mp2 = MediaPlayer.create(this, R.raw.f_d);
         mp3 = MediaPlayer.create(this, R.raw.f_e);
         mp4 = MediaPlayer.create(this, R.raw.f_f);
-        mp5 = MediaPlayer.create(this, R.raw.f_g);
+        mp5 = MediaPlayer.create(this, R.raw.f_g);*/
+        mp = MediaPlayer.create(this, R.raw.couac);
         couac = MediaPlayer.create(this, R.raw.couac);
 
         soundMeter = new SoundMeter();
@@ -110,12 +111,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void play_s1(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.f_c);
         if(check_blow()) {
-            if (mp1.isPlaying()) {
-                mp1.reset();
-                mp1 = MediaPlayer.create(getApplicationContext(), R.raw.f_c);
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_c);
             }
-            mp1.start();
+            mp.start();
             Log.i("Note", "Flute played note 1.");
             System.out.println("Flute played note 1.");
             mSocket.emit("phone-note-played", "C note");
@@ -131,12 +134,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void play_s2(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.f_d);
         if(check_blow()) {
-            if (mp2.isPlaying()) {
-                mp2.reset();
-                mp2 = MediaPlayer.create(getApplicationContext(), R.raw.f_d);
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_d);
             }
-            mp2.start();
+            mp.start();
             Log.i("Note", "Flute played note 2.");
             //System.out.println("Flute played note 2.");
             mSocket.emit("phone-note-played", "D note");
@@ -152,12 +157,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void play_s3(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.f_e);
         if(check_blow()) {
-            if (mp3.isPlaying()) {
-                mp3.reset();
-                mp3 = MediaPlayer.create(getApplicationContext(), R.raw.f_e);
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_e);
             }
-            mp3.start();
+            mp.start();
             Log.i("Note", "Flute played note 3.");
             System.out.println("Flute played note 3.");
             mSocket.emit("phone-note-played", "E note");
@@ -174,12 +181,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void play_s4(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.f_f);
         if(check_blow()) {
-            if (mp3.isPlaying()) {
-                mp3.reset();
-                mp3 = MediaPlayer.create(getApplicationContext(), R.raw.f_f);
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_f);
             }
-            mp3.start();
+            mp.start();
             Log.i("Note", "Flute played note 4.");
             System.out.println("Flute played note 4.");
             mSocket.emit("phone-note-played", "F note");
@@ -196,12 +205,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void play_s5(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.f_g);
         if(check_blow()) {
-            if (mp4.isPlaying()) {
-                mp4.reset();
-                mp4 = MediaPlayer.create(getApplicationContext(), R.raw.f_g);
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_g);
             }
-            mp4.start();
+            mp.start();
             Log.i("Note", "Flute played note 5.");
             System.out.println("Flute played note 5.");
             mSocket.emit("phone-note-played", "G note");
@@ -226,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
             if (allow_blow){
                 mHandler.removeCallbacks(mRunnable);
                 soundMeter.stop();
+                couac.release();
                 allow_blow = false;
                 present_amp = 0.0;
             } else {
@@ -249,6 +261,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
+        mp = null;
+        couac = null;
         mSocket.emit("disconnect", "phone");
         mSocket.disconnect();
         super.onDestroy();
