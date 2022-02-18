@@ -3619,8 +3619,8 @@ MonoBehaviour:
     RequiredSelectable: {fileID: 1080021699}
   _camera: {fileID: 0}
   sensitivity: 1
-  damping: -1
-  inertia: 0
+  damping: 10
+  inertia: 0.08
   remainingTranslation: {x: 0, y: 0, z: 0}
 --- !u!114 &1080021698
 MonoBehaviour:
@@ -4673,7 +4673,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 981.00006, y: -376.3999}
+  m_AnchoredPosition: {x: 981.00006, y: -372}
   m_SizeDelta: {x: 134, y: 110.77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1356636869
@@ -4801,9 +4801,9 @@ MonoBehaviour:
     RequiredMouseButtons: 0
     RequiredSelectable: {fileID: 1356636872}
   _camera: {fileID: 0}
-  sensitivity: 1
-  damping: -1
-  inertia: 0
+  sensitivity: 2
+  damping: 10
+  inertia: 0.11
   remainingTranslation: {x: 0, y: 0, z: 0}
 --- !u!1 &1505725289
 GameObject:
@@ -5286,8 +5286,8 @@ MonoBehaviour:
     RequiredSelectable: {fileID: 1683066703}
   _camera: {fileID: 0}
   sensitivity: 1
-  damping: -1
-  inertia: 0
+  damping: 10
+  inertia: 0.06
   remainingTranslation: {x: 0, y: 0, z: 0}
 --- !u!114 &1683066702
 MonoBehaviour:
@@ -5306,7 +5306,7 @@ MonoBehaviour:
     IgnoreStartedOverGui: 1
     RequiredFingerCount: 0
     RequiredMouseButtons: 0
-    RequiredSelectable: {fileID: 0}
+    RequiredSelectable: {fileID: 1683066703}
   _camera: {fileID: 0}
   relative: 1
   sensitivity: 1
