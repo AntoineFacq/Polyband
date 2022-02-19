@@ -1,17 +1,10 @@
 package com.example.polyband_flute;
 
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -23,6 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +28,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
+public class TransverseFlute extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     MediaPlayer mp;
     boolean askedHelp = false;
 
@@ -61,11 +57,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mSocket.connect();
         mSocket.emit("connected-device", "phone");
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.transverse_flute);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mp = MediaPlayer.create(this, R.raw.f_g);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_g5);
 
         soundMeter = new SoundMeter();
     }
@@ -88,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         MenuItem item = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner) item.getActionView();
         spinner.setOnItemSelectedListener(this);
-        instruments.add("Flute");
         instruments.add("Flute transverse");
+        instruments.add("Flute");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, instruments);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -116,110 +112,110 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void play_s1(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_c);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_c5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_c);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_c5);
             }
             mp.start();
             Log.i("Note", "Flute played note 1.");
             System.out.println("Flute played note 1.");
-            mSocket.emit("phone-note-played", "C note");
+            mSocket.emit("phone-note-played", "Transverse C note");
         }
     }
 
     public void play_s2(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_d);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_d5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_d);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_d5);
             }
             mp.start();
             Log.i("Note", "Flute played note 2.");
             //System.out.println("Flute played note 2.");
-            mSocket.emit("phone-note-played", "D note");
+            mSocket.emit("phone-note-played", "Transverse D note");
         }
     }
 
     public void play_s3(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_e);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_e5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_e);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_e5);
             }
             mp.start();
             Log.i("Note", "Flute played note 3.");
             System.out.println("Flute played note 3.");
-            mSocket.emit("phone-note-played", "E note");
+            mSocket.emit("phone-note-played", "Transverse E note");
         }
 
     }
 
     public void play_s4(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_f);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_f5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_f);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_f5);
             }
             mp.start();
             Log.i("Note", "Flute played note 4.");
             System.out.println("Flute played note 4.");
-            mSocket.emit("phone-note-played", "F note");
+            mSocket.emit("phone-note-played", "Transverse F note");
         }
 
     }
 
     public void play_s5(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_g);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_g5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_g);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_g5);
             }
             mp.start();
             Log.i("Note", "Flute played note 5.");
             System.out.println("Flute played note 5.");
-            mSocket.emit("phone-note-played", "G note");
+            mSocket.emit("phone-note-played", "Transverse G note");
         }
 
     }
 
     public void play_s6(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_b);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_b5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_b);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_b5);
             }
             mp.start();
             Log.i("Note", "Flute played note 6.");
             System.out.println("Flute played note 6.");
-            mSocket.emit("phone-note-played", "B note");
+            mSocket.emit("phone-note-played", "Transverse B note");
         }
 
     }
 
     public void play_s7(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_a);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_a5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_a);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_a5);
             }
             mp.start();
             Log.i("Note", "Flute played note 7.");
             System.out.println("Flute played note 7.");
-            mSocket.emit("phone-note-played", "A note");
+            mSocket.emit("phone-note-played", "Transverse A note");
         }
 
     }
@@ -269,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
         switch(i) {
             case 1:
-                Intent in = new Intent(this, TransverseFlute.class);
+                Intent in = new Intent(this, MainActivity.class);
                 startActivity(in);
         }
     }

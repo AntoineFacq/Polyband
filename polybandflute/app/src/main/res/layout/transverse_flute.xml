@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TransverseFlute">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@android:color/holo_purple"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        app:titleTextColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        tools:ignore="MissingConstraints"/>
+
+    <ImageView
+        android:id="@+id/flute_transverse"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="flute bckg"
+        android:rotation="180"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/flute2" />
+
+    <Button
+        android:id="@+id/note9"
+        android:layout_width="43dp"
+        android:layout_height="45dp"
+        android:background="@android:color/transparent"
+        android:onClick="play_s2"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/note10"
+        android:layout_width="46dp"
+        android:layout_height="51dp"
+        android:background="@android:color/transparent"
+        android:onClick="play_s3"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintVertical_bias="0.419"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/note11"
+        android:layout_width="50dp"
+        android:layout_height="46dp"
+        android:background="@android:color/transparent"
+        android:onClick="play_s4"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintVertical_bias="0.332"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/note12"
+        android:layout_width="53dp"
+        android:layout_height="55dp"
+        android:background="@android:color/transparent"
+        android:onClick="play_s5"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintVertical_bias="0.238"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/note13"
+        android:layout_width="49dp"
+        android:layout_height="53dp"
+        android:background="@android:color/transparent"
+        android:onClick="play_s7"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintVertical_bias="0.129"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Switch
+        android:id="@+id/switch_blow"
+        android:layout_width="95dp"
+        android:layout_height="48dp"
+        android:text="@string/blow"
+        android:onClick="start_blow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/flute_transverse"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.089"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <Button
+        android:id="@+id/note8"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:background="@android:color/transparent"
+        android:onClick="play_s1"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintVertical_bias="0.577"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
