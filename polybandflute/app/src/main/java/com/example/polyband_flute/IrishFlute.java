@@ -28,7 +28,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class TransverseFlute extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     MediaPlayer mp;
     boolean askedHelp = false;
 
@@ -57,7 +57,7 @@ public class TransverseFlute extends AppCompatActivity implements AdapterView.On
         mSocket.connect();
         mSocket.emit("connected-device", "phone");
 
-        setContentView(R.layout.transverse_flute);
+        setContentView(R.layout.irish_flute);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

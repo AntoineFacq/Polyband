@@ -6,12 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -269,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
         switch(i) {
             case 1:
-                Intent in = new Intent(this, TransverseFlute.class);
+                Intent in = new Intent(this, IrishFlute.class);
                 startActivity(in);
         }
     }
