@@ -18,7 +18,7 @@
         tools:ignore="MissingConstraints"/>
 
     <ImageView
-        android:id="@+id/flute_transverse"
+        android:id="@+id/irish_flute"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="flute bckg"
@@ -39,11 +39,11 @@
         android:background="@android:color/transparent"
         android:onClick="play_s2"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintBottom_toBottomOf="@+id/irish_flute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintTop_toTopOf="@+id/irish_flute"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
@@ -53,11 +53,11 @@
         android:background="@android:color/transparent"
         android:onClick="play_s3"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintBottom_toBottomOf="@+id/irish_flute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintTop_toTopOf="@+id/irish_flute"
         app:layout_constraintVertical_bias="0.419"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -68,11 +68,11 @@
         android:background="@android:color/transparent"
         android:onClick="play_s4"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintBottom_toBottomOf="@+id/irish_flute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintTop_toTopOf="@+id/irish_flute"
         app:layout_constraintVertical_bias="0.332"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -83,11 +83,11 @@
         android:background="@android:color/transparent"
         android:onClick="play_s5"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintBottom_toBottomOf="@+id/irish_flute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintTop_toTopOf="@+id/irish_flute"
         app:layout_constraintVertical_bias="0.238"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -98,11 +98,11 @@
         android:background="@android:color/transparent"
         android:onClick="play_s7"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintBottom_toBottomOf="@+id/irish_flute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintTop_toTopOf="@+id/irish_flute"
         app:layout_constraintVertical_bias="0.129"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -113,7 +113,7 @@
         android:text="@string/blow"
         android:onClick="start_blow"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/flute_transverse"
+        app:layout_constraintEnd_toEndOf="@+id/irish_flute"
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -127,11 +127,11 @@
         android:background="@android:color/transparent"
         android:onClick="play_s1"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@+id/flute_transverse"
+        app:layout_constraintBottom_toBottomOf="@+id/irish_flute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flute_transverse"
+        app:layout_constraintTop_toTopOf="@+id/irish_flute"
         app:layout_constraintVertical_bias="0.577"
         tools:ignore="SpeakableTextPresentCheck" />
 

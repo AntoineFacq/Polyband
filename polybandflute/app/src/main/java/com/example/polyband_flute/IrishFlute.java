@@ -84,7 +84,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         MenuItem item = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner) item.getActionView();
         spinner.setOnItemSelectedListener(this);
-        instruments.add("Flute transverse");
+        instruments.add("Flute irlandaise");
         instruments.add("Flute");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, instruments);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -135,7 +135,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
             }
             mp.start();
             Log.i("Note", "Flute played note 2.");
-            //System.out.println("Flute played note 2.");
+            System.out.println("Flute played note 2.");
             mSocket.emit("phone-note-played", "Transverse D note");
         }
     }

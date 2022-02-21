@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Spinner spinner = (Spinner) item.getActionView();
         spinner.setOnItemSelectedListener(this);
         instruments.add("Flute");
-        instruments.add("Flute transverse");
+        instruments.add("Flute irlandaise");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, instruments);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
