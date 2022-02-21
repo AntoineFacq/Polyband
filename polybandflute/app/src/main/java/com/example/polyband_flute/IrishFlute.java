@@ -57,9 +57,13 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         mSocket.connect();
         mSocket.emit("connected-device", "phone");
 
+        instruments.add("Flute irlandaise");
+        instruments.add("Flute");
+
         setContentView(R.layout.irish_flute);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mp = MediaPlayer.create(this, R.raw.transverse_flute_g5);
 
@@ -80,12 +84,10 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_irish_flute, menu);
         MenuItem item = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner) item.getActionView();
         spinner.setOnItemSelectedListener(this);
-        instruments.add("Flute irlandaise");
-        instruments.add("Flute");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, instruments);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -190,22 +192,6 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
 
     public void play_s6(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.transverse_flute_b5);
-        if(check_blow()) {
-            if (mp.isPlaying()) {
-                mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_b5);
-            }
-            mp.start();
-            Log.i("Note", "Flute played note 6.");
-            System.out.println("Flute played note 6.");
-            mSocket.emit("phone-note-played", "Transverse B note");
-        }
-
-    }
-
-    public void play_s7(View v){
-        mp.release();
         mp = MediaPlayer.create(this, R.raw.transverse_flute_a5);
         if(check_blow()) {
             if (mp.isPlaying()) {
@@ -213,8 +199,8 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
                 mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_a5);
             }
             mp.start();
-            Log.i("Note", "Flute played note 7.");
-            System.out.println("Flute played note 7.");
+            Log.i("Note", "Flute played note 6.");
+            System.out.println("Flute played note 6.");
             mSocket.emit("phone-note-played", "Transverse A note");
         }
 

@@ -96,7 +96,7 @@
         android:layout_width="49dp"
         android:layout_height="53dp"
         android:background="@android:color/transparent"
-        android:onClick="play_s7"
+        android:onClick="play_s6"
         android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/irish_flute"
         app:layout_constraintEnd_toEndOf="parent"

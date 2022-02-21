@@ -59,9 +59,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mSocket.connect();
         mSocket.emit("connected-device", "phone");
 
+        instruments.add("Flute");
+        instruments.add("Flute irlandaise");
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mp = MediaPlayer.create(this, R.raw.f_g);
 
@@ -86,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         MenuItem item = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner) item.getActionView();
         spinner.setOnItemSelectedListener(this);
-        instruments.add("Flute");
-        instruments.add("Flute irlandaise");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, instruments);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
