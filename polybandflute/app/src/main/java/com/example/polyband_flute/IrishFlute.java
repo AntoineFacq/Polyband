@@ -40,22 +40,12 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
     boolean allow_blow = false;
     private double present_amp = 0.0;
     private Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket("http://192.168.1.58:5000");
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSocket.on("teacher-arrives", onConfirm911);
-        mSocket.connect();
-        mSocket.emit("connected-device", "phone");
+        mSocket = SocketSingleton.getSocket();
 
         instruments.add("Flute irlandaise");
         instruments.add("Flute");

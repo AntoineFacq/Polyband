@@ -269,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
         switch(i) {
             case 1:
+                SocketSingleton.setSocket(mSocket);
                 Intent in = new Intent(this, IrishFlute.class);
                 startActivity(in);
         }
