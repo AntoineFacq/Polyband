@@ -118,3 +118,13 @@
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.table-called {
+  border: 5px solid #C7234A !important;
+}
+
+.table-called-band {
+  background-color: #C7234A;
+  text-align: center;
+  border: 1px solid #C7234A !important;
+}

@@ -38,12 +38,15 @@ export class HomeComponent implements OnInit {
   tables: Table[] = [];
   phones: Phone[] = [];
 
+  allTables: Table = new Table();
+
   tableAskingHelp: Table = undefined;
 
   tracks: Track[] = [
     {value: 'track-01', name: 'Weekend'},
     {value: 'track-02', name: 'Picnic on the Seine'},
     {value: 'track-03', name: 'Inspiring'},
+    {value: 'track-04', name: 'Feelin\' Good'},
   ];
 
   interval: any;
@@ -54,6 +57,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.manageTableService.getMessages().subscribe(message => {
       if (message.type == "table-ask-help") {
+        window.navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
         this.playAudio();
         clearInterval(this.interval);
         this.helpValue = 100;
@@ -94,33 +98,47 @@ export class HomeComponent implements OnInit {
     audio.play();
   }
 
-  mute() {
-    this.selectedTable.volume = 0;
-    this.manageTableService.setMasterVolume(this.selectedTable.id, 0);
+  mute(tableId?: string) {
+    if (tableId) {
+      let table = this.tables.find(t => t.id === tableId);
+      if (table) {
+        this.tables.find(t => t.id === tableId).volume = 0;
+        this.manageTableService.setMasterVolume(tableId, 0);
+      }
+    } else {
+      this.selectedTable.volume = 0;
+      this.manageTableService.setMasterVolume(this.selectedTable.id, 0);
+    }
   }
 
-  volumeChanged($event: MatSliderChange) {
-    this.selectedTable.volume = $event.value;
-    this.manageTableService.setMasterVolume(this.selectedTable.id, this.selectedTable.volume);
+  volumeChanged(tableId: string, $event: MatSliderChange) {
+    console.log(this.tables)
+    if (this.tables.find(t => t.id === tableId)) {
+      this.tables.find(t => t.id === tableId).volume = $event.value;
+      this.manageTableService.setMasterVolume(tableId, $event.value);
+    }
   }
 
-  chooseTrack(event: MatSelectChange) {
-    this.selectedTable.selectedTrack = this.tracks.find(t => t.value === event.value);
-    console.log(this.selectedTable.selectedTrack)
-    this.selectedTable.play = true;
-    this.manageTableService.selectTrack(this.selectedTable.id, event.value);
+  chooseTrack(event: MatSelectChange, tableId?: string,) {
+    if (tableId) {
+      if (this.tables.find(t => t.id === tableId)) {
+        this.tables.find(t => t.id === tableId).selectedTrack = this.tracks.find(t => t.value === event.value);
+        this.tables.find(t => t.id === tableId).play = true;
+        this.manageTableService.selectTrack(tableId, event.value);
+      }
+    } else {
+      this.selectedTable.selectedTrack = this.tracks.find(t => t.value === event.value);
+      this.selectedTable.play = true;
+      this.manageTableService.selectTrack(this.selectedTable.id, event.value);
+    }
+
   }
 
 
   selectTable(t: MatTabChangeEvent) {
-    if (t.index < this.tables.length) {
-      this.selectedTable = this.tables[t.index];
+    if (t.index > 0 && t.index < this.tables.length + 1) {
+      this.selectedTable = this.tables[t.index - 1];
     }
-  }
-
-  assignPhoneToTable($event: MatSelectChange) {
-    this.manageTableService.assignPhoneToTable($event.value, this.selectedTable.id);
-    this.phones.find(p => p.id === $event.value).table = this.selectedTable;
   }
 
   getNotAssignedPhones(): Phone[] {
@@ -143,9 +161,16 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  playPauseTrack() {
-    this.selectedTable.play = !this.selectedTable.play;
-    this.manageTableService.playPauseTrack(this.selectedTable.id);
+  playPauseTrack(tableId?: string) {
+    if (tableId) {
+      if (this.tables.find(t => t.id === tableId)) {
+        this.tables.find(t => t.id === tableId).play = !this.tables.find(t => t.id === tableId).play;
+        this.manageTableService.playPauseTrack(tableId);
+      }
+    } else {
+      this.selectedTable.play = !this.selectedTable.play;
+      this.manageTableService.playPauseTrack(this.selectedTable.id);
+    }
   }
 
   startStopRecording() {
@@ -166,5 +191,44 @@ export class HomeComponent implements OnInit {
     this.manageTableService.giveHelpFeedback(this.tableAskingHelp.id);
     this.tableAskingHelp = undefined;
     this.helpValue = 0;
+  }
+
+  muteAll() {
+    this.tables.forEach(t => {
+      this.mute(t.id);
+    })
+  }
+
+  changeAllVolumes($event: MatSliderChange) {
+    this.tables.forEach(t => {
+      this.volumeChanged(t.id, $event);
+    })
+  }
+
+  areAllTableSameLevel() {
+    let v = 0;
+    let i = 0;
+    for (let t of this.tables) {
+      if (i == 0) {
+        v = t.volume;
+        i++;
+      }
+      if (t.volume != v) return false;
+    }
+    return true;
+  }
+
+  playPauseTrackForAll() {
+    this.allTables.play = !this.allTables.play;
+    this.tables.forEach(t => {
+      this.playPauseTrack(t.id);
+    })
+  }
+
+  chooseTrackForAll($event: MatSelectChange) {
+    this.allTables.selectedTrack = this.tracks.find(t => t.value === $event.value);
+    this.tables.forEach(t => {
+      this.chooseTrack($event, t.id);
+    })
   }
 }
