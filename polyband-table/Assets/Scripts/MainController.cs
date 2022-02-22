@@ -79,7 +79,7 @@ public class MainController : MonoBehaviour
         }
 
         // var ip = "http://localhost:5000";
-        var ip = "http://192.168.184.50:5000";
+        var ip = "http://localhost:5000";
 
         this.imageProfComing = GameObject.Find("ProfComingImage").GetComponent<Image>();
         this.imageHelpAsked = GameObject.Find("HelpAskedImage");
@@ -137,8 +137,11 @@ public class MainController : MonoBehaviour
                 case "track-02":
                     this.trackSelected = 1;
                     break;
-                default:
+                case "track-03":
                     this.trackSelected = 2;
+                    break;
+                default:
+                    this.trackSelected = 3;
                     break;
             }
             Debug.Log("Switch track to :" + track);
