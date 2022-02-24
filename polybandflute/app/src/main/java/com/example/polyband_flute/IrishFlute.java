@@ -34,7 +34,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
 
     private static final int POLL_INTERVAL = 600;
     private final Handler mHandler = new Handler();
-    private List<String> instruments = new ArrayList<String>();
+    private final List<String> instruments = new ArrayList<String>();
 
     SoundMeter soundMeter;
     boolean allow_blow = false;

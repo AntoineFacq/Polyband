@@ -34,8 +34,8 @@
 
     <Button
         android:id="@+id/note9"
-        android:layout_width="43dp"
-        android:layout_height="45dp"
+        android:layout_width="45dp"
+        android:layout_height="53dp"
         android:background="@android:color/transparent"
         android:onClick="play_s2"
         android:text=""
