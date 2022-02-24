@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public boolean check_blow(){
-        if(allow_blow && present_amp > 8.50){
+        if(allow_blow && present_amp > 10.15){
             return true;
         } else return !allow_blow;
 
@@ -272,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 1:
                 SocketSingleton.setSocket(mSocket);
                 Intent in = new Intent(this, IrishFlute.class);
+                soundMeter.stop();
                 startActivity(in);
         }
     }

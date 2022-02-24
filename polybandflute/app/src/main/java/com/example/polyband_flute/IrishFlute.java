@@ -96,7 +96,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     public boolean check_blow(){
-        if(allow_blow && present_amp > 8.50){
+        if(allow_blow && present_amp > 10.15){
             return true;
         } else return !allow_blow;
 
@@ -242,6 +242,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         switch(i) {
             case 1:
                 Intent in = new Intent(this, MainActivity.class);
+                soundMeter.stop();
                 startActivity(in);
         }
     }
