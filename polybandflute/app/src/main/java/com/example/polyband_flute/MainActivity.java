@@ -188,11 +188,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void play_s6(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_b);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_c5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_b);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_c5);
             }
             mp.start();
             Log.i("Note", "Flute played note 6.");
