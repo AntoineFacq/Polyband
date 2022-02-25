@@ -41,11 +41,20 @@ public class MainController : MonoBehaviour
     public bool fluteNoteState = true;
     private bool fluteNoteStateSave = true;
     public AudioSource fluteAudioSource;
+    public AudioClip fluteSoundA;
+    public AudioClip fluteSoundB;
     public AudioClip fluteSoundC;
     public AudioClip fluteSoundD;
     public AudioClip fluteSoundE;
     public AudioClip fluteSoundF;
     public AudioClip fluteSoundG;
+
+    public AudioClip fluteSoundCbis;
+    public AudioClip fluteSoundDbis;
+    public AudioClip fluteSoundEbis;
+    public AudioClip fluteSoundFbis;
+    public AudioClip fluteSoundGbis;
+    public AudioClip fluteSoundAbis;
     private string notePlayed;
 
 
@@ -261,6 +270,12 @@ public class MainController : MonoBehaviour
             AudioClip notePlayed = this.fluteSoundC;
             switch(this.notePlayed)
             {
+                case "A":
+                    notePlayed = this.fluteSoundA;
+                    break;
+                case "B":
+                    notePlayed = this.fluteSoundB;
+                    break;
                 case "C":
                     notePlayed = this.fluteSoundC;
                     break;
@@ -275,6 +290,24 @@ public class MainController : MonoBehaviour
                     break;
                 case "G":
                     notePlayed = this.fluteSoundG;
+                    break;
+                case "H":
+                    notePlayed = this.fluteSoundCbis;
+                    break;
+                case "I":
+                    notePlayed = this.fluteSoundDbis;
+                    break;
+                case "J":
+                    notePlayed = this.fluteSoundEbis;
+                    break;
+                case "K":
+                    notePlayed = this.fluteSoundFbis;
+                    break;
+                case "L":
+                    notePlayed = this.fluteSoundGbis;
+                    break;
+                case "M":
+                    notePlayed = this.fluteSoundAbis;
                     break;
             }
             AudioSource.PlayClipAtPoint(notePlayed, Camera.main.transform.position, this.MasterVolume);
