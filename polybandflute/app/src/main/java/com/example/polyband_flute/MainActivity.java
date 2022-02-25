@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.1.58:5000");
+            mSocket = IO.socket("http://192.168.224.50:5000");
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
