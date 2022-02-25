@@ -88,7 +88,7 @@ public class MainController : MonoBehaviour
         }
 
         // var ip = "http://localhost:5000";
-        var ip = "http://localhost:5000";
+        var ip = "http://192.168.224.50:5000";
 
         this.imageProfComing = GameObject.Find("ProfComingImage").GetComponent<Image>();
         this.imageHelpAsked = GameObject.Find("HelpAskedImage");
