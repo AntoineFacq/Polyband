@@ -43,22 +43,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     boolean allow_blow = false;
     private double present_amp = 0.0;
     private Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket("http://192.168.1.58:5000");
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!SocketSingleton.getIfSwitched()) {
+            {
+                try {
+                    mSocket = IO.socket("http://172.20.10.13:5000");
 
-        mSocket.on("teacher-arrives", onConfirm911);
-        mSocket.connect();
-        mSocket.emit("connected-device", "phone");
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+            mSocket.on("teacher-arrives", onConfirm911);
+            mSocket.connect();
+            mSocket.emit("connected-device", "phone");
+        }
+        else {
+            mSocket = SocketSingleton.getSocket();
+        }
 
         instruments.add("Flute");
         instruments.add("Flute irlandaise");
@@ -71,14 +75,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mp = MediaPlayer.create(this, R.raw.f_g);
 
         soundMeter = new SoundMeter();
-    }
+ }
 
     private Emitter.Listener onConfirm911 = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             if (askedHelp) {
                 Context context = getApplicationContext();
-                Toast toast = Toast.makeText(context, "Teacher is coming to help.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(context, "Le professeur arrive !", Toast.LENGTH_SHORT);
                 toast.show();
                 askedHelp = false;
             }
@@ -267,9 +271,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item = adapterView.getItemAtPosition(i).toString();
 
-        Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-        switch(i) {
+         switch(i) {
             case 1:
+                Toast.makeText(adapterView.getContext(), "Sélectionné : " + item, Toast.LENGTH_LONG).show();
                 SocketSingleton.setSocket(mSocket);
                 Intent in = new Intent(this, IrishFlute.class);
                 soundMeter.stop();

@@ -46,6 +46,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         super.onCreate(savedInstanceState);
 
         mSocket = SocketSingleton.getSocket();
+        mSocket.on("teacher-arrives", onConfirm911);
 
         instruments.add("Flute irlandaise");
         instruments.add("Flute");
@@ -65,7 +66,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         public void call(Object... args) {
             if (askedHelp) {
                 Context context = getApplicationContext();
-                Toast toast = Toast.makeText(context, "Teacher is coming to help.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(context, "Le professeur arrive !", Toast.LENGTH_SHORT);
                 toast.show();
                 askedHelp = false;
             }
@@ -238,9 +239,9 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item = adapterView.getItemAtPosition(i).toString();
 
-        Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
         switch(i) {
             case 1:
+                Toast.makeText(adapterView.getContext(), "Sélectionné : " + item, Toast.LENGTH_LONG).show();
                 Intent in = new Intent(this, MainActivity.class);
                 soundMeter.stop();
                 startActivity(in);
