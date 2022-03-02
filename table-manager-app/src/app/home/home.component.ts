@@ -6,6 +6,7 @@ import {MatSelectChange} from "@angular/material/select";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {Phone, Table} from "../../models/Device";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 export class Track {
@@ -51,12 +52,16 @@ export class HomeComponent implements OnInit {
 
   interval: any;
 
-  constructor(private manageTableService: ManageTableService) {
+  constructor(private _snackBar: MatSnackBar, private manageTableService: ManageTableService) {
+  }
+
+  public objectComparisonFunction = function (option: Track, value: Track): boolean {
+    return option.value === value.value;
   }
 
   ngOnInit(): void {
     this.manageTableService.getMessages().subscribe(message => {
-      if (message.type == "table-ask-help") {
+      if (message.type == "table-ask-help" && this.tableAskingHelp == undefined) {
         window.navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
         this.playAudio();
         clearInterval(this.interval);
@@ -120,16 +125,17 @@ export class HomeComponent implements OnInit {
   }
 
   chooseTrack(event: MatSelectChange, tableId?: string,) {
+    console.log(event)
     if (tableId) {
       if (this.tables.find(t => t.id === tableId)) {
-        this.tables.find(t => t.id === tableId).selectedTrack = this.tracks.find(t => t.value === event.value);
+        this.tables.find(t => t.id === tableId).selectedTrack = event.value;
         this.tables.find(t => t.id === tableId).play = true;
-        this.manageTableService.selectTrack(tableId, event.value);
+        this.manageTableService.selectTrack(tableId, event.value.value);
       }
     } else {
-      this.selectedTable.selectedTrack = this.tracks.find(t => t.value === event.value);
+      this.selectedTable.selectedTrack = event.value;
       this.selectedTable.play = true;
-      this.manageTableService.selectTrack(this.selectedTable.id, event.value);
+      this.manageTableService.selectTrack(this.selectedTable.id, event.value.value);
     }
 
   }
@@ -184,6 +190,10 @@ export class HomeComponent implements OnInit {
   }
 
   addInstrument(type: string) {
+    this._snackBar.open(type.charAt(0).toUpperCase() + type.slice(1) + " ajouté à la table " + this.selectedTable.number + ".", "", {
+      horizontalPosition: 'start',
+      verticalPosition: 'bottom',
+    });
     this.manageTableService.addInstrument(type, this.selectedTable.id);
   }
 
@@ -194,6 +204,7 @@ export class HomeComponent implements OnInit {
   }
 
   muteAll() {
+    this.allTables.volume = 0;
     this.tables.forEach(t => {
       this.mute(t.id);
     })
@@ -226,7 +237,7 @@ export class HomeComponent implements OnInit {
   }
 
   chooseTrackForAll($event: MatSelectChange) {
-    this.allTables.selectedTrack = this.tracks.find(t => t.value === $event.value);
+    this.allTables.selectedTrack = $event.value;
     this.tables.forEach(t => {
       this.chooseTrack($event, t.id);
     })

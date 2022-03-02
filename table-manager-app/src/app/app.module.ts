@@ -20,12 +20,15 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar} from "@angular/material/snack-bar";
+import { JetonComponent } from './jeton/jeton.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    JetonComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatProgressSpinnerModule,
     MatGridListModule
   ],
-  providers: [],
+  providers: [MatSnackBar, {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 1000}}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

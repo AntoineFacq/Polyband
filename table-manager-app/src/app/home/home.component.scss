@@ -73,7 +73,7 @@
 }
 
 .example-list {
-  border: solid 1px #2a2824;
+  border: solid 1px #1c3044;
   min-height: 60px;
   background: #282828;
   border-radius: 4px;
@@ -83,7 +83,7 @@
 
 .example-box {
   padding: 20px 10px;
-  border-bottom: solid 1px #2a2824;
+  border-bottom: solid 1px #1c3044;
   color: white;
   display: flex;
   flex-direction: row;
@@ -91,7 +91,7 @@
   justify-content: space-between;
   box-sizing: border-box;
   cursor: move;
-  background: #282828;
+  background: #2C506C;
   font-size: 14px;
 }
 
@@ -127,4 +127,25 @@
   background-color: #C7234A;
   text-align: center;
   border: 1px solid #C7234A !important;
+}
+
+.ripple {
+  animation: ripple 1000ms infinite;
+}
+
+$ripple-color: #824a88;
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0rem rgba($ripple-color, 0.2),
+    0 0 0 .1rem rgba($ripple-color, 0.2),
+    0 0 0 .2rem rgba($ripple-color, 0.2),
+    0 0 0 .5rem rgba($ripple-color, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 1rem rgba($ripple-color, 0.2),
+    0 0 0 .2rem rgba($ripple-color, 0.2),
+    0 0 0 .5rem rgba($ripple-color, 0.2),
+    0 0 0 .8rem rgba($ripple-color, 0);
+  }
 }
