@@ -1,10 +1,5 @@
 package com.example.polyband_flute;
 
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -21,23 +16,25 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
+public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     MediaPlayer mp;
     boolean askedHelp = false;
 
     private static final int POLL_INTERVAL = 600;
     private final Handler mHandler = new Handler();
-    private List<String> instruments = new ArrayList<String>();
+    private final List<String> instruments = new ArrayList<String>();
 
     SoundMeter soundMeter;
     boolean allow_blow = false;
@@ -47,35 +44,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!SocketSingleton.getIfSwitched()) {
-            {
-                try {
-                    mSocket = IO.socket("http://172.20.10.13:5000");
 
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            }
-            mSocket.on("teacher-arrives", onConfirm911);
-            mSocket.connect();
-            mSocket.emit("connected-device", "phone");
-        }
-        else {
-            mSocket = SocketSingleton.getSocket();
-        }
+        mSocket = SocketSingleton.getSocket();
+        mSocket.on("teacher-arrives", onConfirm911);
 
-        instruments.add("Flute");
         instruments.add("Flute irlandaise");
+        instruments.add("Flute");
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.irish_flute);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mp = MediaPlayer.create(this, R.raw.f_g);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_g5);
 
         soundMeter = new SoundMeter();
- }
+    }
 
     private Emitter.Listener onConfirm911 = new Emitter.Listener() {
         @Override
@@ -91,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_irish_flute, menu);
         MenuItem item = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner) item.getActionView();
         spinner.setOnItemSelectedListener(this);
@@ -121,84 +105,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void play_s1(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_c);
-        if(check_blow()) {
-            if (mp.isPlaying()) {
-                mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_c);
-            }
-            mp.start();
-            Log.i("Note", "Flute played note 1.");
-            System.out.println("Flute played note 1.");
-            mSocket.emit("phone-note-played", "C note");
-        }
-    }
-
-    public void play_s2(View v){
-        mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_d);
-        if(check_blow()) {
-            if (mp.isPlaying()) {
-                mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_d);
-            }
-            mp.start();
-            Log.i("Note", "Flute played note 2.");
-            //System.out.println("Flute played note 2.");
-            mSocket.emit("phone-note-played", "D note");
-        }
-    }
-
-    public void play_s3(View v){
-        mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_e);
-        if(check_blow()) {
-            if (mp.isPlaying()) {
-                mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_e);
-            }
-            mp.start();
-            Log.i("Note", "Flute played note 3.");
-            System.out.println("Flute played note 3.");
-            mSocket.emit("phone-note-played", "E note");
-        }
-
-    }
-
-    public void play_s4(View v){
-        mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_f);
-        if(check_blow()) {
-            if (mp.isPlaying()) {
-                mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_f);
-            }
-            mp.start();
-            Log.i("Note", "Flute played note 4.");
-            System.out.println("Flute played note 4.");
-            mSocket.emit("phone-note-played", "F note");
-        }
-
-    }
-
-    public void play_s5(View v){
-        mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_g);
-        if(check_blow()) {
-            if (mp.isPlaying()) {
-                mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_g);
-            }
-            mp.start();
-            Log.i("Note", "Flute played note 5.");
-            System.out.println("Flute played note 5.");
-            mSocket.emit("phone-note-played", "G note");
-        }
-
-    }
-
-    public void play_s6(View v){
-        mp.release();
         mp = MediaPlayer.create(this, R.raw.transverse_flute_c5);
         if(check_blow()) {
             if (mp.isPlaying()) {
@@ -206,25 +112,87 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_c5);
             }
             mp.start();
-            Log.i("Note", "Flute played note 6.");
-            System.out.println("Flute played note 6.");
-            mSocket.emit("phone-note-played", "B note");
+            Log.i("Note", "Flute played note 1.");
+            System.out.println("Flute played note 1.");
+            mSocket.emit("phone-note-played", "Transverse C note");
+        }
+    }
+
+    public void play_s2(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_d5);
+        if(check_blow()) {
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_d5);
+            }
+            mp.start();
+            Log.i("Note", "Flute played note 2.");
+            System.out.println("Flute played note 2.");
+            mSocket.emit("phone-note-played", "Transverse D note");
+        }
+    }
+
+    public void play_s3(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_e5);
+        if(check_blow()) {
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_e5);
+            }
+            mp.start();
+            Log.i("Note", "Flute played note 3.");
+            System.out.println("Flute played note 3.");
+            mSocket.emit("phone-note-played", "Transverse E note");
         }
 
     }
 
-    public void play_s7(View v){
+    public void play_s4(View v){
         mp.release();
-        mp = MediaPlayer.create(this, R.raw.f_a);
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_f5);
         if(check_blow()) {
             if (mp.isPlaying()) {
                 mp.reset();
-                mp = MediaPlayer.create(getApplicationContext(), R.raw.f_a);
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_f5);
             }
             mp.start();
-            Log.i("Note", "Flute played note 7.");
-            System.out.println("Flute played note 7.");
-            mSocket.emit("phone-note-played", "A note");
+            Log.i("Note", "Flute played note 4.");
+            System.out.println("Flute played note 4.");
+            mSocket.emit("phone-note-played", "Transverse F note");
+        }
+
+    }
+
+    public void play_s5(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_g5);
+        if(check_blow()) {
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_g5);
+            }
+            mp.start();
+            Log.i("Note", "Flute played note 5.");
+            System.out.println("Flute played note 5.");
+            mSocket.emit("phone-note-played", "Transverse G note");
+        }
+
+    }
+
+    public void play_s6(View v){
+        mp.release();
+        mp = MediaPlayer.create(this, R.raw.transverse_flute_a5);
+        if(check_blow()) {
+            if (mp.isPlaying()) {
+                mp.reset();
+                mp = MediaPlayer.create(getApplicationContext(), R.raw.transverse_flute_a5);
+            }
+            mp.start();
+            Log.i("Note", "Flute played note 6.");
+            System.out.println("Flute played note 6.");
+            mSocket.emit("phone-note-played", "Transverse A note");
         }
 
     }
@@ -271,11 +239,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item = adapterView.getItemAtPosition(i).toString();
 
-         switch(i) {
+        switch(i) {
             case 1:
                 Toast.makeText(adapterView.getContext(), "Sélectionné : " + item, Toast.LENGTH_LONG).show();
-                SocketSingleton.setSocket(mSocket);
-                Intent in = new Intent(this, IrishFlute.class);
+                Intent in = new Intent(this, MainActivity.class);
                 soundMeter.stop();
                 startActivity(in);
         }
