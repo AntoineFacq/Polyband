@@ -57,15 +57,20 @@ public class MainController : MonoBehaviour
     public AudioClip fluteSoundAbis;
     private string notePlayed;
 
+    public string tableColor = "red";
+    public string tableColorSave = "red";
+
 
     public GameObject pianoObject;
     public GameObject batterieObject;
+    public GameObject planeObject;
 
 
 
 
     void Start()
     {
+        planeObject = GameObject.Find("Plane");
 
         spawnInstrument("piano");
         spawnInstrument("batterie");
@@ -126,6 +131,10 @@ public class MainController : MonoBehaviour
             newInstru = type.ToString();
         });
 
+        socket.On("set-table-color", color => {
+            tableColor = color.ToString();
+        });
+
         socket.On("toggle-recording-playback", () =>
         {
             isPlayingRecording = !isPlayingRecording;
@@ -183,7 +192,8 @@ public class MainController : MonoBehaviour
                 break;
 
         }
-        go.transform.position = new Vector3(UnityEngine.Random.Range(-5f, 5f), UnityEngine.Random.Range(-5f, 5f), UnityEngine.Random.Range(-5f, 5f));
+        // go.transform.position = new Vector3(UnityEngine.Random.Range(-5f, 5f), UnityEngine.Random.Range(-5f, 5f), UnityEngine.Random.Range(-5f, 5f));
+        go.transform.position = new Vector3(0,0,0);
     }
 
     void helpButtonClicked()
@@ -313,6 +323,20 @@ public class MainController : MonoBehaviour
             AudioSource.PlayClipAtPoint(notePlayed, Camera.main.transform.position, this.MasterVolume);
             this.fluteNoteStateSave = this.fluteNoteState;
         }
+
+        if(tableColor != tableColorSave){
+            float redX = (tableColor == "red" ? 256 : 0);
+            float greenX = (tableColor == "green" ? 256 : 0);
+            float blueX = (tableColor == "blue" ? 256 : 0);
+            float colourSum = redX + greenX + blueX;
+            redX = redX / colourSum;
+            greenX = greenX / colourSum;
+            blueX = blueX / colourSum;
+            planeObject.GetComponent<Renderer>().material.color = new Color(redX, greenX, blueX, 1);
+            tableColorSave = tableColor;
+        }
+
+
         if(isProfessorComing != isProfessorComingSave)
         {
             this.imageHelpAsked.SetActive(false);

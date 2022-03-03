@@ -114,9 +114,10 @@
         </mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
-    <mat-tab *ngFor="let t of tables" [label]="'Table ' + t.number">
+    <mat-tab *ngFor="let t of tables" [label]="'Table ' + t.number"
+             [aria-label]=getColor(t.number-1)>
 
-      <div class="m-4 d-flex justify-content-between">
+      <div class="m-4 d-flex justify-content-between" >
 
         <div class="d-flex flex-column">
 

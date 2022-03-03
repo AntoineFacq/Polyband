@@ -50,6 +50,11 @@ export class HomeComponent implements OnInit {
   ];
 
   interval: any;
+  colors = ["red", "blue", "green"];
+
+  getColor(index: number): string{
+    return this.colors[index];
+  }
 
   constructor(private manageTableService: ManageTableService) {
   }

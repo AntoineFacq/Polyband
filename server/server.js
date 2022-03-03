@@ -7,7 +7,7 @@ let io = require("socket.io")(http, {cors: {origin: '*'}});
 let tablet;
 let devices = [];
 
-let TABLE_INSTRUMENT_ID = 0;
+let TABLE_COUNT = 0;
 
 let DeviceType = {
     TABLET: "tablet",
@@ -21,6 +21,8 @@ let InstumentType = {
     BATTERIE: "batterie",
     PIANO: "piano"
 }
+
+let colors = ["red", "blue", "green"]
 
 io.on('connection', (socket) => {
 
@@ -49,11 +51,13 @@ io.on('connection', (socket) => {
                 }
                 break;
             case DeviceType.TABLE:
+                TABLE_COUNT++; // New table instrument
                 devices[socket.id] = new Table(io, socket)
                 if (tablet) {
                     tablet.socket.emit("new-table", devices[socket.id].id)
                 }
                 devices[socket.id].socket.join("tableRoom" + socket.id)
+                socket.emit("set-table-color", colors[TABLE_COUNT-1])
                 break;
             case DeviceType.PHONE:
                 devices[socket.id] = new Phone(io, socket)
@@ -78,6 +82,7 @@ io.on('connection', (socket) => {
                 console.log("Phone " + socket.id + " leaved.");
             } else {
                 if (tablet) tablet.socket.emit("table-leaved", socket.id);
+                TABLE_COUNT--; // Remove table instrument
                 console.log("Table " + socket.id + " leaved.");
             }
             delete devices[socket.id];
@@ -122,7 +127,6 @@ io.on('connection', (socket) => {
             devices[tableId].socket.emit("instrument-added", type);
             devices[tableId].socket.join("tableRoom" + socket.id) // JOIN GOOD ROOM
         } else {
-            TABLE_INSTRUMENT_ID++; // New table instrument
 
             // devices[tableId].instruments[TABLE_INSTRUMENT_ID] = new Instrument(type)
 
