@@ -67,7 +67,7 @@ public class ButtonScript : MonoBehaviour
 
     void lockButtonClicked() {
         leanTouch.SetActive(isLocked);
-        GameObject.Find("Lock Icon").transform.GetComponent<UnityEngine.UI.Image>().sprite = spritesLock[Convert.ToInt32(!isLocked)];
+        GameObject.Find("Lock Icon").transform.GetComponent<UnityEngine.UI.Image>().sprite = spritesLock[Convert.ToInt32(isLocked)];
         ToastModalWindow.Create(ignorable: true)
                         .SetHeader("Attention !")
                         .SetBody(isLocked ? "Instruments déverrouillés !" : "Instruments verrouillés !")

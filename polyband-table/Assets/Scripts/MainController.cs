@@ -23,8 +23,12 @@ public class MainController : MonoBehaviour
     public Image imageProfComing;
     public GameObject imageHelpAsked;
 
+    public GameObject imageFlutePlaying;
+
     public AudioClip[] musics;
     public AudioSource trackAudioSource;
+
+    public Text tableNumberText;
 
     public AudioSource recordAudioSource;
     public bool isRecording = false;
@@ -60,6 +64,9 @@ public class MainController : MonoBehaviour
     public string tableColor = "red";
     public string tableColorSave = "red";
 
+    public string tableNumber = "1";
+    public string tableNumberSave = "1";
+
 
     public GameObject pianoObject;
     public GameObject batterieObject;
@@ -92,13 +99,17 @@ public class MainController : MonoBehaviour
             }
         }
 
-        // var ip = "http://localhost:5000";
-        var ip = "http://192.168.224.50:5000";
+        //var ip = "http://localhost:5000";
+        var ip = "http://192.168.1.58:5000";
 
+        this.imageFlutePlaying = GameObject.Find("FlutePlaying");
+        this.imageFlutePlaying.SetActive(false);
         this.imageProfComing = GameObject.Find("ProfComingImage").GetComponent<Image>();
         this.imageHelpAsked = GameObject.Find("HelpAskedImage");
         this.imageProfComing.enabled = false;
         this.imageHelpAsked.SetActive(false);
+
+        this.tableNumberText = GameObject.Find("Table Number").GetComponent<Text>();
 
         Button btn = helpButton.GetComponent<Button>();
         btn.onClick.AddListener(helpButtonClicked);
@@ -133,6 +144,10 @@ public class MainController : MonoBehaviour
 
         socket.On("set-table-color", color => {
             tableColor = color.ToString();
+        });
+
+        socket.On("set-table-number", number => {
+            tableNumber = "#" + number.ToString();
         });
 
         socket.On("toggle-recording-playback", () =>
@@ -320,8 +335,18 @@ public class MainController : MonoBehaviour
                     notePlayed = this.fluteSoundAbis;
                     break;
             }
-            AudioSource.PlayClipAtPoint(notePlayed, Camera.main.transform.position, this.MasterVolume);
+            fluteAudioSource.PlayOneShot(notePlayed);
+            //AudioSource.PlayClipAtPoint(notePlayed, Camera.main.transform.position, this.MasterVolume);
             this.fluteNoteStateSave = this.fluteNoteState;
+        }
+        
+        if (fluteAudioSource.isPlaying)
+        {
+            this.imageFlutePlaying.SetActive(true);
+        } else
+        {
+            
+            this.imageFlutePlaying.SetActive(false);
         }
 
         if(tableColor != tableColorSave){
@@ -336,8 +361,13 @@ public class MainController : MonoBehaviour
             tableColorSave = tableColor;
         }
 
+        if (tableNumber != tableNumberSave)
+        {
+            this.tableNumberText.text = tableNumber;
+             tableNumberSave = tableNumber;
+        }
 
-        if(isProfessorComing != isProfessorComingSave)
+        if (isProfessorComing != isProfessorComingSave)
         {
             this.imageHelpAsked.SetActive(false);
             this.imageProfComing.enabled = true;
@@ -350,7 +380,6 @@ public class MainController : MonoBehaviour
         yield return new WaitForSeconds(time);
         this.imageProfComing.enabled = false;
     }
-
 
     private void OnDestroy()
     {
