@@ -7,6 +7,8 @@ import {MatTabChangeEvent} from "@angular/material/tabs";
 import {Phone, Table} from "../../models/Device";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {NewPhoneConnectedComponent} from "../dialogs/new-phone-connected/new-phone-connected.component";
 
 
 export class Track {
@@ -53,11 +55,11 @@ export class HomeComponent implements OnInit {
   interval: any;
   colors = ["red", "blue", "green"];
 
-  getColor(index: number): string{
-    return this.colors[index];
+  constructor(private dialog: MatDialog, private _snackBar: MatSnackBar, private manageTableService: ManageTableService) {
   }
 
-  constructor(private _snackBar: MatSnackBar, private manageTableService: ManageTableService) {
+  getColor(index: number): string {
+    return this.colors[index];
   }
 
   public objectComparisonFunction = function (option: Track, value: Track): boolean {
@@ -79,7 +81,7 @@ export class HomeComponent implements OnInit {
           }
         }, 125);
       } else if (message.type == "new-table") {
-        let table = {...new Table(), id: message.text, number: this.tables.length + 1}
+        let table = {...new Table(), id: message.text, number: parseInt(message.number)}
         if (!this.selectedTable) this.selectedTable = table
         this.tables.push(table);
       } else if (message.type == "new-phone") {
@@ -89,6 +91,10 @@ export class HomeComponent implements OnInit {
           table: this.tables.find(t => t.id === message.tableId)
         };
         this.phones.push(phone);
+        /*const dialogRef = this.dialog.open(NewPhoneConnectedComponent, {data: {nbTable: this.tables.length}});
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(`Dialog result: ${result}`);
+        });*/
       } else if (message.type == "phone-leaved") {
         this.phones.splice(this.phones.map(p => p.id).indexOf(message.text), 1);
       } else if (message.type == "table-leaved") {

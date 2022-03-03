@@ -21,14 +21,17 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar} from "@angular/material/snack-bar";
-import { JetonComponent } from './jeton/jeton.component';
+import {JetonComponent} from './jeton/jeton.component';
+import {NewPhoneConnectedComponent} from './dialogs/new-phone-connected/new-phone-connected.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    JetonComponent
+    JetonComponent,
+    NewPhoneConnectedComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { JetonComponent } from './jeton/jeton.component';
     MatIconModule,
     MatTabsModule,
     MatProgressSpinnerModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDialogModule
   ],
   providers: [MatSnackBar, {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 1000}}],
   bootstrap: [AppComponent]
