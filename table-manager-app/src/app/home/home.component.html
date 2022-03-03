@@ -1,38 +1,44 @@
 <ng-container *ngIf="selectedTable">
-  <mat-tab-group mat-align-tabs="start" animationDuration="0ms" (selectedTabChange)="selectTable($event)">
+  <mat-tab-group (selectedTabChange)="selectTable($event)" animationDuration="0ms" mat-align-tabs="start">
     <mat-tab [label]="'Dashboard'">
       <mat-grid-list cols="4" rowHeight="1:1">
+
+
         <mat-grid-tile *ngFor="let t of this.tables">
           <div class="p-2 w-100" style="height: 100%">
-            <div class="d-flex flex-column align-items-center justify-content-between"
-                 style="background: #3D3B30; border-radius: 10px; height: 100%"
-                 [class.table-called]="tableAskingHelp && t.id === tableAskingHelp.id">
+            <div [class.table-called]="tableAskingHelp && t.id === tableAskingHelp.id"
+                 class="d-flex flex-column align-items-center justify-content-between"
+                 style="background: #3D3B30; border-radius: 10px; height: 100%">
               <div class="pt-3 ps-3 pe-3 ">
                 <h2 style="text-align: center">Table {{t.number}}</h2>
                 <div>
                   <mat-form-field>
                     <mat-label>Titre</mat-label>
-                    <mat-select (selectionChange)="this.chooseTrack($event, t.id)" [(ngModel)]="t.selectedTrack.value">
-                      <mat-option *ngFor="let track of tracks" [value]="track.value">
+                    <mat-select (selectionChange)="this.chooseTrack($event, t.id)" [(ngModel)]="t.selectedTrack"
+                                [compareWith]="objectComparisonFunction">
+                      <mat-option *ngFor="let track of tracks" [value]="track">
                         {{track.name}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <div style="text-align: center" *ngIf="t.selectedTrack.value">
-                    <button *ngIf="tableAskingHelp && t.id === tableAskingHelp.id" mat-mini-fab color="primary"
-                            (click)="this.playPauseTrack(t.id)"
-                            aria-label="Example icon button with a delete icon">
+                  <div *ngIf="t.selectedTrack.value" style="text-align: center">
+                    <button (click)="this.playPauseTrack(t.id)" *ngIf="tableAskingHelp && t.id === tableAskingHelp.id"
+                            [class.ripple]="t.play"
+                            aria-label="Example icon button with a delete icon" color="primary"
+                            mat-mini-fab>
                       <mat-icon>{{t.play ? "pause" : "play_arrow"}}</mat-icon>
                     </button>
-                    <button *ngIf="!tableAskingHelp || (tableAskingHelp && t.id != tableAskingHelp.id)" mat-fab
-                            color="primary" (click)="this.playPauseTrack(t.id)"
-                            aria-label="Example icon button with a delete icon">
+                    <button (click)="this.playPauseTrack(t.id)"
+                            *ngIf="!tableAskingHelp || (tableAskingHelp && t.id != tableAskingHelp.id)"
+                            [class.ripple]="t.play"
+                            aria-label="Example icon button with a delete icon" color="primary"
+                            mat-fab>
                       <mat-icon>{{t.play ? "pause" : "play_arrow"}}</mat-icon>
                     </button>
                   </div>
                 </div>
                 <div style="align-self: start">
-                  <div class="d-flex">
+                  <div class="d-flex mt-2">
                     <ng-container>
                 <span (click)="mute(t.id)" *ngIf="t.volume>=50" class="material-icons-round"
                       style="cursor: pointer">volume_up</span>
@@ -45,11 +51,11 @@
                     <mat-slider
                       (input)="volumeChanged(t.id, $event)"
                       [value]="t.volume"
-                      thumbLabel
-                      step="1"
-                      min="0"
+                      aria-label="units"
                       max="100"
-                      aria-label="units"></mat-slider>
+                      min="0"
+                      step="1"
+                      thumbLabel></mat-slider>
                   </div>
                 </div>
               </div>
@@ -58,58 +64,61 @@
                 <div class="align-self-center">
                   A besoin d'aide !
                 </div>
-                <button mat-raised-button color="primary" (click)="giveHelpFeedback()">J'arrive</button>
+                <button (click)="giveHelpFeedback()" color="primary" mat-raised-button>J'arrive</button>
               </div>
             </div>
           </div>
-
         </mat-grid-tile>
-        <mat-grid-tile>
+
+        <mat-grid-tile *ngIf="this.tables.length > 1">
           <div class="p-2 w-100" style="height: 100%">
-            <div class="p-3 d-flex flex-column align-items-center"
-                 style="background: #3D3B30; border-radius: 10px; height: 100%">
-              <h2>Toutes les tables</h2>
-              <div>
-                <mat-form-field>
-                  <mat-label>Titre</mat-label>
-                  <mat-select (selectionChange)="this.chooseTrackForAll($event)"
-                              [(ngModel)]="allTables.selectedTrack.value">
-                    <mat-option *ngFor="let track of tracks" [value]="track.value">
-                      {{track.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <div style="text-align: center" *ngIf="allTables.selectedTrack.value">
-                  <button mat-fab color="primary" (click)="this.playPauseTrackForAll()"
-                          aria-label="Example icon button with a delete icon">
-                    <mat-icon>{{allTables.play ? "pause" : "play_arrow"}}</mat-icon>
-                  </button>
+            <div class="d-flex flex-column align-items-center justify-content-between"
+                 style="background: #8c897b;; border-radius: 10px; height: 100%">
+              <div class="pt-3 ps-3 pe-3 ">
+                <h2 style="text-align: center">Toutes les tables</h2>
+                <div>
+                  <mat-form-field>
+                    <mat-label>Titre</mat-label>
+                    <mat-select (selectionChange)="this.chooseTrackForAll($event)" [(ngModel)]="allTables.selectedTrack"
+                                [compareWith]="objectComparisonFunction">
+                      <mat-option *ngFor="let track of tracks" [value]="track">
+                        {{track.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div *ngIf="allTables.selectedTrack.value" style="text-align: center">
+                    <button (click)="this.playPauseTrackForAll()"
+                            aria-label="Example icon button with a delete icon"
+                            color="primary"
+                            mat-fab>
+                      <mat-icon>{{allTables.play ? "pause" : "play_arrow"}}</mat-icon>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div style="align-self: start" class="ms-3">
-                <div class="d-flex">
-                  <ng-container>
+                <div style="align-self: start">
+                  <div class="d-flex mt-2">
+                    <ng-container>
                 <span (click)="muteAll()" *ngIf="allTables.volume>=50" class="material-icons-round"
                       style="cursor: pointer">volume_up</span>
-                    <span (click)="muteAll()" *ngIf="allTables.volume<50 && allTables.volume != 0"
-                          class="material-icons-round"
-                          style="cursor: pointer">volume_down</span>
-                    <span *ngIf="allTables.volume==0" class="material-icons-round"
-                          style="cursor: pointer">volume_off</span>
-                  </ng-container>
+                      <span (click)="muteAll()" *ngIf="allTables.volume<50 && allTables.volume != 0"
+                            class="material-icons-round"
+                            style="cursor: pointer">volume_down</span>
+                      <span *ngIf="allTables.volume==0" class="material-icons-round"
+                            style="cursor: pointer">volume_off</span>
+                    </ng-container>
 
-                  <mat-slider
-                    (input)="changeAllVolumes($event)"
-                    [value]="allTables.volume"
-                    thumbLabel
-                    step="1"
-                    min="0"
-                    max="100"
-                    aria-label="units"></mat-slider>
+                    <mat-slider
+                      (input)="changeAllVolumes($event)"
+                      [value]="allTables.volume"
+                      aria-label="units"
+                      max="100"
+                      min="0"
+                      step="1"
+                      thumbLabel></mat-slider>
+                  </div>
                 </div>
               </div>
             </div>
-
           </div>
         </mat-grid-tile>
       </mat-grid-list>
@@ -125,15 +134,17 @@
             <h3>Accompagnement musical</h3>
             <mat-form-field appearance="fill">
               <mat-label>Titre</mat-label>
-              <mat-select (selectionChange)="this.chooseTrack($event)" [(ngModel)]="selectedTable.selectedTrack.value">
-                <mat-option *ngFor="let track of tracks" [value]="track.value">
+              <mat-select (selectionChange)="this.chooseTrack($event)" [compareWith]="objectComparisonFunction"
+                          [value]="selectedTable.selectedTrack">
+                <mat-option *ngFor="let track of tracks" [value]="track">
                   {{track.name}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div style="text-align: center" *ngIf="this.selectedTable.selectedTrack.value">
-              <button mat-fab color="primary" (click)="this.playPauseTrack()"
-                      aria-label="Example icon button with a delete icon">
+            <div *ngIf="this.selectedTable.selectedTrack.value" style="text-align: center">
+              <button (click)="this.playPauseTrack()" [class.ripple]="this.selectedTable.play"
+                      aria-label="Example icon button with a delete icon" color="primary"
+                      mat-fab>
                 <mat-icon>{{selectedTable.play ? "pause" : "play_arrow"}}</mat-icon>
               </button>
             </div>
@@ -141,27 +152,26 @@
           <div class="dashboard-card mt-3">
             <h3>Enregistrement</h3>
             <div style="text-align: center">
-              <button [class.large-btn]="selectedTable.recording" *ngIf="!selectedTable.playingRecording" class="me-3"
-                      mat-fab color="warn" (click)="this.startStopRecording()"
-                      aria-label="Example icon button with a delete icon">
+              <button (click)="this.startStopRecording()" *ngIf="!selectedTable.playingRecording"
+                      [class.large-btn]="selectedTable.recording"
+                      aria-label="Example icon button with a delete icon" class="me-3" color="warn"
+                      mat-fab>
                 <mat-icon>{{selectedTable.recording ? "mic_off" : "mic"}}</mat-icon>
               </button>
-              <button *ngIf="!selectedTable.recording" [class.large-btn]="selectedTable.playingRecording" mat-fab
-                      color="primary" (click)="this.playPauseRecording()"
-                      aria-label="Example icon button with a delete icon">
+              <button (click)="this.playPauseRecording()" *ngIf="!selectedTable.recording"
+                      [class.large-btn]="selectedTable.playingRecording"
+                      aria-label="Example icon button with a delete icon"
+                      color="primary" mat-fab>
                 <mat-icon>{{selectedTable.playingRecording ? "pause" : "play_arrow"}}</mat-icon>
               </button>
             </div>
           </div>
           <div class="dashboard-card mt-3">
             <h3>Ajouter un instrument</h3>
-            <div style="text-align: center">
-              <button class="me-3" mat-fab color="primary" (click)="this.addInstrument('piano')">
-                <mat-icon>piano</mat-icon>
-              </button>
-              <button class="me-3" mat-fab color="accent" (click)="this.addInstrument('batterie')">
-                <mat-icon>album</mat-icon>
-              </button>
+            <div class="test-animation d-flex justify-content-end">
+              <app-jeton (onJetonClicked)="this.addInstrument('piano')" class="me-3" src="piano_pion.png"></app-jeton>
+              <app-jeton (onJetonClicked)="this.addInstrument('batterie')" class="me-3"
+                         src="batterie-pion.png"></app-jeton>
             </div>
           </div>
         </div>
@@ -182,12 +192,12 @@
               <mat-slider
                 (input)="volumeChanged(this.selectedTable.id, $event)"
                 [value]="this.selectedTable.volume"
+                aria-label="units"
                 class="w-100"
-                thumbLabel
-                step="1"
-                min="0"
                 max="100"
-                aria-label="units"></mat-slider>
+                min="0"
+                step="1"
+                thumbLabel></mat-slider>
             </div>
           </div>
         </div>
@@ -196,33 +206,21 @@
         <div class="dashboard-card align-self-start">
           <h3>Informations</h3>
           <span class="dot green"></span> <span class="ms-2">Table active : #{{t.number}} - ({{t.id}})</span>
-          <h4 class="mt-2"
-              [innerHTML]="this.phones.length > 0 ? 'Appareils associés' : '<i>Aucun appareil associé</i>'"></h4>
+          <h4 [innerHTML]="this.phones.length > 0 ? 'Appareils associés' : '<i>Aucun appareil associé</i>'"
+              class="mt-2"></h4>
           <div *ngFor="let p of getPhonesAssociatedToTable(this.selectedTable)" class="ms-3">
             <span class="dot green"></span> <span class="ms-2">Phone {{p.number}} - ({{p.id}})</span>
           </div>
         </div>
 
-
-        <!--div class="dashboard-card ms-4">
-          <h3>Assign phone to table</h3>
-          <mat-form-field appearance="fill" >
-            <mat-label>Phone</mat-label>
-            <mat-select (selectionChange)="this.assignPhoneToTable($event)">
-              <mat-option *ngFor="let phone of getNotAssignedPhones()" [value]="phone.id">
-                Phone {{phone.number}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div-->
       </div>
 
 
-      <div class="help-box" cdkDrag *ngIf="this.tableAskingHelp" [@slideInOut]>
-        <mat-progress-bar mode="determinate" [value]="helpValue"></mat-progress-bar>
+      <div *ngIf="this.tableAskingHelp" [@slideInOut] cdkDrag class="help-box">
+        <mat-progress-bar [value]="helpValue" mode="determinate"></mat-progress-bar>
         <h2>Table {{tableAskingHelp.number}} a besoin d'aide</h2>
         <div class="d-flex justify-content-end ">
-          <button mat-raised-button color="primary" (click)="giveHelpFeedback()">J'arrive</button>
+          <button (click)="giveHelpFeedback()" color="primary" mat-raised-button>J'arrive</button>
         </div>
       </div>
 
@@ -238,23 +236,26 @@
             <div class="example-container">
               <h2>Not associated</h2>
               <div
-                cdkDropList
+                (cdkDropListDropped)="drop($event)"
                 [cdkDropListData]="getNotAssignedPhones()"
-                class="example-list"
-                (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let p of getNotAssignedPhones()" cdkDrag>Flûte {{p.number}}</div>
+                cdkDropList
+                class="example-list">
+                <div *ngFor="let p of getNotAssignedPhones()" cdkDrag class="example-box">
+                  <img src="assets/icons/flute_pion.png" width="40px">
+                  Flûte {{p.number}}</div>
               </div>
             </div>
 
-            <div class="example-container" *ngFor="let t of tables">
+            <div *ngFor="let t of tables" class="example-container">
               <h2>Table {{t.number}}</h2>
 
               <div
-                cdkDropList
+                (cdkDropListDropped)="drop($event)"
                 [cdkDropListData]="getPhonesAssociatedToTable(t)"
-                class="example-list"
-                (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let p of getPhonesAssociatedToTable(t)" cdkDrag>
+                cdkDropList
+                class="example-list">
+                <div *ngFor="let p of getPhonesAssociatedToTable(t)" cdkDrag class="example-box">
+                  <img src="assets/icons/flute_pion.png" width="40px">
                   Flûte {{p.number}}</div>
               </div>
             </div>

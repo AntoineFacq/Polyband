@@ -223,16 +223,17 @@ io.on('connection', (socket) => {
      * Note played by phone (play the note on the right table)
      */
     socket.on('phone-note-played', (noteId) => {
-        console.log('"' + noteId + '" played by ' + devices[socket.id].instrumentType + '!');
+        if(devices[socket.id]) {
+            console.log('"' + noteId + '" played by ' + devices[socket.id].instrumentType + '!');
 
-        let tableId = devices[socket.id].tableId; // T
-        if(tableId) {
-            devices[tableId].socket.emit('play-note-on-table', devices[socket.id].instrumentType + ":" + noteId)
-        }// able to whom the phone is connected
-        else {
-            console.log("Phone not associated with a tabled yet !")
+            let tableId = devices[socket.id].tableId; // T
+            if(tableId) {
+                devices[tableId].socket.emit('play-note-on-table', devices[socket.id].instrumentType + ":" + noteId)
+            }// able to whom the phone is connected
+            else {
+                console.log("Phone not associated with a tabled yet !")
+            }
         }
-
     });
 
 

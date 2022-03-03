@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,10 +12,17 @@ public class ButtonScript : MonoBehaviour
     public Button batterieButton;
     public Button pianoButton;
     public Button reloadButton;
+    public Button lockButton;
+    public SpriteRenderer spriteRenderer;
+    public Sprite[] spritesLock;
+    private GameObject leanTouch;
+    private bool isLocked;
 
 
     void Start()
     {
+        isLocked = false;
+        leanTouch = GameObject.Find("LeanTouch");
         batterie = batterieButton.transform.parent.Find("Batterie").gameObject;
         piano = pianoButton.transform.parent.Find("Piano").gameObject;
         displayBatterie = batterie.activeSelf;
@@ -26,6 +33,8 @@ public class ButtonScript : MonoBehaviour
         btn2.onClick.AddListener(pianoButtonClicked);
         Button btn3 = reloadButton.GetComponent<Button>();
         btn3.onClick.AddListener(reloadButtonClicked);
+        Button btn4 = lockButton.GetComponent<Button>();
+        btn4.onClick.AddListener(lockButtonClicked);
     }
 
 
@@ -43,5 +52,17 @@ public class ButtonScript : MonoBehaviour
     void reloadButtonClicked()
     {
       Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+    }
+
+    void lockButtonClicked() {
+        leanTouch.SetActive(isLocked);
+        GameObject.Find("Lock Icon").transform.GetComponent<UnityEngine.UI.Image>().sprite = spritesLock[Convert.ToInt32(!isLocked)];
+        ToastModalWindow.Create(ignorable: true)
+                        .SetHeader("Attention !")
+                        .SetBody(isLocked ? "Instruments déverrouillés !" : "Instruments verrouillés !")
+                        .SetDelay(2f) // Set it to 0 to make popup persistent
+                        // .SetIcon(isLocked ? spritesLock[0] : spritesLock[1]) // set lock icon
+                        .Show();
+        isLocked = !isLocked;
     }
 }
