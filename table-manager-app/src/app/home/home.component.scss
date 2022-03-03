@@ -149,21 +149,3 @@ $ripple-color: #824a88;
     0 0 0 .8rem rgba($ripple-color, 0);
   }
 }
-
-
-[aria-label=red] {
-  background-color: #C7234A !important;
-}
-
-[aria-label=blue] {
-  background-color: #2a27ec !important;
-}
-
-[aria-label=green] {
-  background-color: green !important;
-}
-
-
-.mat-tab-label{background-color: red !important;}
-.mat-tab-group .mat-tab-body:nth-child(2) .mat-tab-body-content{background: green !important;}
-.mat-tab-group .mat-tab-body:nth-child(3) .mat-tab-body-content{background: blue !important;}

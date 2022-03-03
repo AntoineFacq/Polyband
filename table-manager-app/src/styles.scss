@@ -37,3 +37,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; color: whit
   background: white !important;
   color: white !important;
 }
+
+
+
+[aria-label=red] {
+  background-color: #C7234A !important;
+}
+
+[aria-label=blue] {
+  background-color: #2a27ec !important;
+}
+
+[aria-label=green] {
+  background-color: green !important;
+}
