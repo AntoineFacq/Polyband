@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
                 tablet = new Tablet(io, socket);
                 for (let d of Object.keys(devices)) {
                     if (devices[d].type === "table") {
-                        socket.emit("new-table", d)
+                        socket.emit("new-table", d, devices[d].number)
                     } else {
                         socket.emit("new-phone", d, devices[d].tableId)
                     }
@@ -53,11 +53,14 @@ io.on('connection', (socket) => {
             case DeviceType.TABLE:
                 TABLE_COUNT++; // New table instrument
                 devices[socket.id] = new Table(io, socket)
+                devices[socket.id].number = TABLE_COUNT;
+                devices[socket.id].color = colors[(TABLE_COUNT-1)%3];
                 if (tablet) {
-                    tablet.socket.emit("new-table", devices[socket.id].id)
+                    tablet.socket.emit("new-table", devices[socket.id].id, devices[socket.id].number)
                 }
                 devices[socket.id].socket.join("tableRoom" + socket.id)
-                socket.emit("set-table-color", colors[TABLE_COUNT-1])
+                socket.emit("set-table-color", colors[(TABLE_COUNT-1)%3])
+                socket.emit("set-table-number", TABLE_COUNT)
                 break;
             case DeviceType.PHONE:
                 devices[socket.id] = new Phone(io, socket)
@@ -82,7 +85,6 @@ io.on('connection', (socket) => {
                 console.log("Phone " + socket.id + " leaved.");
             } else {
                 if (tablet) tablet.socket.emit("table-leaved", socket.id);
-                TABLE_COUNT--; // Remove table instrument
                 console.log("Table " + socket.id + " leaved.");
             }
             delete devices[socket.id];
@@ -227,7 +229,7 @@ io.on('connection', (socket) => {
             console.log('"' + noteId + '" played by ' + devices[socket.id].instrumentType + '!');
 
             let tableId = devices[socket.id].tableId; // T
-            if(tableId) {
+            if(tableId && devices[tableId]) {
                 devices[tableId].socket.emit('play-note-on-table', devices[socket.id].instrumentType + ":" + noteId)
             }// able to whom the phone is connected
             else {

@@ -22,9 +22,13 @@ class Device{
 }
 
 class Table extends Device{
-    type = "table"
+    type = "table";
 
     trackId = 0;
+
+    color = "";
+
+    number = 0;
 
     play = true;
 
