@@ -49,9 +49,20 @@ public class ButtonScript : MonoBehaviour
         displayPiano = !displayPiano;
     }
 
-    void reloadButtonClicked()
-    {
-      Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+    void reloadButtonClicked() {
+        print("reload pressed");
+        if(!GameObject.Find("SimpleModalWindow")){
+            SimpleModalWindow.Create()
+                .SetHeader("Recharger l'application")
+                .SetBody("Voulez-vous recharger l'application à son état initial ?")
+                .AddButton("OUI", () => {
+                        print("Yes pressed");
+                        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+                    }, ModalButtonType.Success)
+                .AddButton("NON", () => print("No pressed"), ModalButtonType.Danger)
+                // .AddButton("Cancel")
+                .Show();
+        }
     }
 
     void lockButtonClicked() {
