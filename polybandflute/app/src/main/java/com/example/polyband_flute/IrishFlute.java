@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
     boolean allow_blow = false;
     private double present_amp = 0.0;
     private Socket mSocket;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
 
         mSocket = SocketSingleton.getSocket();
         mSocket.on("teacher-arrives", onConfirm911);
+        mSocket.on("instrument-added", changeConnect);
+        mSocket.on("instrument-removed", changeDisconnect);
 
         instruments.add("Flute irlandaise");
         instruments.add("Flute");
@@ -73,6 +77,30 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         }
     };
 
+    private Emitter.Listener changeConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            Context context = getApplicationContext();
+            mMenu.getItem(2).setIcon(ContextCompat.getDrawable(IrishFlute.this, R.drawable.wifi));
+            Log.i("co", "co");
+            Toast toast = Toast.makeText(context, "La flûte est connecté à la table !", Toast.LENGTH_SHORT);
+            toast.show();
+
+        }
+    };
+
+    private Emitter.Listener changeDisconnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            Context context = getApplicationContext();
+            mMenu.getItem(2).setIcon(ContextCompat.getDrawable(IrishFlute.this, R.drawable.disconnected));
+            Log.i("deco", "deco");
+            Toast toast = Toast.makeText(context, "La flûte est déconnecté !", Toast.LENGTH_SHORT);
+            toast.show();
+
+        }
+    };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_irish_flute, menu);
@@ -82,6 +110,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, instruments);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        mMenu = menu;
         return true;
     }
 
