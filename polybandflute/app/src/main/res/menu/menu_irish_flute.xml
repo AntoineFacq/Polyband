@@ -13,9 +13,19 @@
         app:showAsAction="always"
         app:titleTextColor="@color/black" />
     <item
+        android:id="@+id/disconnect_icon"
+        android:icon="@drawable/disconnected"
+        android:orderInCategory="100"
+        android:title="disconnect"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/asking_help"
         android:icon="@drawable/help"
         android:orderInCategory="100"
         android:title="Help"
         app:showAsAction="always" />
+
+
+
+
 </menu>
