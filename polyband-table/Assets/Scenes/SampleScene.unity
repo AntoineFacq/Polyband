@@ -1686,6 +1686,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7d2a448fcb30e60498b0f231bbd557ca, type: 3}
   - {fileID: 8300000, guid: c9cdf2bbad675b244ad0c256f29e7dd8, type: 3}
   - {fileID: 8300000, guid: 9d52784f57cdfa1489deed0a0e1a0d00, type: 3}
+  - {fileID: 8300000, guid: 56d8852afa363d94d8cf594b459cec3b, type: 3}
   trackAudioSource: {fileID: 519420033}
   tableNumberText: {fileID: 0}
   recordAudioSource: {fileID: 519420035}
