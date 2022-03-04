@@ -77,18 +77,17 @@ namespace Lean.Touch
 			if (pinchScale != 1.0f)
 			{
 				var actualScale = transform.localScale.magnitude;
-				var oldState = actualScale;
 				var activateScale = true;
 				// print("ACTUAL SCALE : " + actualScale);
 				// print("PINCH SCALE : " + pinchScale);
-				if(actualScale >= 0.75f && actualScale <= 2.0f) {
+				if(actualScale >= 0.75f && actualScale <= 2.5f) {
 					activateScale = true;
 				} else {
 					activateScale = false;
 					if(actualScale < 0.75f && pinchScale > 1.0f) {
 						activateScale = true;
 					}
-					else if(actualScale > 2.0f && pinchScale < 1.0f) {
+					else if(actualScale > 2.5f && pinchScale < 1.0f) {
 						activateScale = true;
 					}
 				}
