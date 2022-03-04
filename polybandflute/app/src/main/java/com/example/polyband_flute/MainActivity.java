@@ -4,6 +4,7 @@ package com.example.polyband_flute;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     boolean allow_blow = false;
     private double present_amp = 0.0;
     private Socket mSocket;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +52,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (!SocketSingleton.getIfSwitched()) {
             {
                 try {
-                    mSocket = IO.socket("http://172.20.10.13:5000");
+                    mSocket = IO.socket("http://192.168.224.50:5000");
 
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
             }
             mSocket.on("teacher-arrives", onConfirm911);
+            mSocket.on("tablet-adds-instrument", changeConnect);
+            mSocket.on("tablet-unasign-instrument", changeDisconnect);
             mSocket.connect();
             mSocket.emit("connected-device", "phone");
         }
@@ -89,6 +93,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
+    private Emitter.Listener changeConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+                Context context = getApplicationContext();
+                mMenu.getItem(2).setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.wifi));
+                Log.i("deco", "co");
+                Toast toast = Toast.makeText(context, "La flûte est connecté à la table !", Toast.LENGTH_SHORT);
+                toast.show();
+
+        }
+    };
+
+    private Emitter.Listener changeDisconnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            Context context = getApplicationContext();
+            mMenu.getItem(2).setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.disconnected));
+            Log.i("deco", "deco");
+            Toast toast = Toast.makeText(context, "La flûte est déconnecté !", Toast.LENGTH_SHORT);
+            toast.show();
+
+        }
+    };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -98,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, instruments);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        mMenu = menu;
         return true;
     }
 
