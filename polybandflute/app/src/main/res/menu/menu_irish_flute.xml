@@ -14,7 +14,7 @@
         app:titleTextColor="@color/black" />
     <item
         android:id="@+id/disconnect_icon"
-        android:icon="@drawable/disconnected"
+        android:icon="@drawable/wifi"
         android:orderInCategory="100"
         android:title="disconnect"
         app:showAsAction="always" />

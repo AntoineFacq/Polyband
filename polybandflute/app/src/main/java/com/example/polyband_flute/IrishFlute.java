@@ -81,10 +81,14 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         @Override
         public void call(Object... args) {
             Context context = getApplicationContext();
-            mMenu.getItem(2).setIcon(ContextCompat.getDrawable(IrishFlute.this, R.drawable.wifi));
-            Log.i("co", "co");
-            Toast toast = Toast.makeText(context, "La flûte est connecté à la table !", Toast.LENGTH_SHORT);
-            toast.show();
+            IrishFlute.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MenuItem item = mMenu.findItem(R.id.disconnect_icon);
+                    item.setIcon(R.drawable.wifi);
+                    Toast toast = Toast.makeText(context, "La flûte est connectée à la table", Toast.LENGTH_SHORT);
+                    toast.show();}
+            });
 
         }
     };
@@ -93,10 +97,15 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         @Override
         public void call(Object... args) {
             Context context = getApplicationContext();
-            mMenu.getItem(2).setIcon(ContextCompat.getDrawable(IrishFlute.this, R.drawable.disconnected));
-            Log.i("deco", "deco");
-            Toast toast = Toast.makeText(context, "La flûte est déconnecté !", Toast.LENGTH_SHORT);
-            toast.show();
+            IrishFlute.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MenuItem item = mMenu.findItem(R.id.disconnect_icon);
+                    item.setIcon(R.drawable.disconnected);
+                    Toast toast = Toast.makeText(context, "La flûte est déconnectée", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            });
 
         }
     };

@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
             mSocket.on("teacher-arrives", onConfirm911);
-            mSocket.on("tablet-adds-instrument", changeConnect);
-            mSocket.on("tablet-unasign-instrument", changeDisconnect);
+            mSocket.on("instrument-added", changeConnect);
+            mSocket.on("instrument-removed", changeDisconnect);
             mSocket.connect();
             mSocket.emit("connected-device", "phone");
         }
@@ -97,10 +97,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public void call(Object... args) {
                 Context context = getApplicationContext();
-                mMenu.getItem(2).setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.wifi));
-                Log.i("deco", "co");
-                Toast toast = Toast.makeText(context, "La flûte est connecté à la table !", Toast.LENGTH_SHORT);
-                toast.show();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MenuItem item = mMenu.findItem(R.id.disconnect_icon);
+                        item.setIcon(R.drawable.wifi);
+                        Toast toast = Toast.makeText(context, "La flûte est connectée à la table", Toast.LENGTH_SHORT);
+                        toast.show();}
+                });
 
         }
     };
@@ -109,11 +113,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public void call(Object... args) {
             Context context = getApplicationContext();
-            mMenu.getItem(2).setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.disconnected));
-            Log.i("deco", "deco");
-            Toast toast = Toast.makeText(context, "La flûte est déconnecté !", Toast.LENGTH_SHORT);
-            toast.show();
 
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MenuItem item = mMenu.findItem(R.id.disconnect_icon);
+                    item.setIcon(R.drawable.disconnected);
+                    Toast toast = Toast.makeText(context, "La flûte est déconnectée", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            });
         }
     };
 
