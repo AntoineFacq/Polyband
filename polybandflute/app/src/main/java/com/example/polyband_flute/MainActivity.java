@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mp = MediaPlayer.create(this, R.raw.f_g);
 
         soundMeter = new SoundMeter();
+
+        if (!SocketSingleton.getIfConnected()) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Téléphone non connecté à une table", Toast.LENGTH_SHORT);
+            toast.show();
+        }
  }
 
     private Emitter.Listener onConfirm911 = new Emitter.Listener() {
@@ -102,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     public void run() {
                         MenuItem item = mMenu.findItem(R.id.disconnect_icon);
                         item.setIcon(R.drawable.wifi);
+                        SocketSingleton.setConnected(true);
                         Toast toast = Toast.makeText(context, "La flûte est connectée à la table", Toast.LENGTH_SHORT);
                         toast.show();}
                 });
@@ -113,12 +119,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public void call(Object... args) {
             Context context = getApplicationContext();
-
             MainActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     MenuItem item = mMenu.findItem(R.id.disconnect_icon);
                     item.setIcon(R.drawable.disconnected);
+                    SocketSingleton.setConnected(false);
                     Toast toast = Toast.makeText(context, "La flûte est déconnectée", Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -136,6 +142,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         mMenu = menu;
+        if (SocketSingleton.getIfConnected()) {
+            MenuItem item2 = mMenu.findItem(R.id.disconnect_icon);
+            item2.setIcon(R.drawable.wifi);
+        }
         return true;
     }
 

@@ -63,6 +63,11 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         mp = MediaPlayer.create(this, R.raw.transverse_flute_g5);
 
         soundMeter = new SoundMeter();
+
+        if (!SocketSingleton.getIfConnected()) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Téléphone non connecté à une table", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     private Emitter.Listener onConfirm911 = new Emitter.Listener() {
@@ -81,6 +86,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         @Override
         public void call(Object... args) {
             Context context = getApplicationContext();
+            SocketSingleton.setConnected(true);
             IrishFlute.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -97,6 +103,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         @Override
         public void call(Object... args) {
             Context context = getApplicationContext();
+            SocketSingleton.setConnected(false);
             IrishFlute.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -120,6 +127,10 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         mMenu = menu;
+        if (SocketSingleton.getIfConnected()) {
+            MenuItem item2 = mMenu.findItem(R.id.disconnect_icon);
+            item2.setIcon(R.drawable.wifi);
+        }
         return true;
     }
 
