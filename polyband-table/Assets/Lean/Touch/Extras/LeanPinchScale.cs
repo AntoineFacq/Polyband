@@ -79,8 +79,8 @@ namespace Lean.Touch
 				var actualScale = transform.localScale.magnitude;
 				var oldState = actualScale;
 				var activateScale = true;
-				print("ACTUAL SCALE : " + actualScale);
-				print("PINCH SCALE : " + pinchScale);
+				// print("ACTUAL SCALE : " + actualScale);
+				// print("PINCH SCALE : " + pinchScale);
 				if(actualScale >= 0.75f && actualScale <= 2.0f) {
 					activateScale = true;
 				} else {
