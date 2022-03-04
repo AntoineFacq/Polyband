@@ -2459,7 +2459,7 @@ MonoBehaviour:
   _camera: {fileID: 0}
   sensitivity: 1
   damping: 10
-  inertia: 0.11
+  inertia: 0.06
   remainingTranslation: {x: 0, y: 0, z: 0}
 --- !u!114 &563158088
 MonoBehaviour:
