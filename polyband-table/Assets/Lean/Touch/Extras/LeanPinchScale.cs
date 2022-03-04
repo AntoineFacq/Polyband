@@ -76,26 +76,46 @@ namespace Lean.Touch
 
 			if (pinchScale != 1.0f)
 			{
-				pinchScale = Mathf.Pow(pinchScale, sensitivity);
-
-				// Perform the translation if this is a relative scale
-				if (relative == true)
-				{
-					var pinchScreenCenter = LeanGesture.GetScreenCenter(fingers);
-
-					if (transform is RectTransform)
-					{
-						TranslateUI(pinchScale, pinchScreenCenter);
+				var actualScale = transform.localScale.magnitude;
+				var oldState = actualScale;
+				var activateScale = true;
+				print("ACTUAL SCALE : " + actualScale);
+				print("PINCH SCALE : " + pinchScale);
+				if(actualScale >= 0.75f && actualScale <= 2.0f) {
+					activateScale = true;
+				} else {
+					activateScale = false;
+					if(actualScale < 0.75f && pinchScale > 1.0f) {
+						activateScale = true;
 					}
-					else
-					{
-						Translate(pinchScale, pinchScreenCenter);
+					else if(actualScale > 2.0f && pinchScale < 1.0f) {
+						activateScale = true;
 					}
 				}
+				
+				if(activateScale) {
+					
+					pinchScale = Mathf.Pow(pinchScale, sensitivity);
 
-				transform.localScale *= pinchScale;
+					// Perform the translation if this is a relative scale
+					if (relative == true)
+					{
+						var pinchScreenCenter = LeanGesture.GetScreenCenter(fingers);
 
-				remainingScale += transform.localPosition - oldScale;
+						if (transform is RectTransform)
+						{
+							TranslateUI(pinchScale, pinchScreenCenter);
+						}
+						else
+						{
+							Translate(pinchScale, pinchScreenCenter);
+						}
+					}
+					transform.localScale *= pinchScale;
+
+					remainingScale += transform.localPosition - oldScale;
+
+				}
 			}
 
 			// Get t value
