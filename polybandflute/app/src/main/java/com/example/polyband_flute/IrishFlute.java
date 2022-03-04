@@ -114,7 +114,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
             mp.start();
             Log.i("Note", "Flute played note 1.");
             System.out.println("Flute played note 1.");
-            mSocket.emit("phone-note-played", "Transverse C note");
+            mSocket.emit("phone-note-played", "H Transverse C note");
         }
     }
 
@@ -129,7 +129,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
             mp.start();
             Log.i("Note", "Flute played note 2.");
             System.out.println("Flute played note 2.");
-            mSocket.emit("phone-note-played", "Transverse D note");
+            mSocket.emit("phone-note-played", "I Transverse D note");
         }
     }
 
@@ -144,7 +144,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
             mp.start();
             Log.i("Note", "Flute played note 3.");
             System.out.println("Flute played note 3.");
-            mSocket.emit("phone-note-played", "Transverse E note");
+            mSocket.emit("phone-note-played", "J Transverse E note");
         }
 
     }
@@ -160,7 +160,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
             mp.start();
             Log.i("Note", "Flute played note 4.");
             System.out.println("Flute played note 4.");
-            mSocket.emit("phone-note-played", "Transverse F note");
+            mSocket.emit("phone-note-played", "K Transverse F note");
         }
 
     }
@@ -176,7 +176,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
             mp.start();
             Log.i("Note", "Flute played note 5.");
             System.out.println("Flute played note 5.");
-            mSocket.emit("phone-note-played", "Transverse G note");
+            mSocket.emit("phone-note-played", "L Transverse G note");
         }
 
     }
@@ -192,7 +192,7 @@ public class IrishFlute extends AppCompatActivity implements AdapterView.OnItemS
             mp.start();
             Log.i("Note", "Flute played note 6.");
             System.out.println("Flute played note 6.");
-            mSocket.emit("phone-note-played", "Transverse A note");
+            mSocket.emit("phone-note-played", "M Transverse A note");
         }
 
     }
