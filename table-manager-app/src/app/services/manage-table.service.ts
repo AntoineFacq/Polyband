@@ -8,6 +8,7 @@ export class SocketMessage {
   text?: string;
   tableId?: string;
   number?: string;
+  color?: string;
 }
 
 @Injectable({
@@ -24,8 +25,8 @@ export class ManageTableService {
       this.socket.on('message', (data) => {
         observer.next(data);
       });
-      this.socket.on('new-table', (data, number) => {
-        observer.next({type: 'new-table', text: data, number: number});
+      this.socket.on('new-table', (data, number, color) => {
+        observer.next({type: 'new-table', text: data, number: number, color: color});
       });
       this.socket.on('new-phone', (id, tableId) => {
         observer.next({type: 'new-phone', text: id, tableId: tableId});

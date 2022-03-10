@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
                 devices[socket.id].number = TABLE_COUNT;
                 devices[socket.id].color = colors[(TABLE_COUNT-1)%3];
                 if (tablet) {
-                    tablet.socket.emit("new-table", devices[socket.id].id, devices[socket.id].number)
+                    tablet.socket.emit("new-table", devices[socket.id].id, devices[socket.id].number, devices[socket.id].color)
                 }
                 devices[socket.id].socket.join("tableRoom" + socket.id)
                 socket.emit("set-table-color", colors[(TABLE_COUNT-1)%3])
@@ -121,10 +121,11 @@ io.on('connection', (socket) => {
      */
 
     socket.on('tablet-adds-instrument', (tableId, type, instrumentId) => {
-        if (instrumentId !== undefined) {
+        if (instrumentId !== undefined && devices[instrumentId]) {
             console.log("Instrument (" + type + ") with id " + instrumentId + " added to table " + tableId);
             devices[instrumentId].tableId = tableId;
             devices[instrumentId].instrumentType = type;
+            devices[instrumentId].socket.emit("instrument-added");
 
             devices[tableId].socket.emit("instrument-added", type);
             devices[tableId].socket.join("tableRoom" + socket.id) // JOIN GOOD ROOM
@@ -138,6 +139,7 @@ io.on('connection', (socket) => {
 
     socket.on('tablet-unasign-instrument', (instrumentId) => {
         if (devices[instrumentId]) {
+            devices[instrumentId].socket.emit("instrument-removed");
             console.log("Instrument with id " + instrumentId + " unasigned.");
             devices[instrumentId].tableId = undefined;
         }

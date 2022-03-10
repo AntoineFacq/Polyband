@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
     {value: 'track-02', name: 'Picnic on the Seine'},
     {value: 'track-03', name: 'Inspiring'},
     {value: 'track-04', name: 'Feelin\' Good'},
+    {value: 'track-05', name: 'Exercice 1 - LAE'},
   ];
 
   interval: any;
@@ -59,7 +60,7 @@ export class HomeComponent implements OnInit {
   }
 
   getColor(index: number): string {
-    return this.colors[index];
+    return this.colors[index % 3];
   }
 
   public objectComparisonFunction = function (option: Track, value: Track): boolean {
@@ -81,7 +82,7 @@ export class HomeComponent implements OnInit {
           }
         }, 125);
       } else if (message.type == "new-table") {
-        let table = {...new Table(), id: message.text, number: parseInt(message.number)}
+        let table = {...new Table(), id: message.text, number: parseInt(message.number), color: message.color}
         if (!this.selectedTable) this.selectedTable = table
         this.tables.push(table);
       } else if (message.type == "new-phone") {
@@ -172,7 +173,7 @@ export class HomeComponent implements OnInit {
       this.manageTableService.assignPhoneToTable(phoneId, undefined);
       this.phones.find(p => p.id === phoneId).table = undefined;
     } else if (event.previousContainer.id != event.container.id) {
-      let table = this.tables.find(t => t.number.toString() === (event.container.id).toString().slice(-1))
+      let table = this.tables.find(t => t.id === event.container.id)
       this.manageTableService.assignPhoneToTable(phoneId, table.id)
       this.phones.find(p => p.id === phoneId).table = table;
     }

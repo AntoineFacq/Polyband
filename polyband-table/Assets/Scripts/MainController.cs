@@ -99,8 +99,8 @@ public class MainController : MonoBehaviour
             }
         }
 
-        //var ip = "http://localhost:5000";
-        var ip = "http://192.168.1.58:5000";
+        var ip = "http://localhost:5000";
+        //var ip = "http://192.168.224.50:5000";
 
         this.imageFlutePlaying = GameObject.Find("FlutePlaying");
         this.imageFlutePlaying.SetActive(false);
@@ -173,8 +173,11 @@ public class MainController : MonoBehaviour
                 case "track-03":
                     this.trackSelected = 2;
                     break;
-                default:
+                case "track-04":
                     this.trackSelected = 3;
+                    break;
+                default:
+                    this.trackSelected = 4;
                     break;
             }
             Debug.Log("Switch track to :" + track);
@@ -339,13 +342,13 @@ public class MainController : MonoBehaviour
             //AudioSource.PlayClipAtPoint(notePlayed, Camera.main.transform.position, this.MasterVolume);
             this.fluteNoteStateSave = this.fluteNoteState;
         }
-        
+
         if (fluteAudioSource.isPlaying)
         {
             this.imageFlutePlaying.SetActive(true);
         } else
         {
-            
+
             this.imageFlutePlaying.SetActive(false);
         }
 

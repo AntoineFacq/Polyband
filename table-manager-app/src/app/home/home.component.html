@@ -123,10 +123,10 @@
         </mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
-    <mat-tab *ngFor="let t of tables" [label]="'Table ' + t.number"
-             [aria-label]=getColor(t.number-1)>
+    <mat-tab *ngFor="let t of tables" [aria-label]=getColor(t.number-1)
+             [label]="'Table ' + t.number">
 
-      <div class="m-4 d-flex justify-content-between" >
+      <div class="m-4 d-flex justify-content-between">
 
         <div class="d-flex flex-column">
 
@@ -252,6 +252,7 @@
               <div
                 (cdkDropListDropped)="drop($event)"
                 [cdkDropListData]="getPhonesAssociatedToTable(t)"
+                [id]="t.id"
                 cdkDropList
                 class="example-list">
                 <div *ngFor="let p of getPhonesAssociatedToTable(t)" cdkDrag class="example-box">
